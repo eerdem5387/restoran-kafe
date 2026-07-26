@@ -6,7 +6,30 @@ const globalForPrisma = globalThis as unknown as {
 };
 
 export function hasDatabaseUrl(): boolean {
-  return Boolean(process.env.DATABASE_URL?.trim());
+  const url =
+    process.env.DATABASE_URL ||
+    process.env.POSTGRES_PRISMA_URL ||
+    process.env.POSTGRES_URL ||
+    "";
+  if (!url.trim()) return false;
+  const lower = url.toLowerCase();
+  if (lower.includes("localhost") || lower.includes("127.0.0.1")) return false;
+  if (lower.includes("user:password@")) return false;
+  return true;
+}
+
+function resolveDatabaseUrl(): string {
+  const url =
+    process.env.DATABASE_URL ||
+    process.env.POSTGRES_PRISMA_URL ||
+    process.env.POSTGRES_URL ||
+    "";
+  if (!url.trim()) {
+    throw new Error(
+      "DATABASE_URL is not set. Add your Neon pooled connection string to .env / Vercel env."
+    );
+  }
+  return url;
 }
 
 export function getPrisma(): PrismaClient {
@@ -18,7 +41,7 @@ export function getPrisma(): PrismaClient {
 
   if (!globalForPrisma.prisma) {
     const adapter = new PrismaNeon({
-      connectionString: process.env.DATABASE_URL!,
+      connectionString: resolveDatabaseUrl(),
     });
     globalForPrisma.prisma = new PrismaClient({ adapter });
   }
