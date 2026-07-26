@@ -85,9 +85,9 @@ const menuSeed: Array<{
     available: true,
   },
   {
-    name: "Heritage Domuz Göbeği",
+    name: "Yavaş Pişmiş Kuzu Omuz",
     description:
-      "Yavaş pişmiş göbek, kereviz püresi, elma-rezene salatası ve elma şarabı glaze.",
+      "Düşük ateşte pişmiş kuzu omuz, kereviz püresi, elma-rezene salatası ve elma şarabı glaze.",
     price: 490,
     category: "main_courses",
     tags: ["Glutensiz"],
