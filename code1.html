@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Reservations - L'Arôme Bistro</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&amp;family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-tertiary-fixed": "#1c1c19",
+                      "on-secondary-fixed": "#291803",
+                      "tertiary-fixed-dim": "#c9c6c2",
+                      "tertiary": "#252522",
+                      "on-tertiary": "#ffffff",
+                      "on-error": "#ffffff",
+                      "surface-container-lowest": "#ffffff",
+                      "surface-variant": "#e4e2e1",
+                      "tertiary-container": "#3a3a37",
+                      "on-primary": "#ffffff",
+                      "on-surface-variant": "#4e453d",
+                      "outline": "#80756c",
+                      "on-secondary": "#ffffff",
+                      "primary-fixed-dim": "#e1c1a4",
+                      "on-error-container": "#93000a",
+                      "surface-container-high": "#eae7e7",
+                      "surface-container-highest": "#e4e2e1",
+                      "error-container": "#ffdad6",
+                      "on-secondary-container": "#775e41",
+                      "on-primary-container": "#bd9f83",
+                      "surface-container": "#f0eded",
+                      "on-tertiary-container": "#a6a49f",
+                      "on-background": "#1b1c1c",
+                      "primary": "#33210d",
+                      "secondary-container": "#fcdab6",
+                      "primary-fixed": "#fedcbe",
+                      "surface-bright": "#fcf9f8",
+                      "outline-variant": "#d2c4ba",
+                      "background": "#fcf9f8",
+                      "tertiary-fixed": "#e5e2dd",
+                      "inverse-surface": "#303030",
+                      "on-primary-fixed": "#291806",
+                      "surface-dim": "#dcd9d9",
+                      "surface-container-low": "#f6f3f2",
+                      "secondary": "#735a3e",
+                      "on-tertiary-fixed-variant": "#474743",
+                      "error": "#ba1a1a",
+                      "primary-container": "#4b3621",
+                      "on-secondary-fixed-variant": "#594228",
+                      "on-primary-fixed-variant": "#59422c",
+                      "inverse-primary": "#e1c1a4",
+                      "secondary-fixed-dim": "#e2c19e",
+                      "on-surface": "#1b1c1c",
+                      "surface": "#fcf9f8",
+                      "surface-tint": "#725a42",
+                      "secondary-fixed": "#ffddb9",
+                      "inverse-on-surface": "#f3f0f0"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "margin-mobile": "20px",
+                      "section-gap": "120px",
+                      "container-max": "1200px",
+                      "base": "8px",
+                      "gutter": "24px",
+                      "margin-desktop": "64px"
+              },
+              "fontFamily": {
+                      "headline-md": [
+                              "EB Garamond"
+                      ],
+                      "body-md": [
+                              "Hanken Grotesk"
+                      ],
+                      "label-sm": [
+                              "Hanken Grotesk"
+                      ],
+                      "headline-lg": [
+                              "EB Garamond"
+                      ],
+                      "body-lg": [
+                              "Hanken Grotesk"
+                      ],
+                      "headline-lg-mobile": [
+                              "EB Garamond"
+                      ],
+                      "display-lg": [
+                              "EB Garamond"
+                      ]
+              },
+              "fontSize": {
+                      "headline-md": [
+                              "32px",
+                              {
+                                      "lineHeight": "40px",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "label-sm": [
+                              "12px",
+                              {
+                                      "lineHeight": "16px",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-lg": [
+                              "48px",
+                              {
+                                      "lineHeight": "56px",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "28px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "36px",
+                              {
+                                      "lineHeight": "44px",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "display-lg": [
+                              "64px",
+                              {
+                                      "lineHeight": "72px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "500"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .form-input-ledger {
+            border: none;
+            border-bottom: 1px solid rgba(194, 163, 130, 0.3); /* Low contrast Golden Crema */
+            background: transparent;
+            padding: 0.5rem 0;
+            border-radius: 0;
+            transition: border-color 0.3s ease;
+        }
+        .form-input-ledger:focus {
+            outline: none;
+            box-shadow: none;
+            border-bottom: 1px solid #735a3e; /* Secondary */
+        }
+        .signature-divider {
+            height: 1px;
+            background-color: rgba(194, 163, 130, 0.4);
+            position: relative;
+            margin: 4rem 0;
+        }
+        .signature-divider::after {
+            content: "•";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #fcf9f8; /* Background */
+            padding: 0 10px;
+            color: #735a3e;
+            font-size: 1.5rem;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background antialiased selection:bg-secondary-container selection:text-on-secondary-container flex flex-col min-h-screen">
+<!-- TopNavBar -->
+<header class="fixed w-full top-0 z-50 backdrop-blur-md bg-surface/90 dark:bg-surface-container-highest/90 shadow-sm dark:shadow-none border-b border-outline-variant/30 dark:border-outline/20">
+<nav class="flex justify-between items-center h-20 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+<div class="font-headline-md text-headline-md text-primary dark:text-primary-fixed-dim italic">
+                L'Arôme Bistro
+            </div>
+<!-- Desktop Nav -->
+<ul class="hidden md:flex items-center gap-8 font-body-md text-body-md">
+<li><a class="text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors hover:bg-surface-container-low dark:hover:bg-surface-container-highest transition-all duration-300 px-3 py-2 rounded" href="#">Home</a></li>
+<li><a class="text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors hover:bg-surface-container-low dark:hover:bg-surface-container-highest transition-all duration-300 px-3 py-2 rounded" href="#">Menu</a></li>
+<li><a class="text-primary dark:text-primary-fixed-dim font-bold border-b-2 border-primary dark:border-primary-fixed-dim pb-1 hover:bg-surface-container-low dark:hover:bg-surface-container-highest transition-all duration-300 px-3 py-2 rounded" href="#">Reservations</a></li>
+<li><a class="text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors hover:bg-surface-container-low dark:hover:bg-surface-container-highest transition-all duration-300 px-3 py-2 rounded" href="#">Our Story</a></li>
+</ul>
+<div class="flex items-center gap-4">
+<button class="hidden md:block bg-primary-container text-on-primary font-label-sm text-label-sm uppercase tracking-wider px-6 py-3 rounded-DEFAULT hover:opacity-90 transition-opacity">
+                    Book a Table
+                </button>
+<button class="md:hidden text-primary p-2">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
+</div>
+</nav>
+</header>
+<main class="flex-grow pt-[120px] pb-section-gap px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto w-full">
+<!-- Hero Section -->
+<section class="text-center mb-16 md:mb-24">
+<h1 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary mb-4">Secure Your Table</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto">
+                Join us for an evening of sophisticated warmth and culinary excellence. We recommend booking in advance to ensure availability.
+            </p>
+</section>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- Reservation Form (High Focus) -->
+<div class="lg:col-span-7 bg-[#F5F2ED] rounded-xl p-8 md:p-12 relative overflow-hidden" style="box-shadow: 0 4px 20px rgba(75, 54, 33, 0.05);">
+<div class="absolute top-0 right-0 w-32 h-32 bg-secondary-container rounded-full blur-3xl opacity-20 -mr-16 -mt-16 pointer-events-none"></div>
+<h2 class="font-headline-md text-headline-md text-primary mb-8">Reservation Details</h2>
+<form action="#" class="space-y-8 font-body-md text-body-md text-on-surface" method="POST">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<div class="flex flex-col">
+<label class="font-label-sm text-label-sm text-on-surface-variant uppercase mb-2" for="firstName">First Name</label>
+<input class="form-input-ledger w-full text-primary" id="firstName" name="firstName" required="" type="text"/>
+</div>
+<div class="flex flex-col">
+<label class="font-label-sm text-label-sm text-on-surface-variant uppercase mb-2" for="lastName">Last Name</label>
+<input class="form-input-ledger w-full text-primary" id="lastName" name="lastName" required="" type="text"/>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<div class="flex flex-col">
+<label class="font-label-sm text-label-sm text-on-surface-variant uppercase mb-2" for="email">Email Address</label>
+<input class="form-input-ledger w-full text-primary" id="email" name="email" required="" type="email"/>
+</div>
+<div class="flex flex-col">
+<label class="font-label-sm text-label-sm text-on-surface-variant uppercase mb-2" for="phone">Phone Number</label>
+<input class="form-input-ledger w-full text-primary" id="phone" name="phone" required="" type="tel"/>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<div class="flex flex-col">
+<label class="font-label-sm text-label-sm text-on-surface-variant uppercase mb-2" for="date">Date</label>
+<div class="relative">
+<input class="form-input-ledger w-full text-primary pr-10 appearance-none bg-transparent" id="date" name="date" required="" type="date"/>
+</div>
+</div>
+<div class="flex flex-col">
+<label class="font-label-sm text-label-sm text-on-surface-variant uppercase mb-2" for="time">Time</label>
+<select class="form-input-ledger w-full text-primary bg-transparent appearance-none" id="time" name="time" required="">
+<option disabled="" selected="" value="">Select a time</option>
+<option value="17:00">5:00 PM</option>
+<option value="17:30">5:30 PM</option>
+<option value="18:00">6:00 PM</option>
+<option value="18:30">6:30 PM</option>
+<option value="19:00">7:00 PM</option>
+<option value="19:30">7:30 PM</option>
+<option value="20:00">8:00 PM</option>
+<option value="20:30">8:30 PM</option>
+<option value="21:00">9:00 PM</option>
+</select>
+</div>
+<div class="flex flex-col">
+<label class="font-label-sm text-label-sm text-on-surface-variant uppercase mb-2" for="guests">Guests</label>
+<select class="form-input-ledger w-full text-primary bg-transparent appearance-none" id="guests" name="guests" required="">
+<option disabled="" selected="" value="">Number of guests</option>
+<option value="1">1 Person</option>
+<option value="2">2 People</option>
+<option value="3">3 People</option>
+<option value="4">4 People</option>
+<option value="5">5 People</option>
+<option value="6">6 People</option>
+<option value="7+">7+ (Please call)</option>
+</select>
+</div>
+</div>
+<div class="flex flex-col">
+<label class="font-label-sm text-label-sm text-on-surface-variant uppercase mb-2" for="requests">Special Requests (Optional)</label>
+<textarea class="form-input-ledger w-full text-primary resize-none placeholder-outline" id="requests" name="requests" placeholder="Dietary requirements, celebrations, seating preferences..." rows="3"></textarea>
+</div>
+<div class="pt-6 text-center">
+<button class="bg-primary-container text-on-primary font-label-sm text-label-sm uppercase tracking-wider px-10 py-4 rounded-DEFAULT hover:-translate-y-0.5 hover:shadow-lg transition-all duration-300 w-full md:w-auto" type="submit">
+                            Confirm Reservation
+                        </button>
+</div>
+</form>
+</div>
+<!-- Contact & Map (Side Panel) -->
+<div class="lg:col-span-5 flex flex-col gap-8 mt-12 lg:mt-0 lg:pl-8">
+<div class="bg-surface rounded-xl p-8 border border-outline-variant/30" style="box-shadow: 0 4px 20px rgba(75, 54, 33, 0.05);">
+<h3 class="font-headline-md text-headline-md text-primary mb-6">Contact Information</h3>
+<div class="space-y-6 font-body-md text-body-md text-on-surface-variant">
+<div class="flex items-start gap-4">
+<span class="material-symbols-outlined text-secondary mt-1" data-icon="location_on">location_on</span>
+<div>
+<p class="text-primary font-bold">L'Arôme Bistro</p>
+<p>124 Culinary Avenue</p>
+<p>Gastronomy District, NY 10012</p>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-secondary" data-icon="call">call</span>
+<p>+1 (555) 123-4567</p>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-secondary" data-icon="mail">mail</span>
+<p>reservations@laromebistro.com</p>
+</div>
+</div>
+<div class="mt-8 pt-8 border-t border-outline-variant/30">
+<h4 class="font-label-sm text-label-sm text-on-surface-variant uppercase mb-4">Hours of Operation</h4>
+<ul class="space-y-2 font-body-md text-body-md text-on-surface-variant">
+<li class="flex justify-between"><span>Mon - Thu:</span> <span>5:00 PM - 10:00 PM</span></li>
+<li class="flex justify-between text-primary font-bold"><span>Fri - Sat:</span> <span>5:00 PM - 11:00 PM</span></li>
+<li class="flex justify-between"><span>Sunday:</span> <span>4:00 PM - 9:00 PM</span></li>
+</ul>
+</div>
+</div>
+<!-- Map Embedded Location -->
+<div class="rounded-xl overflow-hidden h-64 border border-outline-variant/30 relative" style="box-shadow: 0 4px 20px rgba(75, 54, 33, 0.05);">
+<img class="w-full h-full object-cover grayscale opacity-80 hover:grayscale-0 hover:opacity-100 transition-all duration-500 cursor-pointer" data-alt="A stylized, minimalist map showing the location of a boutique bistro in a sophisticated urban district. The map uses a sophisticated color palette of creams, light browns, and subtle golds, reflecting a high-end editorial aesthetic. Streets are clean lines, and a distinct elegant pin marks the restaurant location." data-location="New York City" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDPaLJiRvJItee5vIY0G8FIpovE4wbEH5VkSJq3DltcZaZSd_A1zIanlnTMkevpFbU6vUBmYYrgjhSfrWm8cqZNX863bqCk3SThm2KVOtRuiZJOhbRGtLtm-CG3l9LhwWQJH36IalBb4Qw-ovWhju2fMbPg_DQhJKDzJ1ssrlmOpTq0pvGaq57lddTOI68CNLiCXIFN4Fu6mMfPvT-ikeeD88kLDXuXGzgpgVKOV6DsgUCss7Q5_ZAXllidL3pueWZLi9dOxevD6w"/>
+<div class="absolute bottom-4 left-4 right-4 bg-surface/90 backdrop-blur px-4 py-2 rounded-lg text-center font-label-sm text-label-sm text-primary uppercase shadow-sm">
+                        Get Directions
+                    </div>
+</div>
+</div>
+</div>
+<div class="signature-divider"></div>
+</main>
+<!-- Footer -->
+<footer class="w-full pt-section-gap pb-8 bg-tertiary dark:bg-surface-container-lowest text-on-tertiary dark:text-on-surface">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+<div class="mb-8 md:mb-0">
+<div class="font-headline-md text-headline-md text-on-tertiary dark:text-on-surface italic mb-4">
+                    L'Arôme Bistro
+                </div>
+<p class="font-body-md text-body-md text-on-tertiary-container dark:text-on-surface-variant max-w-sm">
+                    © 2024 L'Arôme Bistro. Crafted for Sophisticated Warmth.
+                </p>
+</div>
+<div class="flex flex-col gap-4 font-body-md text-body-md">
+<a class="text-on-tertiary-container dark:text-on-surface-variant hover:text-on-tertiary dark:hover:text-primary transition-colors focus:outline-none focus:ring-1 focus:ring-outline w-max" href="#">Privacy Policy</a>
+<a class="text-on-tertiary-container dark:text-on-surface-variant hover:text-on-tertiary dark:hover:text-primary transition-colors focus:outline-none focus:ring-1 focus:ring-outline w-max" href="#">Terms of Service</a>
+</div>
+<div class="flex flex-col gap-4 font-body-md text-body-md">
+<a class="text-on-tertiary-container dark:text-on-surface-variant hover:text-on-tertiary dark:hover:text-primary transition-colors focus:outline-none focus:ring-1 focus:ring-outline w-max" href="#">Careers</a>
+<a class="text-on-tertiary-container dark:text-on-surface-variant hover:text-on-tertiary dark:hover:text-primary transition-colors focus:outline-none focus:ring-1 focus:ring-outline w-max" href="#">Contact Us</a>
+</div>
+</div>
+</footer>
+</body></html>

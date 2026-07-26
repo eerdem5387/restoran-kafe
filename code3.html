@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>L'Arôme Bistro - Home</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-tertiary-fixed": "#1c1c19",
+                      "on-secondary-fixed": "#291803",
+                      "tertiary-fixed-dim": "#c9c6c2",
+                      "tertiary": "#252522",
+                      "on-tertiary": "#ffffff",
+                      "on-error": "#ffffff",
+                      "surface-container-lowest": "#ffffff",
+                      "surface-variant": "#e4e2e1",
+                      "tertiary-container": "#3a3a37",
+                      "on-primary": "#ffffff",
+                      "on-surface-variant": "#4e453d",
+                      "outline": "#80756c",
+                      "on-secondary": "#ffffff",
+                      "primary-fixed-dim": "#e1c1a4",
+                      "on-error-container": "#93000a",
+                      "surface-container-high": "#eae7e7",
+                      "surface-container-highest": "#e4e2e1",
+                      "error-container": "#ffdad6",
+                      "on-secondary-container": "#775e41",
+                      "on-primary-container": "#bd9f83",
+                      "surface-container": "#f0eded",
+                      "on-tertiary-container": "#a6a49f",
+                      "on-background": "#1b1c1c",
+                      "primary": "#33210d",
+                      "secondary-container": "#fcdab6",
+                      "primary-fixed": "#fedcbe",
+                      "surface-bright": "#fcf9f8",
+                      "outline-variant": "#d2c4ba",
+                      "background": "#fcf9f8",
+                      "tertiary-fixed": "#e5e2dd",
+                      "inverse-surface": "#303030",
+                      "on-primary-fixed": "#291806",
+                      "surface-dim": "#dcd9d9",
+                      "surface-container-low": "#f6f3f2",
+                      "secondary": "#735a3e",
+                      "on-tertiary-fixed-variant": "#474743",
+                      "error": "#ba1a1a",
+                      "primary-container": "#4b3621",
+                      "on-secondary-fixed-variant": "#594228",
+                      "on-primary-fixed-variant": "#59422c",
+                      "inverse-primary": "#e1c1a4",
+                      "secondary-fixed-dim": "#e2c19e",
+                      "on-surface": "#1b1c1c",
+                      "surface": "#fcf9f8",
+                      "surface-tint": "#725a42",
+                      "secondary-fixed": "#ffddb9",
+                      "inverse-on-surface": "#f3f0f0"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "margin-mobile": "20px",
+                      "section-gap": "120px",
+                      "container-max": "1200px",
+                      "base": "8px",
+                      "gutter": "24px",
+                      "margin-desktop": "64px"
+              },
+              "fontFamily": {
+                      "headline-md": [
+                              "EB Garamond", "serif"
+                      ],
+                      "body-md": [
+                              "Hanken Grotesk", "sans-serif"
+                      ],
+                      "label-sm": [
+                              "Hanken Grotesk", "sans-serif"
+                      ],
+                      "headline-lg": [
+                              "EB Garamond", "serif"
+                      ],
+                      "body-lg": [
+                              "Hanken Grotesk", "sans-serif"
+                      ],
+                      "headline-lg-mobile": [
+                              "EB Garamond", "serif"
+                      ],
+                      "display-lg": [
+                              "EB Garamond", "serif"
+                      ]
+              },
+              "fontSize": {
+                      "headline-md": [
+                              "32px",
+                              {
+                                      "lineHeight": "40px",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "label-sm": [
+                              "12px",
+                              {
+                                      "lineHeight": "16px",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-lg": [
+                              "48px",
+                              {
+                                      "lineHeight": "56px",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "28px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "36px",
+                              {
+                                      "lineHeight": "44px",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "display-lg": [
+                              "64px",
+                              {
+                                      "lineHeight": "72px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "500"
+                              }
+                      ]
+              }
+            }
+          }
+        }
+    </script>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,500;1,500&amp;family=Hanken+Grotesk:wght@400;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        
+        .soft-shadow {
+            box-shadow: 0 4px 20px rgba(75, 54, 33, 0.05);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body-md text-body-md antialiased overflow-x-hidden">
+<!-- TopNavBar Component -->
+<header class="fixed w-full top-0 z-50 backdrop-blur-md bg-surface/90 border-b border-outline-variant/30 shadow-sm transition-all duration-300" id="main-nav">
+<div class="flex justify-between items-center h-20 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto w-full">
+<a class="font-headline-md text-headline-md text-primary italic shrink-0" href="#">L'Arôme Bistro</a>
+<nav class="hidden md:flex items-center gap-8">
+<!-- Home (Active) -->
+<a class="font-body-md text-body-md text-primary font-bold border-b-2 border-primary pb-1 active:opacity-80 active:scale-95 transition-transform hover:bg-surface-container-low transition-all duration-300 px-2 py-1 rounded-t" href="#">Home</a>
+<!-- Menu -->
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors active:opacity-80 active:scale-95 transition-transform hover:bg-surface-container-low transition-all duration-300 px-2 py-1 rounded" href="#">Menu</a>
+<!-- Reservations -->
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors active:opacity-80 active:scale-95 transition-transform hover:bg-surface-container-low transition-all duration-300 px-2 py-1 rounded" href="#">Reservations</a>
+<!-- Our Story -->
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors active:opacity-80 active:scale-95 transition-transform hover:bg-surface-container-low transition-all duration-300 px-2 py-1 rounded" href="#">Our Story</a>
+</nav>
+<div class="hidden md:block shrink-0">
+<button class="bg-primary-container text-on-primary font-label-sm text-label-sm uppercase tracking-wider px-6 py-3 rounded hover:opacity-90 transition-opacity flex items-center gap-2">
+                    Book a Table
+                </button>
+</div>
+<!-- Mobile Menu Toggle (Simplified) -->
+<button class="md:hidden text-primary p-2">
+<span aria-hidden="true" class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</header>
+<main class="pt-20"> <!-- Offset for fixed header -->
+<!-- Hero Section -->
+<section class="relative w-full h-[819px] min-h-[600px] flex items-center justify-center">
+<div class="absolute inset-0 z-0">
+<div class="w-full h-full bg-cover bg-center" data-alt="A warm, inviting shot of a sophisticated bistro interior at dusk. Soft golden lighting from pendant lamps casts a cozy glow over marble tables and dark wood chairs. In the foreground, a steaming cup of coffee rests on a table, conveying an elegant, tactile atmosphere in a refined palette of espresso browns and creamy whites." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuASKwP1QuUF9oFqxzezsZcOJNXtu-pQcjB8T9CCNrBotJFmgAuTQDBxfsRHVtjDtbfPR5BrOp6h7r2G6ejkcArG-jzkVBc2xi8WzxGqooVVEXcdKIBTgWeRzFYu1kJh1vG4DOoqT0LY5Z-R-pjj9P3TzXhlmNe9RVtD5JCtLtZyLvAK8EQq-q4aese9GnW9Oq78NUgC9PJG6VRA9byN1LkSnB77CFzAH7OIw9p-jBOcGMUxpZiBVExRU48xdz7na7C5aU_QzQE70A')"></div>
+<!-- Subtle gradient overlay for text readability -->
+<div class="absolute inset-0 bg-gradient-to-t from-surface via-surface/40 to-transparent"></div>
+</div>
+<div class="relative z-10 text-center px-margin-mobile md:px-margin-desktop max-w-4xl mx-auto flex flex-col items-center">
+<h1 class="font-display-lg text-display-lg md:text-[80px] leading-tight text-primary mb-6">Crafted for Sophisticated Warmth</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mb-10">Where artisanal culinary traditions meet the quiet comfort of a modern sanctuary. Experience flavors designed to linger.</p>
+<div class="flex gap-4">
+<button class="bg-primary-container text-on-primary font-label-sm text-label-sm uppercase tracking-wider px-8 py-4 rounded hover:opacity-90 transition-opacity shadow-md">
+                        Reserve a Table
+                    </button>
+<button class="bg-transparent border border-on-primary-container text-primary font-label-sm text-label-sm uppercase tracking-wider px-8 py-4 rounded hover:bg-surface-container-low transition-colors">
+                        View Menu
+                    </button>
+</div>
+</div>
+</section>
+<!-- Signature Divider -->
+<div class="flex items-center justify-center py-12 px-margin-desktop opacity-60">
+<div class="h-[1px] w-24 bg-on-primary-container"></div>
+<span aria-hidden="true" class="material-symbols-outlined text-on-primary-container mx-4 text-sm">local_cafe</span>
+<div class="h-[1px] w-24 bg-on-primary-container"></div>
+</div>
+<!-- About Us Section (Asymmetric Layout) -->
+<section class="px-margin-mobile md:px-margin-desktop py-section-gap max-w-container-max mx-auto">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter items-center">
+<div class="md:col-span-5 order-2 md:order-1 flex flex-col items-start">
+<span class="font-label-sm text-label-sm text-on-primary-container uppercase tracking-widest mb-4">Our Heritage</span>
+<h2 class="font-headline-lg text-headline-lg text-primary mb-6">A Symphony of Simple Ingredients.</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6">
+                        Founded on the belief that a meal should be an escape, L'Arôme Bistro strips away the unnecessary to focus on the essential: exceptional ingredients, meticulous preparation, and an environment that invites you to pause.
+                    </p>
+<p class="font-body-md text-body-md text-on-surface-variant mb-8">
+                        Our space is designed to feel like an extension of your own living room—if your living room happened to serve world-class espresso and hand-rolled pastries.
+                    </p>
+<a class="font-label-sm text-label-sm text-primary uppercase tracking-wider border-b border-primary pb-1 hover:text-on-primary-container hover:border-on-primary-container transition-colors" href="#">Discover Our Story</a>
+</div>
+<div class="md:col-span-6 md:col-start-7 order-1 md:order-2 mb-10 md:mb-0 relative">
+<!-- Image breaks grid slightly for editorial feel -->
+<div class="relative w-full aspect-[4/5] md:-mr-12">
+<img class="w-full h-full object-cover rounded soft-shadow z-10 relative" data-alt="A close-up, high-end editorial shot of a chef's hands delicately plating a vibrant, artisanal dish on rustic stoneware. The lighting is moody and focused, highlighting the textures of the fresh herbs and rich sauces. The color palette emphasizes earthy tones, deep greens, and warm browns, conveying a sense of meticulous craftsmanship and tactile luxury." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDvhHk6z7x00-s-BUPbi93kku5vCmU5JFrCzH7QWZAdY77_rlkHMcsSIWd3N1N9OxCSskK4E7aAKiXEXFq-0Z-yRzQ6nhjIoqavOxFhziHLhisVBQIPCRDVJcjYj36pS1Iu2nnD4UDyDBSVxMZp6DvqWow8-lC4Yfs78vAosQlsc2q1YBui794fn4cSziY1f6bA33tfc6NukpQyvQIFfbNaWCCjxnmoYdSVqOmRPAWPOIin4Ci-8ElxrjvxecWkYUF8SnsNs-ZBTw"/>
+<!-- Decorative offset background block -->
+<div class="absolute -bottom-6 -left-6 w-2/3 h-2/3 bg-surface-container-low rounded z-0"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Featured Menu Highlights (Card Layout) -->
+<section class="bg-surface-container-low py-section-gap">
+<div class="px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+<div class="text-center mb-16 flex flex-col items-center">
+<span class="font-label-sm text-label-sm text-on-primary-container uppercase tracking-widest mb-4">Curated Selections</span>
+<h2 class="font-headline-lg text-headline-lg text-primary">Morning &amp; Midday</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-12">
+<!-- Menu Column 1 -->
+<div class="flex flex-col gap-8">
+<!-- Item 1 -->
+<div class="flex flex-col bg-surface-container-lowest p-6 rounded soft-shadow">
+<div class="flex items-baseline justify-between mb-2">
+<h3 class="font-headline-md text-headline-md text-primary">Truffle Mushroom Tartine</h3>
+<div class="flex-grow border-b border-dotted border-outline-variant mx-4 opacity-50 relative top-[-6px]"></div>
+<span class="font-label-sm text-label-sm text-primary">$18</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-4">Wild foraged mushrooms, whipped ricotta, thyme on artisan sourdough.</p>
+<div class="flex gap-2 mt-auto">
+<span class="inline-block bg-on-primary-container/15 text-primary font-label-sm text-[10px] uppercase px-2 py-1 rounded">Vegetarian</span>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="flex flex-col bg-surface-container-lowest p-6 rounded soft-shadow">
+<div class="flex items-baseline justify-between mb-2">
+<h3 class="font-headline-md text-headline-md text-primary">Heritage Pork Belly</h3>
+<div class="flex-grow border-b border-dotted border-outline-variant mx-4 opacity-50 relative top-[-6px]"></div>
+<span class="font-label-sm text-label-sm text-primary">$26</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-4">Slow-braised belly, celery root purée, crisp apple fennel slaw, cider glaze.</p>
+<div class="flex gap-2 mt-auto">
+<span class="inline-block bg-on-primary-container/15 text-primary font-label-sm text-[10px] uppercase px-2 py-1 rounded">Gluten-Free</span>
+</div>
+</div>
+</div>
+<!-- Menu Column 2 -->
+<div class="flex flex-col gap-8">
+<!-- Item 3 -->
+<div class="flex flex-col bg-surface-container-lowest p-6 rounded soft-shadow">
+<div class="flex items-baseline justify-between mb-2">
+<h3 class="font-headline-md text-headline-md text-primary">L'Arôme Signature Espresso</h3>
+<div class="flex-grow border-b border-dotted border-outline-variant mx-4 opacity-50 relative top-[-6px]"></div>
+<span class="font-label-sm text-label-sm text-primary">$5</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-4">Our proprietary house blend. Notes of dark cocoa, toasted hazelnut, and black cherry.</p>
+</div>
+<!-- Item 4 -->
+<div class="flex flex-col bg-surface-container-lowest p-6 rounded soft-shadow">
+<div class="flex items-baseline justify-between mb-2">
+<h3 class="font-headline-md text-headline-md text-primary">Burnt Basque Cheesecake</h3>
+<div class="flex-grow border-b border-dotted border-outline-variant mx-4 opacity-50 relative top-[-6px]"></div>
+<span class="font-label-sm text-label-sm text-primary">$12</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-4">Caramelized crust, creamy center, served with seasonal berry compote.</p>
+</div>
+</div>
+</div>
+<div class="mt-16 text-center">
+<button class="bg-transparent border border-on-primary-container text-primary font-label-sm text-label-sm uppercase tracking-wider px-8 py-3 rounded hover:bg-surface-container transition-colors inline-flex items-center gap-2">
+                        View Full Menu <span aria-hidden="true" class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Reservation CTA (High Focus Area) -->
+<section class="bg-tertiary py-section-gap px-margin-mobile md:px-margin-desktop">
+<div class="max-w-4xl mx-auto text-center flex flex-col items-center">
+<span aria-hidden="true" class="material-symbols-outlined text-on-primary-container text-4xl mb-6">chair_alt</span>
+<h2 class="font-display-lg text-display-lg md:text-[56px] text-on-tertiary mb-6">Secure Your Table</h2>
+<p class="font-body-lg text-body-lg text-tertiary-fixed-dim max-w-xl mx-auto mb-12">
+                    We invite you to join us. Reservations are highly recommended for evening service to ensure an uninterrupted experience.
+                </p>
+<div class="bg-surface-container-lowest p-8 md:p-12 rounded w-full soft-shadow text-left">
+<form class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<div class="flex flex-col">
+<label class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider mb-2">Date</label>
+<input class="bg-transparent border-0 border-b border-outline-variant/50 focus:border-primary focus:ring-0 px-0 py-2 font-body-md text-primary" type="date"/>
+</div>
+<div class="flex flex-col">
+<label class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider mb-2">Time</label>
+<select class="bg-transparent border-0 border-b border-outline-variant/50 focus:border-primary focus:ring-0 px-0 py-2 font-body-md text-primary">
+<option>18:00</option>
+<option>18:30</option>
+<option>19:00</option>
+<option>19:30</option>
+</select>
+</div>
+<div class="flex flex-col">
+<label class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider mb-2">Guests</label>
+<select class="bg-transparent border-0 border-b border-outline-variant/50 focus:border-primary focus:ring-0 px-0 py-2 font-body-md text-primary">
+<option>2 People</option>
+<option>3 People</option>
+<option>4 People</option>
+<option>5+ People</option>
+</select>
+</div>
+<div class="md:col-span-3 mt-4">
+<button class="w-full bg-primary-container text-on-primary font-label-sm text-label-sm uppercase tracking-wider py-4 rounded hover:opacity-90 transition-opacity" type="button">
+                                Find Availability
+                            </button>
+</div>
+</form>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer Component -->
+<footer class="bg-tertiary w-full pt-section-gap pb-8">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+<div class="flex flex-col items-start gap-4">
+<span class="font-headline-md text-headline-md text-on-tertiary italic">L'Arôme Bistro</span>
+<p class="font-body-md text-body-md text-on-tertiary-container max-w-xs mt-2">
+                    A sanctuary of culinary craftsmanship. Open Tuesday through Sunday for those who seek sophisticated warmth.
+                </p>
+</div>
+<div class="flex flex-col gap-4 md:items-center">
+<nav class="flex flex-col gap-3 text-left md:text-center">
+<a class="font-label-sm text-label-sm text-on-tertiary-container hover:text-on-tertiary transition-colors focus:outline-none focus:ring-1 focus:ring-outline" href="#">Privacy Policy</a>
+<a class="font-label-sm text-label-sm text-on-tertiary-container hover:text-on-tertiary transition-colors focus:outline-none focus:ring-1 focus:ring-outline" href="#">Terms of Service</a>
+<a class="font-label-sm text-label-sm text-on-tertiary-container hover:text-on-tertiary transition-colors focus:outline-none focus:ring-1 focus:ring-outline" href="#">Careers</a>
+<a class="font-label-sm text-label-sm text-on-tertiary-container hover:text-on-tertiary transition-colors focus:outline-none focus:ring-1 focus:ring-outline" href="#">Contact Us</a>
+</nav>
+</div>
+<div class="flex flex-col md:items-end justify-end mt-8 md:mt-0">
+<p class="font-body-md text-body-md text-on-tertiary-container">© 2024 L'Arôme Bistro. Crafted for Sophisticated Warmth.</p>
+</div>
+</div>
+</footer>
+<script>
+        // Simple scroll effect for TopNavBar shadow/bg
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('main-nav');
+            if (window.scrollY > 20) {
+                nav.classList.add('shadow-md');
+                nav.classList.replace('bg-surface/90', 'bg-surface/95');
+            } else {
+                nav.classList.remove('shadow-md');
+                nav.classList.replace('bg-surface/95', 'bg-surface/90');
+            }
+        });
+    </script>
+</body></html>

@@ -1,0 +1,40 @@
+[
+  {
+    "id": "r1",
+    "firstName": "Ayşe",
+    "lastName": "Yılmaz",
+    "email": "ayse.yilmaz@email.com",
+    "phone": "+90 532 111 2233",
+    "date": "2026-07-28",
+    "time": "19:00",
+    "guests": 2,
+    "specialRequests": "Pencere kenarı tercih edilir",
+    "status": "confirmed",
+    "createdAt": "2026-07-20T10:00:00.000Z"
+  },
+  {
+    "id": "r2",
+    "firstName": "Mehmet",
+    "lastName": "Kaya",
+    "email": "mehmet.kaya@email.com",
+    "phone": "+90 555 444 5566",
+    "date": "2026-07-29",
+    "time": "20:00",
+    "guests": 4,
+    "specialRequests": "Doğum günü kutlaması",
+    "status": "pending",
+    "createdAt": "2026-07-22T14:30:00.000Z"
+  },
+  {
+    "id": "r3",
+    "firstName": "Elena",
+    "lastName": "Rossi",
+    "email": "elena.rossi@email.com",
+    "phone": "+1 555 987 6543",
+    "date": "2026-07-30",
+    "time": "18:30",
+    "guests": 3,
+    "status": "confirmed",
+    "createdAt": "2026-07-23T09:15:00.000Z"
+  }
+]

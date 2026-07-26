@@ -1,36 +1,77 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# L'Arôme Bistro
 
-## Getting Started
+Next.js website and admin panel for L'Arôme Bistro, backed by **Prisma + Neon (PostgreSQL)** for Vercel deployment.
 
-First, run the development server:
+## Stack
+
+- Next.js 16 (App Router) + TypeScript
+- Prisma 7 + Neon serverless adapter
+- Admin panel for menu & reservations
+
+## Environment
+
+Copy `.env.example` to `.env` and fill in Neon credentials from the Neon Console → **Connect**:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+cp .env.example .env
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+| Variable | Purpose |
+|---|---|
+| `DATABASE_URL` | Neon **pooled** URL (`-pooler` hostname) — runtime queries |
+| `DIRECT_URL` | Neon **direct** URL — Prisma migrate / seed |
+| `ADMIN_PASSWORD` | Admin panel password |
+| `ADMIN_SESSION_SECRET` | Cookie session secret |
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Local setup
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm install
+npx prisma migrate deploy   # apply migrations
+npx prisma db seed          # seed menu + sample reservations
+npm run dev
+```
 
-## Learn More
+- Site: [http://localhost:3000](http://localhost:3000)
+- Admin: [http://localhost:3000/admin](http://localhost:3000/admin) (default password `admin123`)
 
-To learn more about Next.js, take a look at the following resources:
+### Database scripts
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+npm run db:generate   # prisma generate
+npm run db:migrate    # prisma migrate deploy
+npm run db:push       # prisma db push (dev prototyping)
+npm run db:seed       # seed data
+npm run db:studio     # Prisma Studio
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Vercel + Neon deploy
 
-## Deploy on Vercel
+1. Create a Neon project and copy both connection strings.
+2. Import the repo into Vercel.
+3. Add environment variables in Vercel Project Settings:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+   - `DATABASE_URL` (pooled)
+   - `DIRECT_URL` (direct)
+   - `ADMIN_PASSWORD`
+   - `ADMIN_SESSION_SECRET`
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+4. Deploy. The build script runs:
+
+   ```bash
+   prisma generate && prisma migrate deploy && next build
+   ```
+
+5. After the first successful deploy, seed production once:
+
+   ```bash
+   # with production env loaded locally, or via Neon SQL / one-off job
+   npx prisma db seed
+   ```
+
+Neon Integration on Vercel can inject `DATABASE_URL` automatically; still add `DIRECT_URL` for migrations.
+
+## Models
+
+- `MenuItem` — name, description, price, category, tags, featured, available
+- `Reservation` — guest details, date/time, guests, status (`pending` | `confirmed` | `cancelled` | `completed`)

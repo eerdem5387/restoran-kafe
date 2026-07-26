@@ -1,26 +1,192 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #fcf9f8;
+  --foreground: #1b1c1c;
+  --surface: #fcf9f8;
+  --primary: #33210d;
+  --primary-container: #4b3621;
+  --on-primary: #ffffff;
+  --on-primary-container: #bd9f83;
+  --secondary: #735a3e;
+  --secondary-container: #fcdab6;
+  --on-secondary-container: #775e41;
+  --tertiary: #252522;
+  --on-tertiary: #ffffff;
+  --on-tertiary-container: #a6a49f;
+  --surface-container-low: #f6f3f2;
+  --surface-container-lowest: #ffffff;
+  --on-surface-variant: #4e453d;
+  --outline-variant: #d2c4ba;
+  --almond: #f5f2ed;
+  --golden-crema: #c2a382;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-background: #fcf9f8;
+  --color-foreground: #1b1c1c;
+  --color-surface: #fcf9f8;
+  --color-primary: #33210d;
+  --color-primary-container: #4b3621;
+  --color-on-primary: #ffffff;
+  --color-on-primary-container: #bd9f83;
+  --color-secondary: #735a3e;
+  --color-secondary-container: #fcdab6;
+  --color-on-secondary-container: #775e41;
+  --color-tertiary: #252522;
+  --color-on-tertiary: #ffffff;
+  --color-on-tertiary-container: #a6a49f;
+  --color-surface-container-low: #f6f3f2;
+  --color-surface-container-lowest: #ffffff;
+  --color-on-surface-variant: #4e453d;
+  --color-outline-variant: #d2c4ba;
+  --color-almond: #f5f2ed;
+  --color-golden-crema: #c2a382;
+  --color-surface-variant: #e4e2e1;
+  --color-inverse-on-surface: #f3f0f0;
+  --font-display: var(--font-eb-garamond), ui-serif, Georgia, serif;
+  --font-body: var(--font-hanken), ui-sans-serif, system-ui, sans-serif;
+  --spacing-margin-mobile: 16px;
+  --spacing-margin-desktop: 64px;
+  --spacing-section-gap: 120px;
+  --spacing-gutter: 24px;
+  --spacing-container-max: 1200px;
+  --radius-DEFAULT: 0.25rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: auto;
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  text-size-adjust: 100%;
+}
+
+/* Touch-friendly form controls on mobile */
+@media (max-width: 640px) {
+  .form-input-ledger {
+    font-size: 16px; /* prevents iOS zoom on focus */
+  }
+}
+
+img,
+video {
+  max-width: 100%;
+  height: auto;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+::selection {
+  background: #fcdab6;
+  color: #775e41;
+}
+
+.soft-shadow {
+  box-shadow: 0 4px 20px rgba(75, 54, 33, 0.05);
+}
+
+.menu-leader {
+  border-bottom: 1px dotted rgba(194, 163, 130, 0.5);
+  flex-grow: 1;
+  margin: 0 16px;
+  position: relative;
+  top: -6px;
+}
+
+.form-input-ledger {
+  border: none;
+  border-bottom: 1px solid rgba(194, 163, 130, 0.3);
+  background: transparent;
+  padding: 0.5rem 0;
+  border-radius: 0;
+  transition: border-color 0.3s ease;
+  width: 100%;
+  color: #33210d;
+  font-family: var(--font-body);
+}
+
+.form-input-ledger:focus {
+  outline: none;
+  box-shadow: none;
+  border-bottom: 1px solid #735a3e;
+}
+
+.signature-divider {
+  height: 1px;
+  background-color: rgba(194, 163, 130, 0.4);
+  position: relative;
+  margin: 4rem 0;
+}
+
+.signature-divider::after {
+  content: "•";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #fcf9f8;
+  padding: 0 10px;
+  color: #735a3e;
+  font-size: 1.5rem;
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

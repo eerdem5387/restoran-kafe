@@ -1,0 +1,92 @@
+[
+  {
+    "id": "m1",
+    "name": "L'Arôme Espresso",
+    "description": "Özel ev karışımımız. Koyu kakao, kavrulmuş fındık ve siyah kiraz notaları.",
+    "price": 95,
+    "category": "coffee-tea",
+    "tags": [],
+    "featured": true,
+    "available": true
+  },
+  {
+    "id": "m2",
+    "name": "Madagaskar Vanilyalı Latte",
+    "description": "Madagaskar vanilyası, buharda süt ve çift shot ev espressosu.",
+    "price": 145,
+    "category": "coffee-tea",
+    "tags": ["Vejetaryen"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "id": "m3",
+    "name": "Earl Grey Reserve",
+    "description": "Bergamot aromalı siyah çay; yanında ılık süt ile sunulur.",
+    "price": 110,
+    "category": "coffee-tea",
+    "tags": ["Vegan"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "id": "m4",
+    "name": "Trüflü Mantar Tartine",
+    "description": "Yabani mantar, çırpılmış ricotta ve kekik; ekşi mayalı ekmek üzerinde.",
+    "price": 320,
+    "category": "starters",
+    "tags": ["Vejetaryen"],
+    "featured": true,
+    "available": true
+  },
+  {
+    "id": "m5",
+    "name": "Trüflü Mantar Risotto",
+    "description": "Arborio pirinci; siyah trüf, Parmesan ve taze otlarla yavaşça tamamlanır.",
+    "price": 520,
+    "category": "main-courses",
+    "tags": ["Vejetaryen", "Glutensiz"],
+    "featured": true,
+    "available": true
+  },
+  {
+    "id": "m6",
+    "name": "Mühürlenmiş Ördek Göğsü",
+    "description": "Çıtır derili ördek göğsü, kiraz gastrique ve fırınlanmış kök sebzeler.",
+    "price": 680,
+    "category": "main-courses",
+    "tags": ["Glutensiz"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "id": "m7",
+    "name": "Bistro Steak Frites",
+    "description": "Izgara hanger steak, el kesimi patates kızartması, biberli tereyağı ve salata.",
+    "price": 720,
+    "category": "main-courses",
+    "tags": [],
+    "featured": false,
+    "available": true
+  },
+  {
+    "id": "m8",
+    "name": "Heritage Domuz Göbeği",
+    "description": "Yavaş pişmiş göbek, kereviz püresi, elma-rezene salatası ve elma şarabı glaze.",
+    "price": 490,
+    "category": "main-courses",
+    "tags": ["Glutensiz"],
+    "featured": true,
+    "available": true
+  },
+  {
+    "id": "m9",
+    "name": "Yanık Basque Cheesecake",
+    "description": "Karamelize kabuk, kremamsı iç; mevsim meyve kompostosu ile.",
+    "price": 240,
+    "category": "desserts",
+    "tags": ["Vejetaryen"],
+    "featured": true,
+    "available": true
+  }
+]
