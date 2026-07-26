@@ -24,8 +24,8 @@ export const metadata: Metadata = {
   description:
     "El yapımı mutfak gelenekleri, modern bir sığınağın sakin konforuyla buluşuyor. Sofistike sıcaklık için Berrays.",
   icons: {
-    icon: "/berrays.svg",
-    apple: "/berrays.svg",
+    icon: "/berrays-logo.png",
+    apple: "/berrays-logo.png",
   },
 };
 

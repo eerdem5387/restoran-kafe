@@ -1,16 +1,17 @@
 import Image from "next/image";
 import Link from "next/link";
 
-const LOGO_SRC = "/berrays.svg";
+const LOGO_SRC = "/berrays-logo.png";
 const LOGO_ALT = "Berrays";
 
 type LogoSize = "sm" | "md" | "lg" | "xl";
 
+/** Fixed height + max-width so the wide logo never blows the layout */
 const sizeClass: Record<LogoSize, string> = {
-  sm: "h-8 w-auto sm:h-9",
-  md: "h-10 w-auto sm:h-12",
-  lg: "h-14 w-auto sm:h-16 md:h-20",
-  xl: "h-24 w-auto sm:h-28 md:h-36",
+  sm: "h-7 max-w-[120px] sm:h-8 sm:max-w-[140px]",
+  md: "h-8 max-w-[150px] sm:h-10 sm:max-w-[180px]",
+  lg: "h-10 max-w-[180px] sm:h-12 sm:max-w-[220px]",
+  xl: "h-14 max-w-[240px] sm:h-16 sm:max-w-[280px]",
 };
 
 type LogoProps = {
@@ -18,8 +19,6 @@ type LogoProps = {
   href?: string | null;
   className?: string;
   priority?: boolean;
-  /** Invert / brighten logo on dark backgrounds */
-  onDark?: boolean;
 };
 
 export function Logo({
@@ -27,17 +26,18 @@ export function Logo({
   href = "/",
   className = "",
   priority = false,
-  onDark = false,
 }: LogoProps) {
   const image = (
-    <Image
-      src={LOGO_SRC}
-      alt={LOGO_ALT}
-      width={360}
-      height={202}
-      priority={priority}
-      className={`${sizeClass[size]} object-contain object-left ${onDark ? "brightness-110" : ""} ${className}`}
-    />
+    <span className={`relative inline-block ${sizeClass[size]} ${className}`}>
+      <Image
+        src={LOGO_SRC}
+        alt={LOGO_ALT}
+        width={800}
+        height={150}
+        priority={priority}
+        className="h-full w-auto max-w-full object-contain object-left"
+      />
+    </span>
   );
 
   if (href === null) {

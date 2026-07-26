@@ -57,12 +57,12 @@ export function Preloader() {
               transition={{ duration: 0.9, ease: easeEditorial }}
             >
               <Image
-                src="/berrays.svg"
+                src="/berrays-logo.png"
                 alt="Berrays"
-                width={420}
-                height={236}
+                width={800}
+                height={150}
                 priority
-                className="h-20 w-auto object-contain brightness-110 sm:h-28 md:h-36"
+                className="h-12 w-auto max-w-[260px] object-contain sm:h-14 sm:max-w-[320px] md:h-16 md:max-w-[360px]"
               />
             </motion.div>
             <motion.p

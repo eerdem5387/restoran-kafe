@@ -11,7 +11,7 @@ export function Footer() {
       <Reveal className="mx-auto max-w-[1200px] px-margin-mobile md:px-margin-desktop">
         <Stagger className="grid grid-cols-1 gap-10 md:grid-cols-3 md:gap-gutter">
           <StaggerItem className="flex flex-col items-start gap-4">
-            <Logo size="lg" onDark />
+            <Logo size="lg" />
             <p className="mt-1 max-w-xs font-body text-sm leading-relaxed text-on-tertiary-container sm:text-base">
               Mutfak ustalığının sığınağı. Salı&apos;dan Pazar&apos;a, sofistike bir sıcaklık arayanlar
               için açık.
