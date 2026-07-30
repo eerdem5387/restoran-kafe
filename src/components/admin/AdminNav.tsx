@@ -23,7 +23,7 @@ export function AdminNav() {
   return (
     <aside className="flex w-full flex-col border-b border-outline-variant/30 bg-primary-container text-on-primary md:min-h-screen md:w-64 md:border-b-0 md:border-r">
       <div className="border-b border-on-primary/10 px-5 py-5 sm:px-6 sm:py-6">
-        <Logo size="sm" />
+        <Logo size="sm" className="text-on-primary" />
         <p className="mt-2 font-body text-[10px] uppercase tracking-wider text-on-primary-container sm:text-xs">
           Yönetim Paneli
         </p>

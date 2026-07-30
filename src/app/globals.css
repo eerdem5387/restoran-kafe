@@ -46,6 +46,8 @@
   --color-inverse-on-surface: #f3f0f0;
   --font-display: var(--font-eb-garamond), ui-serif, Georgia, serif;
   --font-body: var(--font-hanken), ui-sans-serif, system-ui, sans-serif;
+  --font-brand: var(--font-yellowtail), cursive;
+  --font-brand-sub: var(--font-montserrat), ui-sans-serif, system-ui, sans-serif;
   --spacing-margin-mobile: 16px;
   --spacing-margin-desktop: 64px;
   --spacing-section-gap: 120px;

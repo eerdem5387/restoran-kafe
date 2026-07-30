@@ -17,7 +17,7 @@ export default async function AdminLoginPage() {
     <div className="flex min-h-svh items-center justify-center bg-surface px-4 py-10">
       <div className="w-full max-w-md">
         <div className="mb-6 flex justify-center sm:mb-8">
-          <Logo size="lg" priority />
+          <Logo size="lg" />
         </div>
         <LoginForm />
       </div>

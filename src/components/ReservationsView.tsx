@@ -58,7 +58,7 @@ export function ReservationsView() {
                   <div className="flex items-start gap-3 sm:gap-4">
                     <span className="material-symbols-outlined mt-0.5 text-secondary">location_on</span>
                     <div>
-                      <Logo size="sm" href={null} className="mb-2 object-left" />
+                      <Logo size="sm" href={null} className="mb-2 text-primary" />
                       <p>Culinary Caddesi No: 124</p>
                       <p>Gastronomy District, İstanbul</p>
                     </div>

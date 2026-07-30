@@ -47,7 +47,7 @@ export function Header() {
       transition={{ duration: 0.45, ease: easeEditorial }}
     >
       <div className="mx-auto flex h-16 w-full max-w-[1200px] items-center justify-between px-margin-mobile sm:h-20 md:px-margin-desktop">
-        <Logo size="md" priority />
+        <Logo size="md" />
 
         <nav className="hidden items-center gap-6 lg:flex lg:gap-8">
           {links.map((link) => {

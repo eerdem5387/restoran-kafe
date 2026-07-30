@@ -1,8 +1,8 @@
 "use client";
 
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import Image from "next/image";
 import { useEffect, useState } from "react";
+import { Logo } from "@/components/Logo";
 import { duration, easeEditorial, easeInOutCubic } from "@/lib/motion";
 
 export function Preloader() {
@@ -51,19 +51,12 @@ export function Preloader() {
               transition={{ duration: 1.4, ease: easeEditorial }}
             />
             <motion.div
-              className="overflow-hidden"
+              className="overflow-hidden text-on-primary"
               initial={{ opacity: 0, y: 28, scale: 0.94 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               transition={{ duration: 0.9, ease: easeEditorial }}
             >
-              <Image
-                src="/berrays-logo.png"
-                alt="Berrays"
-                width={800}
-                height={150}
-                priority
-                className="h-12 w-auto max-w-[260px] object-contain sm:h-14 sm:max-w-[320px] md:h-16 md:max-w-[360px]"
-              />
+              <Logo size="xl" href={null} />
             </motion.div>
             <motion.p
               className="mt-6 font-body text-[10px] font-semibold uppercase tracking-[0.35em] text-on-primary-container"

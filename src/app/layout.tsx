@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { EB_Garamond, Hanken_Grotesk } from "next/font/google";
+import { EB_Garamond, Hanken_Grotesk, Montserrat, Yellowtail } from "next/font/google";
 import { MotionProvider } from "@/components/motion/MotionProvider";
 import "./globals.css";
 
@@ -16,17 +16,26 @@ const hanken = Hanken_Grotesk({
   weight: ["400", "500", "600", "700"],
 });
 
+const yellowtail = Yellowtail({
+  variable: "--font-yellowtail",
+  subsets: ["latin"],
+  weight: "400",
+});
+
+const montserrat = Montserrat({
+  variable: "--font-montserrat",
+  subsets: ["latin", "latin-ext"],
+  weight: ["700"],
+  style: ["italic"],
+});
+
 export const metadata: Metadata = {
   title: {
-    default: "Berrays",
-    template: "%s | Berrays",
+    default: "Berray's",
+    template: "%s | Berray's",
   },
   description:
-    "El yapımı mutfak gelenekleri, modern bir sığınağın sakin konforuyla buluşuyor. Sofistike sıcaklık için Berrays.",
-  icons: {
-    icon: "/berrays-logo.png",
-    apple: "/berrays-logo.png",
-  },
+    "El yapımı mutfak gelenekleri, modern bir sığınağın sakin konforuyla buluşuyor. Sofistike sıcaklık için Berray's.",
 };
 
 export const viewport: Viewport = {
@@ -42,7 +51,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="tr" className={`${ebGaramond.variable} ${hanken.variable} h-full antialiased`}>
+    <html
+      lang="tr"
+      className={`${ebGaramond.variable} ${hanken.variable} ${yellowtail.variable} ${montserrat.variable} h-full antialiased`}
+    >
       <head>
         <link
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap"

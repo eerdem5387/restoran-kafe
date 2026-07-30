@@ -1,56 +1,41 @@
-import Image from "next/image";
 import Link from "next/link";
-
-const LOGO_SRC = "/berrays-logo.png";
-const LOGO_ALT = "Berrays";
 
 type LogoSize = "sm" | "md" | "lg" | "xl";
 
-/** Fixed height + max-width so the wide logo never blows the layout */
 const sizeClass: Record<LogoSize, string> = {
-  sm: "h-7 max-w-[120px] sm:h-8 sm:max-w-[140px]",
-  md: "h-8 max-w-[150px] sm:h-10 sm:max-w-[180px]",
-  lg: "h-10 max-w-[180px] sm:h-12 sm:max-w-[220px]",
-  xl: "h-14 max-w-[240px] sm:h-16 sm:max-w-[280px]",
+  sm: "gap-0 [&_.logo-name]:text-[1.35rem] [&_.logo-tag]:text-[0.55rem]",
+  md: "gap-0.5 [&_.logo-name]:text-[1.65rem] sm:[&_.logo-name]:text-[1.9rem] [&_.logo-tag]:text-[0.6rem] sm:[&_.logo-tag]:text-[0.65rem]",
+  lg: "gap-0.5 [&_.logo-name]:text-[2.1rem] sm:[&_.logo-name]:text-[2.4rem] [&_.logo-tag]:text-[0.7rem] sm:[&_.logo-tag]:text-[0.75rem]",
+  xl: "gap-1 [&_.logo-name]:text-[2.75rem] sm:[&_.logo-name]:text-[3.25rem] md:[&_.logo-name]:text-[3.75rem] [&_.logo-tag]:text-[0.8rem] sm:[&_.logo-tag]:text-[0.9rem]",
 };
 
 type LogoProps = {
   size?: LogoSize;
   href?: string | null;
   className?: string;
-  priority?: boolean;
 };
 
-export function Logo({
-  size = "md",
-  href = "/",
-  className = "",
-  priority = false,
-}: LogoProps) {
-  const image = (
-    <span className={`relative inline-block ${sizeClass[size]} ${className}`}>
-      <Image
-        src={LOGO_SRC}
-        alt={LOGO_ALT}
-        width={800}
-        height={150}
-        priority={priority}
-        className="h-full w-auto max-w-full object-contain object-left"
-      />
+export function Logo({ size = "md", href = "/", className = "" }: LogoProps) {
+  const mark = (
+    <span className={`inline-flex flex-col items-start leading-none ${sizeClass[size]}`}>
+      <span className="logo-name font-brand leading-none">Berray&apos;s</span>
+      <span className="logo-tag font-brand-sub font-bold italic uppercase tracking-[0.18em]">
+        Kitchen &amp; Cafe
+      </span>
     </span>
   );
 
   if (href === null) {
-    return image;
+    return <span className={className || undefined}>{mark}</span>;
   }
 
   return (
     <Link
       href={href}
-      className="inline-flex shrink-0 items-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-on-primary-container/50"
-      aria-label="Berrays ana sayfa"
+      className={`inline-flex shrink-0 items-center text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-on-primary-container/50 ${className}`}
+      aria-label="Berray's ana sayfa"
     >
-      {image}
+      {mark}
     </Link>
   );
 }
