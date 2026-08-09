@@ -6,27 +6,43 @@ import type { MenuItem } from "@/lib/types";
 import { formatPrice } from "@/lib/types";
 import { fadeUp } from "@/lib/motion";
 
+function ProductImage({
+  src,
+  alt,
+  className = "",
+}: {
+  src: string;
+  alt: string;
+  className?: string;
+}) {
+  return (
+    <div className={`relative aspect-square shrink-0 overflow-hidden rounded ${className}`}>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src={src} alt={alt} className="absolute inset-0 h-full w-full object-cover" />
+    </div>
+  );
+}
+
 export function MenuItemCard({ item }: { item: MenuItem }) {
   return (
     <motion.div
       variants={fadeUp}
       whileHover={{ y: -6, transition: { duration: 0.35, ease: [0.22, 1, 0.36, 1] } }}
-      className="soft-shadow group flex flex-col overflow-hidden rounded bg-surface-container-lowest transition-shadow duration-500 hover:shadow-[0_12px_40px_rgba(75,54,33,0.1)]"
+      className="soft-shadow group flex gap-3 overflow-hidden rounded bg-surface-container-lowest p-3 transition-shadow duration-500 hover:shadow-[0_12px_40px_rgba(75,54,33,0.1)] sm:gap-4 sm:p-4"
     >
       {item.image && (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img src={item.image} alt={item.name} className="h-44 w-full object-cover sm:h-52" />
+        <ProductImage src={item.image} alt={item.name} className="w-24 sm:w-28 md:w-32" />
       )}
-      <div className="flex flex-1 flex-col p-4 sm:p-6">
-        <div className="mb-1 flex flex-wrap items-baseline gap-x-3 gap-y-1">
-          <h3 className="font-display text-[24px] font-medium leading-tight text-primary transition-colors group-hover:text-primary-container sm:text-[28px] md:text-[32px] md:leading-10">
+      <div className="flex min-w-0 flex-1 flex-col justify-center">
+        <div className="flex flex-wrap items-baseline gap-x-2.5 gap-y-0.5">
+          <h3 className="font-display text-[22px] font-medium leading-tight text-primary transition-colors group-hover:text-primary-container sm:text-[26px] md:text-[30px]">
             {item.name}
           </h3>
-          <span className="font-display text-[22px] font-medium tracking-wide text-primary sm:text-[26px] md:text-[28px]">
+          <span className="font-display text-[20px] font-medium tracking-wide text-primary sm:text-[24px] md:text-[26px]">
             {formatPrice(item.price)}
           </span>
         </div>
-        <MenuTags tags={item.tags} />
+        <MenuTags tags={item.tags} className="mt-2" />
       </div>
     </motion.div>
   );
@@ -39,31 +55,26 @@ export function MenuItemRow({ item, light = false }: { item: MenuItem; light?: b
   return (
     <motion.div
       variants={fadeUp}
-      className="group flex flex-col gap-4 sm:flex-row sm:items-start sm:gap-6"
-      whileHover={{ x: 4, transition: { duration: 0.35, ease: [0.22, 1, 0.36, 1] } }}
+      className="group flex items-start gap-3 sm:gap-4 md:gap-5"
+      whileHover={{ x: 3, transition: { duration: 0.35, ease: [0.22, 1, 0.36, 1] } }}
     >
       {item.image && (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
-          src={item.image}
-          alt={item.name}
-          className="h-28 w-full shrink-0 rounded object-cover sm:h-24 sm:w-32 md:h-28 md:w-36"
-        />
+        <ProductImage src={item.image} alt={item.name} className="w-24 sm:w-28 md:w-32" />
       )}
-      <div className="min-w-0 flex-1">
-        <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+      <div className="min-w-0 flex-1 pt-0.5">
+        <div className="flex flex-wrap items-baseline gap-x-2.5 gap-y-0.5">
           <h3
-            className={`font-display text-[24px] font-medium leading-tight transition-colors group-hover:text-primary-container sm:text-[28px] md:text-[32px] md:leading-10 ${titleColor}`}
+            className={`font-display text-[22px] font-medium leading-tight transition-colors group-hover:text-primary-container sm:text-[26px] md:text-[30px] ${titleColor}`}
           >
             {item.name}
           </h3>
           <span
-            className={`font-display text-[22px] font-medium tracking-wide sm:text-[26px] md:text-[28px] ${priceColor}`}
+            className={`font-display text-[20px] font-medium tracking-wide sm:text-[24px] md:text-[26px] ${priceColor}`}
           >
             {formatPrice(item.price)}
           </span>
         </div>
-        <MenuTags tags={item.tags} light={light} />
+        <MenuTags tags={item.tags} light={light} className="mt-2" />
       </div>
     </motion.div>
   );

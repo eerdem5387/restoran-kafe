@@ -82,7 +82,7 @@ export function MenuCategoryView({
           {items.length === 0 ? (
             <p className="font-body text-surface-variant">Bu kategoride henüz ürün yok.</p>
           ) : (
-            <Stagger className="space-y-6 sm:space-y-8" fast>
+            <Stagger className="space-y-5 sm:space-y-6" fast>
               {items.map((item) => (
                 <MenuItemRow key={item.id} item={item} light />
               ))}
