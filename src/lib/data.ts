@@ -172,7 +172,7 @@ export async function createMenuItem(input: CreateMenuItemInput): Promise<MenuIt
   const item = await getPrisma().menuItem.create({
     data: {
       name: input.name,
-      description: input.description,
+      description: input.description ?? "",
       price: input.price,
       categoryId: input.categoryId,
       tags: input.tags ?? [],

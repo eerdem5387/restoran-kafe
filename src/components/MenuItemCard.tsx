@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "motion/react";
+import { MenuTags } from "@/components/MenuTags";
 import type { MenuItem } from "@/lib/types";
 import { formatPrice } from "@/lib/types";
 import { fadeUp } from "@/lib/motion";
@@ -29,7 +30,7 @@ export function MenuItemCard({ item }: { item: MenuItem }) {
         <img src={item.image} alt={item.name} className="h-44 w-full object-cover sm:h-52" />
       )}
       <div className="flex flex-1 flex-col p-4 sm:p-6">
-        <div className="mb-2 flex flex-wrap items-baseline justify-between gap-x-2 gap-y-1 sm:flex-nowrap">
+        <div className="mb-1 flex flex-wrap items-baseline justify-between gap-x-2 gap-y-1 sm:flex-nowrap">
           <h3 className="font-display text-[24px] font-medium leading-tight text-primary transition-colors group-hover:text-primary-container sm:text-[28px] md:text-[32px] md:leading-10">
             {item.name}
           </h3>
@@ -44,11 +45,7 @@ export function MenuItemCard({ item }: { item: MenuItem }) {
             {formatPrice(item.price)}
           </motion.span>
         </div>
-        {item.description && (
-          <p className="font-body text-sm leading-relaxed text-on-surface-variant sm:text-base">
-            {item.description}
-          </p>
-        )}
+        <MenuTags tags={item.tags} />
       </div>
     </motion.div>
   );
@@ -56,7 +53,6 @@ export function MenuItemCard({ item }: { item: MenuItem }) {
 
 export function MenuItemRow({ item, light = false }: { item: MenuItem; light?: boolean }) {
   const titleColor = light ? "text-inverse-on-surface" : "text-primary";
-  const descColor = light ? "text-surface-variant" : "text-on-surface-variant";
   const priceColor = light ? "text-inverse-on-surface" : "text-primary";
 
   return (
@@ -85,11 +81,7 @@ export function MenuItemRow({ item, light = false }: { item: MenuItem; light?: b
             {formatPrice(item.price)}
           </span>
         </div>
-        {item.description && (
-          <p className={`mt-2 max-w-md font-body text-sm leading-relaxed sm:text-base ${descColor}`}>
-            {item.description}
-          </p>
-        )}
+        <MenuTags tags={item.tags} light={light} />
       </div>
     </motion.div>
   );

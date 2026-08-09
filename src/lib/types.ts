@@ -53,7 +53,7 @@ export interface CreateCategoryInput {
 
 export interface CreateMenuItemInput {
   name: string;
-  description: string;
+  description?: string;
   price: number;
   categoryId: string;
   tags?: string[];

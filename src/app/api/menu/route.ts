@@ -27,10 +27,14 @@ export async function POST(request: Request) {
 
   try {
     const body = (await request.json()) as CreateMenuItemInput;
-    if (!body.name || !body.description || body.price == null || !body.categoryId) {
+    if (!body.name || body.price == null || !body.categoryId) {
       return NextResponse.json({ error: "Eksik alanlar var." }, { status: 400 });
     }
-    const item = await createMenuItem(body);
+    const item = await createMenuItem({
+      ...body,
+      description: body.description ?? "",
+      tags: body.tags ?? [],
+    });
     return NextResponse.json(item, { status: 201 });
   } catch (error) {
     console.error("[api/menu POST]", error);

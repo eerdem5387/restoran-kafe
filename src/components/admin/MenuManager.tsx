@@ -3,13 +3,15 @@
 import { FormEvent, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Switch } from "@/components/admin/Switch";
+import { TagInput } from "@/components/admin/TagInput";
+import { MenuTags } from "@/components/MenuTags";
 import { fileToOptimizedJpeg } from "@/lib/image";
 import type { Category, MenuItem } from "@/lib/types";
 import { formatPrice } from "@/lib/types";
 
 type FormState = {
   name: string;
-  description: string;
+  tags: string[];
   price: string;
   categoryId: string;
   featured: boolean;
@@ -29,7 +31,7 @@ export function MenuManager({
   const emptyForm = useMemo<FormState>(
     () => ({
       name: "",
-      description: "",
+      tags: [],
       price: "",
       categoryId: defaultCategoryId,
       featured: false,
@@ -53,7 +55,7 @@ export function MenuManager({
     setEditingId(item.id);
     setForm({
       name: item.name,
-      description: item.description,
+      tags: item.tags ?? [],
       price: String(item.price),
       categoryId: item.categoryId,
       featured: item.featured,
@@ -118,10 +120,10 @@ export function MenuManager({
 
     const payload = {
       name: form.name,
-      description: form.description,
+      description: "",
       price: Number(form.price),
       categoryId: form.categoryId,
-      tags: [] as string[],
+      tags: form.tags,
       featured: form.featured,
       available: form.available,
       image: form.image || null,
@@ -190,15 +192,9 @@ export function MenuManager({
           </div>
           <div>
             <label className="mb-1 block text-xs font-semibold uppercase tracking-wider text-on-surface-variant">
-              Açıklama
+              Etiketler
             </label>
-            <textarea
-              required
-              rows={3}
-              value={form.description}
-              onChange={(e) => setForm({ ...form, description: e.target.value })}
-              className="form-input-ledger resize-none text-base"
-            />
+            <TagInput tags={form.tags} onChange={(tags) => setForm({ ...form, tags })} />
           </div>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div>
@@ -346,7 +342,7 @@ export function MenuManager({
                       </span>
                     )}
                   </div>
-                  <p className="mt-1 text-sm text-on-surface-variant">{item.description}</p>
+                  <MenuTags tags={item.tags} className="mt-2" />
                   <p className="mt-2 text-xs uppercase tracking-wider text-secondary">
                     {item.categoryName || categoryName(item.categoryId)} ·{" "}
                     {formatPrice(item.price)}
