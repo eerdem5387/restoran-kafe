@@ -45,21 +45,9 @@ export function MenuItemCard({ item }: { item: MenuItem }) {
           </motion.span>
         </div>
         {item.description && (
-          <p className="mb-4 font-body text-sm leading-relaxed text-on-surface-variant sm:text-base">
+          <p className="font-body text-sm leading-relaxed text-on-surface-variant sm:text-base">
             {item.description}
           </p>
-        )}
-        {item.tags.length > 0 && (
-          <div className="mt-auto flex flex-wrap gap-2">
-            {item.tags.map((tag) => (
-              <span
-                key={tag}
-                className="inline-block rounded bg-on-primary-container/15 px-2 py-1 font-body text-[10px] font-semibold uppercase tracking-widest text-primary"
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
         )}
       </div>
     </motion.div>
@@ -101,18 +89,6 @@ export function MenuItemRow({ item, light = false }: { item: MenuItem; light?: b
           <p className={`mt-2 max-w-md font-body text-sm leading-relaxed sm:text-base ${descColor}`}>
             {item.description}
           </p>
-        )}
-        {item.tags.length > 0 && (
-          <div className="mt-3 flex flex-wrap gap-2">
-            {item.tags.map((tag) => (
-              <span
-                key={tag}
-                className="rounded-sm bg-secondary-container/30 px-2 py-1 font-body text-[10px] font-semibold uppercase tracking-widest text-primary"
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
         )}
       </div>
     </motion.div>

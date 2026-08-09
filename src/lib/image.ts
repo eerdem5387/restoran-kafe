@@ -1,5 +1,5 @@
-/** Compress an image file to a JPEG data URL for DB storage (max ~1200px, ~0.8 quality). */
-export async function fileToOptimizedDataUrl(file: File): Promise<string> {
+/** Compress an image file to a JPEG File for Vercel Blob upload (max ~1200px). */
+export async function fileToOptimizedJpeg(file: File): Promise<File> {
   if (!file.type.startsWith("image/")) {
     throw new Error("Yalnızca görsel dosyaları yüklenebilir.");
   }
@@ -22,11 +22,23 @@ export async function fileToOptimizedDataUrl(file: File): Promise<string> {
     if (!ctx) throw new Error("Görsel işlenemedi.");
     ctx.drawImage(img, 0, 0, width, height);
 
-    const dataUrl = canvas.toDataURL("image/jpeg", 0.82);
-    if (dataUrl.length > 1_800_000) {
+    const blob = await new Promise<Blob>((resolve, reject) => {
+      canvas.toBlob(
+        (result) => {
+          if (!result) reject(new Error("Görsel sıkıştırılamadı."));
+          else resolve(result);
+        },
+        "image/jpeg",
+        0.82
+      );
+    });
+
+    if (blob.size > 3.5 * 1024 * 1024) {
       throw new Error("Görsel çok büyük. Daha küçük bir fotoğraf deneyin.");
     }
-    return dataUrl;
+
+    const baseName = file.name.replace(/\.[^.]+$/, "") || "menu-item";
+    return new File([blob], `${baseName}.jpg`, { type: "image/jpeg" });
   } finally {
     URL.revokeObjectURL(objectUrl);
   }

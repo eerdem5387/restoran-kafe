@@ -2,7 +2,8 @@
 
 import { FormEvent, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import { fileToOptimizedDataUrl } from "@/lib/image";
+import { Switch } from "@/components/admin/Switch";
+import { fileToOptimizedJpeg } from "@/lib/image";
 import type { Category, MenuItem } from "@/lib/types";
 import { formatPrice } from "@/lib/types";
 
@@ -11,7 +12,6 @@ type FormState = {
   description: string;
   price: string;
   categoryId: string;
-  tags: string;
   featured: boolean;
   available: boolean;
   image: string;
@@ -32,7 +32,6 @@ export function MenuManager({
       description: "",
       price: "",
       categoryId: defaultCategoryId,
-      tags: "",
       featured: false,
       available: true,
       image: "",
@@ -57,7 +56,6 @@ export function MenuManager({
       description: item.description,
       price: String(item.price),
       categoryId: item.categoryId,
-      tags: item.tags.join(", "),
       featured: item.featured,
       available: item.available,
       image: item.image ?? "",
@@ -71,18 +69,42 @@ export function MenuManager({
     setError("");
   }
 
+  async function removeBlobIfNeeded(url: string) {
+    if (!url.includes("blob.vercel-storage.com")) return;
+    await fetch("/api/upload", {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ url }),
+    }).catch(() => undefined);
+  }
+
   async function handleImageChange(file: File | null) {
     if (!file) return;
     setUploading(true);
     setError("");
     try {
-      const dataUrl = await fileToOptimizedDataUrl(file);
-      setForm((prev) => ({ ...prev, image: dataUrl }));
+      const optimized = await fileToOptimizedJpeg(file);
+      const body = new FormData();
+      body.append("file", optimized);
+
+      const res = await fetch("/api/upload", { method: "POST", body });
+      const data = (await res.json().catch(() => ({}))) as { url?: string; error?: string };
+      if (!res.ok || !data.url) {
+        throw new Error(data.error || "Görsel yüklenemedi.");
+      }
+
+      if (form.image) await removeBlobIfNeeded(form.image);
+      setForm((prev) => ({ ...prev, image: data.url! }));
     } catch (err) {
       setError(err instanceof Error ? err.message : "Görsel yüklenemedi.");
     } finally {
       setUploading(false);
     }
+  }
+
+  async function clearImage() {
+    if (form.image) await removeBlobIfNeeded(form.image);
+    setForm({ ...form, image: "" });
   }
 
   async function handleSubmit(e: FormEvent) {
@@ -99,10 +121,7 @@ export function MenuManager({
       description: form.description,
       price: Number(form.price),
       categoryId: form.categoryId,
-      tags: form.tags
-        .split(",")
-        .map((t) => t.trim())
-        .filter(Boolean),
+      tags: [] as string[],
       featured: form.featured,
       available: form.available,
       image: form.image || null,
@@ -135,8 +154,10 @@ export function MenuManager({
   async function handleDelete(id: string) {
     if (!confirm("Bu menü ürününü silmek istiyor musunuz?")) return;
     setError("");
+    const item = items.find((i) => i.id === id);
     const res = await fetch(`/api/menu/${id}`, { method: "DELETE" });
     if (res.ok) {
+      if (item?.image) await removeBlobIfNeeded(item.image);
       setItems((prev) => prev.filter((i) => i.id !== id));
       if (editingId === id) resetForm();
       router.refresh();
@@ -227,7 +248,9 @@ export function MenuManager({
               onChange={(e) => handleImageChange(e.target.files?.[0] ?? null)}
               className="block w-full text-sm text-on-surface-variant file:mr-3 file:rounded file:border-0 file:bg-primary-container file:px-3 file:py-2 file:text-xs file:font-semibold file:uppercase file:tracking-wider file:text-on-primary"
             />
-            {uploading && <p className="mt-2 text-xs text-on-surface-variant">Görsel hazırlanıyor…</p>}
+            {uploading && (
+              <p className="mt-2 text-xs text-on-surface-variant">Vercel Blob&apos;a yükleniyor…</p>
+            )}
             {form.image && (
               <div className="mt-3 flex items-start gap-3">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -238,7 +261,7 @@ export function MenuManager({
                 />
                 <button
                   type="button"
-                  onClick={() => setForm({ ...form, image: "" })}
+                  onClick={clearImage}
                   className="text-xs font-semibold uppercase tracking-wider text-red-700"
                 >
                   Görseli kaldır
@@ -246,34 +269,17 @@ export function MenuManager({
               </div>
             )}
           </div>
-          <div>
-            <label className="mb-1 block text-xs font-semibold uppercase tracking-wider text-on-surface-variant">
-              Etiketler (virgülle ayırın)
-            </label>
-            <input
-              value={form.tags}
-              onChange={(e) => setForm({ ...form, tags: e.target.value })}
-              placeholder="Vejetaryen, Glutensiz"
-              className="form-input-ledger min-h-11 text-base"
+          <div className="space-y-3 pt-1">
+            <Switch
+              label="Öne çıkan"
+              checked={form.featured}
+              onChange={(featured) => setForm({ ...form, featured })}
             />
-          </div>
-          <div className="flex flex-wrap gap-4 pt-2 sm:gap-6">
-            <label className="flex min-h-11 items-center gap-2 text-sm text-on-surface-variant">
-              <input
-                type="checkbox"
-                checked={form.featured}
-                onChange={(e) => setForm({ ...form, featured: e.target.checked })}
-              />
-              Öne çıkan
-            </label>
-            <label className="flex min-h-11 items-center gap-2 text-sm text-on-surface-variant">
-              <input
-                type="checkbox"
-                checked={form.available}
-                onChange={(e) => setForm({ ...form, available: e.target.checked })}
-              />
-              Mevcut
-            </label>
+            <Switch
+              label="Ürün durumu"
+              checked={form.available}
+              onChange={(available) => setForm({ ...form, available })}
+            />
           </div>
           {error && <p className="text-sm text-red-700">{error}</p>}
           <div className="flex flex-col gap-3 pt-4 sm:flex-row">
@@ -325,11 +331,15 @@ export function MenuManager({
                 <div className="min-w-0">
                   <div className="flex flex-wrap items-center gap-2">
                     <h3 className="font-display text-lg text-primary sm:text-xl">{item.name}</h3>
-                    {!item.available && (
-                      <span className="rounded bg-red-100 px-2 py-0.5 text-[10px] font-semibold uppercase text-red-800">
-                        Yok
-                      </span>
-                    )}
+                    <span
+                      className={`rounded px-2 py-0.5 text-[10px] font-semibold uppercase ${
+                        item.available
+                          ? "bg-emerald-100 text-emerald-900"
+                          : "bg-stone-200 text-stone-700"
+                      }`}
+                    >
+                      {item.available ? "Aktif" : "Pasif"}
+                    </span>
                     {item.featured && (
                       <span className="rounded bg-secondary-container/40 px-2 py-0.5 text-[10px] font-semibold uppercase text-primary">
                         Öne çıkan
