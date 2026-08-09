@@ -98,7 +98,7 @@ export async function createMenuItemLocal(input: CreateMenuItemInput): Promise<M
   const item: MenuItem = {
     id: crypto.randomUUID(),
     name: input.name,
-    description: input.description,
+    description: input.description ?? "",
     price: input.price,
     categoryId: input.categoryId,
     categoryName: category.name,
