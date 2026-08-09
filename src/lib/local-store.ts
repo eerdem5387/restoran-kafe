@@ -68,8 +68,33 @@ export async function deleteCategoryLocal(id: string): Promise<boolean> {
   const categories = await getCategoriesLocal();
   const filtered = categories.filter((c) => c.id !== id);
   if (filtered.length === categories.length) return false;
-  await writeJson(CATEGORIES_FILE, filtered);
+  const reindexed = filtered
+    .sort((a, b) => a.sortOrder - b.sortOrder)
+    .map((c, index) => ({ ...c, sortOrder: index }));
+  await writeJson(CATEGORIES_FILE, reindexed);
   return true;
+}
+
+export async function reorderCategoriesLocal(orderedIds: string[]): Promise<Category[]> {
+  const categories = await getCategoriesLocal();
+  const byId = new Map(categories.map((c) => [c.id, c]));
+  const reordered: Category[] = [];
+
+  orderedIds.forEach((id, index) => {
+    const category = byId.get(id);
+    if (category) {
+      reordered.push({ ...category, sortOrder: index });
+      byId.delete(id);
+    }
+  });
+
+  // Keep any leftover categories at the end
+  for (const leftover of byId.values()) {
+    reordered.push({ ...leftover, sortOrder: reordered.length });
+  }
+
+  await writeJson(CATEGORIES_FILE, reordered);
+  return reordered;
 }
 
 export async function getMenuItemsLocal(): Promise<MenuItem[]> {

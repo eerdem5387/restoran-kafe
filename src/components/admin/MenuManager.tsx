@@ -14,7 +14,6 @@ type FormState = {
   tags: string[];
   price: string;
   categoryId: string;
-  featured: boolean;
   available: boolean;
   image: string;
 };
@@ -34,7 +33,6 @@ export function MenuManager({
       tags: [],
       price: "",
       categoryId: defaultCategoryId,
-      featured: false,
       available: true,
       image: "",
     }),
@@ -58,7 +56,6 @@ export function MenuManager({
       tags: item.tags ?? [],
       price: String(item.price),
       categoryId: item.categoryId,
-      featured: item.featured,
       available: item.available,
       image: item.image ?? "",
     });
@@ -124,7 +121,7 @@ export function MenuManager({
       price: Number(form.price),
       categoryId: form.categoryId,
       tags: form.tags,
-      featured: form.featured,
+      featured: false,
       available: form.available,
       image: form.image || null,
     };
@@ -267,11 +264,6 @@ export function MenuManager({
           </div>
           <div className="space-y-3 pt-1">
             <Switch
-              label="Öne çıkan"
-              checked={form.featured}
-              onChange={(featured) => setForm({ ...form, featured })}
-            />
-            <Switch
               label="Ürün durumu"
               checked={form.available}
               onChange={(available) => setForm({ ...form, available })}
@@ -336,11 +328,6 @@ export function MenuManager({
                     >
                       {item.available ? "Aktif" : "Pasif"}
                     </span>
-                    {item.featured && (
-                      <span className="rounded bg-secondary-container/40 px-2 py-0.5 text-[10px] font-semibold uppercase text-primary">
-                        Öne çıkan
-                      </span>
-                    )}
                   </div>
                   <MenuTags tags={item.tags} className="mt-2" />
                   <p className="mt-2 text-xs uppercase tracking-wider text-secondary">

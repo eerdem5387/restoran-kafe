@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { AdminShell, requireAdmin } from "@/components/admin/AdminShell";
-import { getMenuItems, getReservations } from "@/lib/data";
-import { STATUS_LABELS } from "@/lib/types";
+import { getCategories, getMenuItems, getReservations } from "@/lib/data";
+import { STATUS_LABELS, formatPrice } from "@/lib/types";
 
 export const metadata: Metadata = {
   title: "Yönetim Paneli",
@@ -10,7 +10,11 @@ export const metadata: Metadata = {
 
 export default async function AdminDashboardPage() {
   await requireAdmin();
-  const [menu, reservations] = await Promise.all([getMenuItems(), getReservations()]);
+  const [menu, reservations, categories] = await Promise.all([
+    getMenuItems(),
+    getReservations(),
+    getCategories(),
+  ]);
 
   const pending = reservations.filter((r) => r.status === "pending").length;
   const confirmed = reservations.filter((r) => r.status === "confirmed").length;
@@ -27,10 +31,10 @@ export default async function AdminDashboardPage() {
 
       <div className="mb-8 grid grid-cols-2 gap-3 sm:mb-10 sm:gap-4 lg:grid-cols-4">
         {[
+          { label: "Kategori", value: categories.length, href: "/admin/categories" },
           { label: "Menü Ürünü", value: menu.length, href: "/admin/menu" },
-          { label: "Mevcut", value: available, href: "/admin/menu" },
+          { label: "Aktif", value: available, href: "/admin/menu" },
           { label: "Bekleyen", value: pending, href: "/admin/reservations" },
-          { label: "Onaylı", value: confirmed, href: "/admin/reservations" },
         ].map((stat) => (
           <Link
             key={stat.label}
@@ -76,11 +80,12 @@ export default async function AdminDashboardPage() {
               <li className="py-6 text-center text-on-surface-variant">Henüz rezervasyon yok.</li>
             )}
           </ul>
+          <p className="mt-3 text-xs text-on-surface-variant">Onaylı: {confirmed}</p>
         </div>
 
         <div className="soft-shadow rounded-lg bg-surface-container-lowest p-4 sm:p-6">
           <div className="mb-4 flex items-center justify-between gap-3">
-            <h2 className="font-display text-xl text-primary sm:text-2xl">Öne Çıkan Menü</h2>
+            <h2 className="font-display text-xl text-primary sm:text-2xl">Son Ürünler</h2>
             <Link
               href="/admin/menu"
               className="shrink-0 text-xs font-semibold uppercase tracking-wider text-secondary hover:text-primary"
@@ -89,20 +94,23 @@ export default async function AdminDashboardPage() {
             </Link>
           </div>
           <ul className="divide-y divide-outline-variant/20">
-            {menu
-              .filter((m) => m.featured)
-              .slice(0, 5)
-              .map((m) => (
-                <li key={m.id} className="flex items-center justify-between gap-3 py-3">
-                  <div className="min-w-0">
-                    <p className="truncate font-medium text-primary">{m.name}</p>
-                    <p className="line-clamp-1 text-sm text-on-surface-variant">{m.description}</p>
-                  </div>
-                  <span className="shrink-0 text-sm font-semibold text-primary">
-                    {m.price.toFixed(0)} ₺
-                  </span>
-                </li>
-              ))}
+            {menu.slice(0, 5).map((m) => (
+              <li key={m.id} className="flex items-center justify-between gap-3 py-3">
+                <div className="min-w-0">
+                  <p className="truncate font-medium text-primary">{m.name}</p>
+                  <p className="line-clamp-1 text-sm text-on-surface-variant">
+                    {m.categoryName || "Kategori"}
+                    {m.tags.length ? ` · ${m.tags.slice(0, 2).join(", ")}` : ""}
+                  </p>
+                </div>
+                <span className="shrink-0 text-sm font-semibold text-primary">
+                  {formatPrice(m.price)}
+                </span>
+              </li>
+            ))}
+            {menu.length === 0 && (
+              <li className="py-6 text-center text-on-surface-variant">Henüz menü ürünü yok.</li>
+            )}
           </ul>
         </div>
       </div>

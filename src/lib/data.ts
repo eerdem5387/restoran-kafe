@@ -15,6 +15,7 @@ import {
   getMenuItemByIdLocal,
   getMenuItemsLocal,
   getReservationsLocal,
+  reorderCategoriesLocal,
   updateCategoryLocal,
   updateMenuItemLocal,
   updateReservationStatusLocal,
@@ -142,6 +143,23 @@ export async function deleteCategory(id: string): Promise<boolean> {
   } catch {
     return false;
   }
+}
+
+export async function reorderCategories(orderedIds: string[]): Promise<Category[]> {
+  assertMutableStore();
+  if (!orderedIds.length) return getCategories();
+  if (!hasDatabaseUrl()) return reorderCategoriesLocal(orderedIds);
+
+  await getPrisma().$transaction(
+    orderedIds.map((id, index) =>
+      getPrisma().category.update({
+        where: { id },
+        data: { sortOrder: index },
+      })
+    )
+  );
+
+  return getCategories();
 }
 
 export async function getMenuItems(): Promise<MenuItem[]> {

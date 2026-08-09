@@ -11,6 +11,7 @@ export function CategoryManager({ initialCategories }: { initialCategories: Cate
   const [description, setDescription] = useState("");
   const [editingId, setEditingId] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [reordering, setReordering] = useState(false);
   const [error, setError] = useState("");
 
   function startEdit(category: Category) {
@@ -44,7 +45,7 @@ export function CategoryManager({ initialCategories }: { initialCategories: Cate
       if (editingId) {
         setCategories((prev) => prev.map((c) => (c.id === editingId ? data : c)));
       } else {
-        setCategories((prev) => [...prev, data]);
+        setCategories((prev) => [...prev, data].sort((a, b) => a.sortOrder - b.sortOrder));
       }
       resetForm();
       router.refresh();
@@ -67,6 +68,41 @@ export function CategoryManager({ initialCategories }: { initialCategories: Cate
     }
     const data = (await res.json().catch(() => ({}))) as { error?: string };
     setError(data.error || "Kategori silinemedi.");
+  }
+
+  async function moveCategory(id: string, direction: "up" | "down") {
+    const index = categories.findIndex((c) => c.id === id);
+    if (index < 0) return;
+    const target = direction === "up" ? index - 1 : index + 1;
+    if (target < 0 || target >= categories.length) return;
+
+    const next = [...categories];
+    const [item] = next.splice(index, 1);
+    next.splice(target, 0, item);
+    const orderedIds = next.map((c) => c.id);
+
+    setReordering(true);
+    setError("");
+    setCategories(next.map((c, i) => ({ ...c, sortOrder: i })));
+
+    try {
+      const res = await fetch("/api/categories/reorder", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ orderedIds }),
+      });
+      const data = (await res.json().catch(() => ({}))) as Category[] & { error?: string };
+      if (!res.ok) {
+        setCategories(categories);
+        throw new Error((data as { error?: string }).error || "Sıralama kaydedilemedi.");
+      }
+      if (Array.isArray(data)) setCategories(data);
+      router.refresh();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Sıralama kaydedilemedi.");
+    } finally {
+      setReordering(false);
+    }
   }
 
   return (
@@ -130,31 +166,57 @@ export function CategoryManager({ initialCategories }: { initialCategories: Cate
           <h2 className="font-display text-xl text-primary sm:text-2xl">
             Kategoriler ({categories.length})
           </h2>
+          <p className="mt-1 text-sm text-on-surface-variant">
+            Oklarla sitedeki menü sırasını değiştirin.
+          </p>
         </div>
         <div className="divide-y divide-outline-variant/20">
-          {categories.map((category) => (
+          {categories.map((category, index) => (
             <div
               key={category.id}
               className="flex flex-col gap-3 px-4 py-4 sm:flex-row sm:items-start sm:justify-between sm:gap-4 sm:px-6"
             >
-              <div className="min-w-0">
-                <h3 className="font-display text-lg text-primary sm:text-xl">{category.name}</h3>
-                {category.description && (
-                  <p className="mt-1 text-sm text-on-surface-variant">{category.description}</p>
-                )}
+              <div className="flex min-w-0 items-start gap-3">
+                <span className="mt-1 font-body text-[10px] font-semibold uppercase tracking-[0.18em] text-on-primary-container">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                <div className="min-w-0">
+                  <h3 className="font-display text-lg text-primary sm:text-xl">{category.name}</h3>
+                  {category.description && (
+                    <p className="mt-1 text-sm text-on-surface-variant">{category.description}</p>
+                  )}
+                </div>
               </div>
-              <div className="flex shrink-0 gap-2">
+              <div className="flex shrink-0 flex-wrap gap-2">
+                <button
+                  type="button"
+                  disabled={reordering || index === 0}
+                  onClick={() => moveCategory(category.id, "up")}
+                  className="inline-flex min-h-10 min-w-10 items-center justify-center rounded border border-outline-variant text-primary hover:bg-surface-container-low disabled:opacity-40"
+                  aria-label="Yukarı taşı"
+                >
+                  <span className="material-symbols-outlined text-lg">arrow_upward</span>
+                </button>
+                <button
+                  type="button"
+                  disabled={reordering || index === categories.length - 1}
+                  onClick={() => moveCategory(category.id, "down")}
+                  className="inline-flex min-h-10 min-w-10 items-center justify-center rounded border border-outline-variant text-primary hover:bg-surface-container-low disabled:opacity-40"
+                  aria-label="Aşağı taşı"
+                >
+                  <span className="material-symbols-outlined text-lg">arrow_downward</span>
+                </button>
                 <button
                   type="button"
                   onClick={() => startEdit(category)}
-                  className="min-h-10 flex-1 rounded border border-outline-variant px-3 py-2 text-xs font-semibold uppercase tracking-wider text-primary hover:bg-surface-container-low sm:flex-none"
+                  className="min-h-10 rounded border border-outline-variant px-3 py-2 text-xs font-semibold uppercase tracking-wider text-primary hover:bg-surface-container-low"
                 >
                   Düzenle
                 </button>
                 <button
                   type="button"
                   onClick={() => handleDelete(category.id)}
-                  className="min-h-10 flex-1 rounded border border-red-200 px-3 py-2 text-xs font-semibold uppercase tracking-wider text-red-700 hover:bg-red-50 sm:flex-none"
+                  className="min-h-10 rounded border border-red-200 px-3 py-2 text-xs font-semibold uppercase tracking-wider text-red-700 hover:bg-red-50"
                 >
                   Sil
                 </button>

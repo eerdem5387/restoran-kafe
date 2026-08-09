@@ -3,13 +3,11 @@
 import { motion } from "motion/react";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
-import { MenuItemCard } from "@/components/MenuItemCard";
 import { SignatureDivider } from "@/components/SignatureDivider";
 import { MagneticButton, UnderlineLink } from "@/components/motion/MagneticButton";
 import { KenBurnsBackground, ParallaxImage } from "@/components/motion/ParallaxImage";
-import { Reveal, Stagger } from "@/components/motion/Reveal";
+import { Reveal } from "@/components/motion/Reveal";
 import { TextReveal } from "@/components/motion/TextReveal";
-import type { MenuItem } from "@/lib/types";
 import { slideFromLeft, slideFromRight } from "@/lib/motion";
 
 const HERO_IMAGE =
@@ -18,7 +16,7 @@ const HERO_IMAGE =
 const ABOUT_IMAGE =
   "https://lh3.googleusercontent.com/aida-public/AB6AXuDvhHk6z7x00-s-BUPbi93kku5vCmU5JFrCzH7QWZAdY77_rlkHMcsSIWd3N1N9OxCSskK4E7aAKiXEXFq-0Z-yRzQ6nhjIoqavOxFhziHLhisVBQIPCRDVJcjYj36pS1Iu2nnD4UDyDBSVxMZp6DvqWow8-lC4Yfs78vAosQlsc2q1YBui794fn4cSziY1f6bA33tfc6NukpQyvQIFfbNaWCCjxnmoYdSVqOmRPAWPOIin4Ci-8ElxrjvxecWkYUF8SnsNs-ZBTw";
 
-export function HomeView({ featured }: { featured: MenuItem[] }) {
+export function HomeView() {
   return (
     <>
       <Header />
@@ -143,33 +141,6 @@ export function HomeView({ featured }: { featured: MenuItem[] }) {
                   transition={{ delay: 0.35, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
                 />
               </div>
-            </Reveal>
-          </div>
-        </section>
-
-        <section className="bg-surface-container-low py-16 md:py-section-gap">
-          <div className="mx-auto max-w-[1200px] px-margin-mobile md:px-margin-desktop">
-            <Reveal className="mb-10 flex flex-col items-center text-center sm:mb-16">
-              <span className="mb-3 font-body text-xs font-semibold uppercase tracking-widest text-on-primary-container sm:mb-4">
-                Özenle Seçilmişler
-              </span>
-              <h2 className="font-display text-[28px] font-medium text-primary sm:text-[36px] md:text-[48px]">
-                Sabah & Öğle
-              </h2>
-            </Reveal>
-            <Stagger className="grid grid-cols-1 gap-6 sm:gap-x-16 sm:gap-y-12 md:grid-cols-2">
-              {featured.map((item) => (
-                <MenuItemCard key={item.id} item={item} />
-              ))}
-            </Stagger>
-            <Reveal className="mt-10 text-center sm:mt-16">
-              <MagneticButton
-                href="/menu"
-                className="inline-flex min-h-12 w-full max-w-xs items-center justify-center gap-2 rounded border border-on-primary-container px-8 py-3 font-body text-xs font-semibold uppercase tracking-wider text-primary sm:w-auto"
-              >
-                Tüm Menüyü Gör
-                <span className="material-symbols-outlined text-sm">arrow_forward</span>
-              </MagneticButton>
             </Reveal>
           </div>
         </section>
