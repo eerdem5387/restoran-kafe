@@ -16,6 +16,8 @@ import {
   updateReservationStatusLocal,
 } from "@/lib/local-store";
 import { getPrisma, hasDatabaseUrl } from "@/lib/prisma";
+import { ensureDatabaseSeeded } from "@/lib/seed-from-json";
+import { assertMutableStore } from "@/lib/store-mode";
 import type {
   CreateMenuItemInput,
   CreateReservationInput,
@@ -70,6 +72,7 @@ function parseReservationDate(date: string): Date {
 export async function getMenuItems(): Promise<MenuItem[]> {
   if (!hasDatabaseUrl()) return getMenuItemsLocal();
 
+  await ensureDatabaseSeeded();
   const items = await getPrisma().menuItem.findMany({
     orderBy: [{ category: "asc" }, { name: "asc" }],
   });
@@ -84,6 +87,7 @@ export async function getMenuItemById(id: string): Promise<MenuItem | undefined>
 }
 
 export async function createMenuItem(input: CreateMenuItemInput): Promise<MenuItem> {
+  assertMutableStore();
   if (!hasDatabaseUrl()) return createMenuItemLocal(input);
 
   const item = await getPrisma().menuItem.create({
@@ -105,6 +109,7 @@ export async function updateMenuItem(
   id: string,
   updates: Partial<CreateMenuItemInput>
 ): Promise<MenuItem | null> {
+  assertMutableStore();
   if (!hasDatabaseUrl()) return updateMenuItemLocal(id, updates);
 
   try {
@@ -128,6 +133,7 @@ export async function updateMenuItem(
 }
 
 export async function deleteMenuItem(id: string): Promise<boolean> {
+  assertMutableStore();
   if (!hasDatabaseUrl()) return deleteMenuItemLocal(id);
 
   try {
@@ -141,6 +147,7 @@ export async function deleteMenuItem(id: string): Promise<boolean> {
 export async function getReservations(): Promise<Reservation[]> {
   if (!hasDatabaseUrl()) return getReservationsLocal();
 
+  await ensureDatabaseSeeded();
   const reservations = await getPrisma().reservation.findMany({
     orderBy: { createdAt: "desc" },
   });
@@ -150,6 +157,8 @@ export async function getReservations(): Promise<Reservation[]> {
 export async function createReservation(
   input: CreateReservationInput
 ): Promise<Reservation> {
+  // Public bookings must work; on Vercel without DB this still fails — prefer Neon.
+  assertMutableStore();
   if (!hasDatabaseUrl()) return createReservationLocal(input);
 
   const reservation = await getPrisma().reservation.create({
@@ -172,6 +181,7 @@ export async function updateReservationStatus(
   id: string,
   status: ReservationStatus
 ): Promise<Reservation | null> {
+  assertMutableStore();
   if (!hasDatabaseUrl()) return updateReservationStatusLocal(id, status);
 
   try {
@@ -186,6 +196,7 @@ export async function updateReservationStatus(
 }
 
 export async function deleteReservation(id: string): Promise<boolean> {
+  assertMutableStore();
   if (!hasDatabaseUrl()) return deleteReservationLocal(id);
 
   try {

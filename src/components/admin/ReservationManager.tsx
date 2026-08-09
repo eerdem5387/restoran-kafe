@@ -28,11 +28,13 @@ export function ReservationManager({
   const router = useRouter();
   const [reservations, setReservations] = useState(initialReservations);
   const [filter, setFilter] = useState<ReservationStatus | "all">("all");
+  const [error, setError] = useState("");
 
   const filtered =
     filter === "all" ? reservations : reservations.filter((r) => r.status === filter);
 
   async function updateStatus(id: string, status: ReservationStatus) {
+    setError("");
     const res = await fetch(`/api/reservations/${id}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
@@ -42,16 +44,23 @@ export function ReservationManager({
       const updated = (await res.json()) as Reservation;
       setReservations((prev) => prev.map((r) => (r.id === id ? updated : r)));
       router.refresh();
+      return;
     }
+    const data = (await res.json().catch(() => ({}))) as { error?: string };
+    setError(data.error || "Rezervasyon güncellenemedi.");
   }
 
   async function handleDelete(id: string) {
     if (!confirm("Bu rezervasyonu silmek istiyor musunuz?")) return;
+    setError("");
     const res = await fetch(`/api/reservations/${id}`, { method: "DELETE" });
     if (res.ok) {
       setReservations((prev) => prev.filter((r) => r.id !== id));
       router.refresh();
+      return;
     }
+    const data = (await res.json().catch(() => ({}))) as { error?: string };
+    setError(data.error || "Rezervasyon silinemedi.");
   }
 
   return (
@@ -72,6 +81,8 @@ export function ReservationManager({
           </button>
         ))}
       </div>
+
+      {error && <p className="mb-4 text-sm text-red-700">{error}</p>}
 
       {/* Mobile cards */}
       <div className="space-y-3 md:hidden">

@@ -15,7 +15,9 @@
     "description": "Madagaskar vanilyası, buharda süt ve çift shot ev espressosu.",
     "price": 145,
     "category": "coffee-tea",
-    "tags": ["Vejetaryen"],
+    "tags": [
+      "Vejetaryen"
+    ],
     "featured": false,
     "available": true
   },
@@ -25,7 +27,9 @@
     "description": "Bergamot aromalı siyah çay; yanında ılık süt ile sunulur.",
     "price": 110,
     "category": "coffee-tea",
-    "tags": ["Vegan"],
+    "tags": [
+      "Vegan"
+    ],
     "featured": false,
     "available": true
   },
@@ -35,7 +39,9 @@
     "description": "Yabani mantar, çırpılmış ricotta ve kekik; ekşi mayalı ekmek üzerinde.",
     "price": 320,
     "category": "starters",
-    "tags": ["Vejetaryen"],
+    "tags": [
+      "Vejetaryen"
+    ],
     "featured": true,
     "available": true
   },
@@ -45,7 +51,10 @@
     "description": "Arborio pirinci; siyah trüf, Parmesan ve taze otlarla yavaşça tamamlanır.",
     "price": 520,
     "category": "main-courses",
-    "tags": ["Vejetaryen", "Glutensiz"],
+    "tags": [
+      "Vejetaryen",
+      "Glutensiz"
+    ],
     "featured": true,
     "available": true
   },
@@ -55,7 +64,9 @@
     "description": "Çıtır derili ördek göğsü, kiraz gastrique ve fırınlanmış kök sebzeler.",
     "price": 680,
     "category": "main-courses",
-    "tags": ["Glutensiz"],
+    "tags": [
+      "Glutensiz"
+    ],
     "featured": false,
     "available": true
   },
@@ -75,7 +86,9 @@
     "description": "Düşük ateşte pişmiş kuzu omuz, kereviz püresi, elma-rezene salatası ve elma şarabı glaze.",
     "price": 490,
     "category": "main-courses",
-    "tags": ["Glutensiz"],
+    "tags": [
+      "Glutensiz"
+    ],
     "featured": true,
     "available": true
   },
@@ -85,7 +98,9 @@
     "description": "Karamelize kabuk, kremamsı iç; mevsim meyve kompostosu ile.",
     "price": 240,
     "category": "desserts",
-    "tags": ["Vejetaryen"],
+    "tags": [
+      "Vejetaryen"
+    ],
     "featured": true,
     "available": true
   }

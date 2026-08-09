@@ -67,18 +67,18 @@ export function MenuManager({ initialItems }: { initialItems: MenuItem[] }) {
         body: JSON.stringify(payload),
       });
 
-      if (!res.ok) throw new Error("Request failed");
-      const saved = (await res.json()) as MenuItem;
+      const data = (await res.json().catch(() => ({}))) as MenuItem & { error?: string };
+      if (!res.ok) throw new Error(data.error || "Ürün kaydedilemedi.");
 
       if (editingId) {
-        setItems((prev) => prev.map((i) => (i.id === editingId ? saved : i)));
+        setItems((prev) => prev.map((i) => (i.id === editingId ? data : i)));
       } else {
-        setItems((prev) => [...prev, saved]);
+        setItems((prev) => [...prev, data]);
       }
       resetForm();
       router.refresh();
-    } catch {
-      setError("Ürün kaydedilemedi.");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Ürün kaydedilemedi.");
     } finally {
       setLoading(false);
     }
@@ -86,12 +86,16 @@ export function MenuManager({ initialItems }: { initialItems: MenuItem[] }) {
 
   async function handleDelete(id: string) {
     if (!confirm("Bu menü ürününü silmek istiyor musunuz?")) return;
+    setError("");
     const res = await fetch(`/api/menu/${id}`, { method: "DELETE" });
     if (res.ok) {
       setItems((prev) => prev.filter((i) => i.id !== id));
       if (editingId === id) resetForm();
       router.refresh();
+      return;
     }
+    const data = (await res.json().catch(() => ({}))) as { error?: string };
+    setError(data.error || "Ürün silinemedi.");
   }
 
   return (

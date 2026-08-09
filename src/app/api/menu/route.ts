@@ -3,9 +3,21 @@ import { isAuthenticated } from "@/lib/auth";
 import { createMenuItem, getMenuItems } from "@/lib/data";
 import type { CreateMenuItemInput } from "@/lib/types";
 
+function errorMessage(error: unknown, fallback: string) {
+  return error instanceof Error && error.message ? error.message : fallback;
+}
+
 export async function GET() {
-  const items = await getMenuItems();
-  return NextResponse.json(items);
+  try {
+    const items = await getMenuItems();
+    return NextResponse.json(items);
+  } catch (error) {
+    console.error("[api/menu GET]", error);
+    return NextResponse.json(
+      { error: errorMessage(error, "Menü yüklenemedi.") },
+      { status: 500 }
+    );
+  }
 }
 
 export async function POST(request: Request) {
@@ -16,11 +28,15 @@ export async function POST(request: Request) {
   try {
     const body = (await request.json()) as CreateMenuItemInput;
     if (!body.name || !body.description || body.price == null || !body.category) {
-      return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
+      return NextResponse.json({ error: "Eksik alanlar var." }, { status: 400 });
     }
     const item = await createMenuItem(body);
     return NextResponse.json(item, { status: 201 });
-  } catch {
-    return NextResponse.json({ error: "Failed to create menu item" }, { status: 500 });
+  } catch (error) {
+    console.error("[api/menu POST]", error);
+    return NextResponse.json(
+      { error: errorMessage(error, "Ürün eklenemedi.") },
+      { status: 500 }
+    );
   }
 }
