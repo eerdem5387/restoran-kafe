@@ -45,9 +45,17 @@ export function MenuManager({
   const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState("");
+  const [filterCategoryId, setFilterCategoryId] = useState<string>(
+    categories[0]?.id ?? "all"
+  );
 
   const categoryName = (id: string) =>
     categories.find((c) => c.id === id)?.name || "Kategori yok";
+
+  const filteredItems =
+    filterCategoryId === "all"
+      ? items
+      : items.filter((item) => item.categoryId === filterCategoryId);
 
   function startEdit(item: MenuItem) {
     setEditingId(item.id);
@@ -294,11 +302,42 @@ export function MenuManager({
       <div className="soft-shadow overflow-hidden rounded-lg bg-surface-container-lowest lg:col-span-3">
         <div className="border-b border-outline-variant/30 px-4 py-4 sm:px-6">
           <h2 className="font-display text-xl text-primary sm:text-2xl">
-            Menü Ürünleri ({items.length})
+            Menü Ürünleri ({filteredItems.length}
+            {filterCategoryId !== "all" ? ` / ${items.length}` : ""})
           </h2>
+          <div className="-mx-1 mt-4 flex gap-2 overflow-x-auto px-1 pb-1">
+            <button
+              type="button"
+              onClick={() => setFilterCategoryId("all")}
+              className={`min-h-10 shrink-0 rounded px-4 py-2 text-xs font-semibold uppercase tracking-wider transition-colors ${
+                filterCategoryId === "all"
+                  ? "bg-primary-container text-on-primary"
+                  : "bg-surface-container-low text-on-surface-variant hover:text-primary"
+              }`}
+            >
+              Tümü ({items.length})
+            </button>
+            {categories.map((cat) => {
+              const count = items.filter((i) => i.categoryId === cat.id).length;
+              return (
+                <button
+                  key={cat.id}
+                  type="button"
+                  onClick={() => setFilterCategoryId(cat.id)}
+                  className={`min-h-10 shrink-0 rounded px-4 py-2 text-xs font-semibold uppercase tracking-wider transition-colors ${
+                    filterCategoryId === cat.id
+                      ? "bg-primary-container text-on-primary"
+                      : "bg-surface-container-low text-on-surface-variant hover:text-primary"
+                  }`}
+                >
+                  {cat.name} ({count})
+                </button>
+              );
+            })}
+          </div>
         </div>
         <div className="divide-y divide-outline-variant/20">
-          {items.map((item) => (
+          {filteredItems.map((item) => (
             <div
               key={item.id}
               className="flex flex-col gap-3 px-4 py-4 sm:flex-row sm:items-start sm:justify-between sm:gap-4 sm:px-6"
@@ -354,8 +393,12 @@ export function MenuManager({
               </div>
             </div>
           ))}
-          {items.length === 0 && (
-            <p className="px-6 py-8 text-center text-on-surface-variant">Henüz menü ürünü yok.</p>
+          {filteredItems.length === 0 && (
+            <p className="px-6 py-8 text-center text-on-surface-variant">
+              {items.length === 0
+                ? "Henüz menü ürünü yok."
+                : "Bu kategoride ürün yok."}
+            </p>
           )}
         </div>
       </div>
