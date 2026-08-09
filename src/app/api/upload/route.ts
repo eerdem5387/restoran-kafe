@@ -6,16 +6,21 @@ function errorMessage(error: unknown, fallback: string) {
   return error instanceof Error && error.message ? error.message : fallback;
 }
 
+/** OIDC (BLOB_STORE_ID on Vercel) or legacy BLOB_READ_WRITE_TOKEN */
+function hasBlobCredentials(): boolean {
+  return Boolean(process.env.BLOB_STORE_ID || process.env.BLOB_READ_WRITE_TOKEN);
+}
+
 export async function POST(request: Request) {
   if (!(await isAuthenticated())) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  if (!process.env.BLOB_READ_WRITE_TOKEN) {
+  if (!hasBlobCredentials()) {
     return NextResponse.json(
       {
         error:
-          "BLOB_READ_WRITE_TOKEN tanımlı değil. Vercel Blob store oluşturup token'ı Environment Variables'a ekleyin.",
+          "Blob yapılandırması eksik. Vercel'de Blob store bağlı olmalı (BLOB_STORE_ID). Yerel için vercel env pull veya BLOB_READ_WRITE_TOKEN ekleyin.",
       },
       { status: 503 }
     );
@@ -59,13 +64,16 @@ export async function DELETE(request: Request) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  if (!process.env.BLOB_READ_WRITE_TOKEN) {
+  if (!hasBlobCredentials()) {
     return NextResponse.json({ success: true });
   }
 
   try {
     const body = (await request.json()) as { url?: string };
-    if (!body.url || !body.url.includes("blob.vercel-storage.com")) {
+    if (
+      !body.url ||
+      (!body.url.includes("blob.vercel-storage.com") && !body.url.includes("public.blob.vercel-storage.com"))
+    ) {
       return NextResponse.json({ success: true });
     }
     await del(body.url);
