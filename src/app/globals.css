@@ -117,14 +117,6 @@ video {
   box-shadow: 0 4px 20px rgba(75, 54, 33, 0.05);
 }
 
-.menu-leader {
-  border-bottom: 1px dotted rgba(194, 163, 130, 0.5);
-  flex-grow: 1;
-  margin: 0 16px;
-  position: relative;
-  top: -6px;
-}
-
 .form-input-ledger {
   border: none;
   border-bottom: 1px solid rgba(194, 163, 130, 0.3);

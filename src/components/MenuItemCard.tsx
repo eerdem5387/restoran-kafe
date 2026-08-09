@@ -6,18 +6,6 @@ import type { MenuItem } from "@/lib/types";
 import { formatPrice } from "@/lib/types";
 import { fadeUp } from "@/lib/motion";
 
-function LeaderLine() {
-  return (
-    <motion.div
-      className="menu-leader origin-left hidden min-w-[2rem] sm:block"
-      initial={{ scaleX: 0, opacity: 0 }}
-      whileInView={{ scaleX: 1, opacity: 1 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: 0.15 }}
-    />
-  );
-}
-
 export function MenuItemCard({ item }: { item: MenuItem }) {
   return (
     <motion.div
@@ -30,20 +18,13 @@ export function MenuItemCard({ item }: { item: MenuItem }) {
         <img src={item.image} alt={item.name} className="h-44 w-full object-cover sm:h-52" />
       )}
       <div className="flex flex-1 flex-col p-4 sm:p-6">
-        <div className="mb-1 flex flex-wrap items-baseline justify-between gap-x-2 gap-y-1 sm:flex-nowrap">
+        <div className="mb-1 flex flex-wrap items-baseline gap-x-3 gap-y-1">
           <h3 className="font-display text-[24px] font-medium leading-tight text-primary transition-colors group-hover:text-primary-container sm:text-[28px] md:text-[32px] md:leading-10">
             {item.name}
           </h3>
-          <LeaderLine />
-          <motion.span
-            className="shrink-0 font-body text-xs font-semibold tracking-wider text-primary"
-            initial={{ opacity: 0, x: 8 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.35, duration: 0.5 }}
-          >
+          <span className="font-display text-[22px] font-medium tracking-wide text-primary sm:text-[26px] md:text-[28px]">
             {formatPrice(item.price)}
-          </motion.span>
+          </span>
         </div>
         <MenuTags tags={item.tags} />
       </div>
@@ -53,7 +34,7 @@ export function MenuItemCard({ item }: { item: MenuItem }) {
 
 export function MenuItemRow({ item, light = false }: { item: MenuItem; light?: boolean }) {
   const titleColor = light ? "text-inverse-on-surface" : "text-primary";
-  const priceColor = light ? "text-inverse-on-surface" : "text-primary";
+  const priceColor = light ? "text-on-primary-container" : "text-primary";
 
   return (
     <motion.div
@@ -70,14 +51,15 @@ export function MenuItemRow({ item, light = false }: { item: MenuItem; light?: b
         />
       )}
       <div className="min-w-0 flex-1">
-        <div className="flex w-full flex-wrap items-baseline gap-x-2 gap-y-1 sm:flex-nowrap">
+        <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
           <h3
             className={`font-display text-[24px] font-medium leading-tight transition-colors group-hover:text-primary-container sm:text-[28px] md:text-[32px] md:leading-10 ${titleColor}`}
           >
             {item.name}
           </h3>
-          <LeaderLine />
-          <span className={`shrink-0 font-body text-xs font-semibold tracking-wider ${priceColor}`}>
+          <span
+            className={`font-display text-[22px] font-medium tracking-wide sm:text-[26px] md:text-[28px] ${priceColor}`}
+          >
             {formatPrice(item.price)}
           </span>
         </div>
