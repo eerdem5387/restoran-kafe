@@ -1,6 +1,8 @@
 import { promises as fs } from "fs";
 import path from "path";
 import type {
+  Category,
+  CreateCategoryInput,
   CreateMenuItemInput,
   CreateReservationInput,
   MenuItem,
@@ -10,6 +12,7 @@ import type {
 
 const DATA_DIR = path.join(process.cwd(), "data");
 const MENU_FILE = path.join(DATA_DIR, "menu.json");
+const CATEGORIES_FILE = path.join(DATA_DIR, "categories.json");
 const RESERVATIONS_FILE = path.join(DATA_DIR, "reservations.json");
 
 async function readJson<T>(filePath: string): Promise<T> {
@@ -22,8 +25,63 @@ async function writeJson<T>(filePath: string, data: T): Promise<void> {
   await fs.writeFile(filePath, JSON.stringify(data, null, 2), "utf-8");
 }
 
+export async function getCategoriesLocal(): Promise<Category[]> {
+  const categories = await readJson<Category[]>(CATEGORIES_FILE);
+  return categories.sort((a, b) => a.sortOrder - b.sortOrder || a.name.localeCompare(b.name));
+}
+
+export async function createCategoryLocal(input: CreateCategoryInput): Promise<Category> {
+  const categories = await getCategoriesLocal();
+  const category: Category = {
+    id: crypto.randomUUID(),
+    name: input.name.trim(),
+    description: (input.description ?? "").trim(),
+    sortOrder: input.sortOrder ?? categories.length,
+  };
+  categories.push(category);
+  await writeJson(CATEGORIES_FILE, categories);
+  return category;
+}
+
+export async function updateCategoryLocal(
+  id: string,
+  updates: Partial<CreateCategoryInput>
+): Promise<Category | null> {
+  const categories = await getCategoriesLocal();
+  const index = categories.findIndex((c) => c.id === id);
+  if (index === -1) return null;
+  categories[index] = {
+    ...categories[index],
+    ...(updates.name !== undefined && { name: updates.name.trim() }),
+    ...(updates.description !== undefined && { description: updates.description.trim() }),
+    ...(updates.sortOrder !== undefined && { sortOrder: updates.sortOrder }),
+  };
+  await writeJson(CATEGORIES_FILE, categories);
+  return categories[index];
+}
+
+export async function deleteCategoryLocal(id: string): Promise<boolean> {
+  const items = await getMenuItemsLocal();
+  if (items.some((item) => item.categoryId === id)) {
+    throw new Error("Bu kategoride ürün var. Önce ürünleri silin veya taşıyın.");
+  }
+  const categories = await getCategoriesLocal();
+  const filtered = categories.filter((c) => c.id !== id);
+  if (filtered.length === categories.length) return false;
+  await writeJson(CATEGORIES_FILE, filtered);
+  return true;
+}
+
 export async function getMenuItemsLocal(): Promise<MenuItem[]> {
-  return readJson<MenuItem[]>(MENU_FILE);
+  const [items, categories] = await Promise.all([
+    readJson<MenuItem[]>(MENU_FILE),
+    getCategoriesLocal(),
+  ]);
+  const names = new Map(categories.map((c) => [c.id, c.name]));
+  return items.map((item) => ({
+    ...item,
+    categoryName: names.get(item.categoryId),
+  }));
 }
 
 export async function getMenuItemByIdLocal(id: string): Promise<MenuItem | undefined> {
@@ -32,20 +90,28 @@ export async function getMenuItemByIdLocal(id: string): Promise<MenuItem | undef
 }
 
 export async function createMenuItemLocal(input: CreateMenuItemInput): Promise<MenuItem> {
-  const items = await getMenuItemsLocal();
+  const items = await readJson<MenuItem[]>(MENU_FILE);
+  const categories = await getCategoriesLocal();
+  const category = categories.find((c) => c.id === input.categoryId);
+  if (!category) throw new Error("Kategori bulunamadı.");
+
   const item: MenuItem = {
     id: crypto.randomUUID(),
     name: input.name,
     description: input.description,
     price: input.price,
-    category: input.category,
+    categoryId: input.categoryId,
+    categoryName: category.name,
     tags: input.tags ?? [],
     featured: input.featured ?? false,
     available: input.available ?? true,
-    image: input.image,
+    image: input.image ?? undefined,
   };
   items.push(item);
-  await writeJson(MENU_FILE, items);
+  await writeJson(
+    MENU_FILE,
+    items.map(({ categoryName: _, ...rest }) => rest)
+  );
   return item;
 }
 
@@ -53,21 +119,32 @@ export async function updateMenuItemLocal(
   id: string,
   updates: Partial<CreateMenuItemInput>
 ): Promise<MenuItem | null> {
-  const items = await getMenuItemsLocal();
+  const items = await readJson<MenuItem[]>(MENU_FILE);
   const index = items.findIndex((item) => item.id === id);
   if (index === -1) return null;
+
+  if (updates.categoryId) {
+    const categories = await getCategoriesLocal();
+    if (!categories.some((c) => c.id === updates.categoryId)) {
+      throw new Error("Kategori bulunamadı.");
+    }
+  }
 
   items[index] = {
     ...items[index],
     ...updates,
     tags: updates.tags ?? items[index].tags,
+    image: updates.image === null ? undefined : (updates.image ?? items[index].image),
   };
   await writeJson(MENU_FILE, items);
-  return items[index];
+
+  const categories = await getCategoriesLocal();
+  const categoryName = categories.find((c) => c.id === items[index].categoryId)?.name;
+  return { ...items[index], categoryName };
 }
 
 export async function deleteMenuItemLocal(id: string): Promise<boolean> {
-  const items = await getMenuItemsLocal();
+  const items = await readJson<MenuItem[]>(MENU_FILE);
   const filtered = items.filter((item) => item.id !== id);
   if (filtered.length === items.length) return false;
   await writeJson(MENU_FILE, filtered);

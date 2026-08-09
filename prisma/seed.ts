@@ -1,6 +1,8 @@
 import "dotenv/config";
 import { PrismaNeon } from "@prisma/adapter-neon";
-import { PrismaClient, type MenuCategory, type ReservationStatus } from "../src/generated/prisma";
+import { PrismaClient, type ReservationStatus } from "../src/generated/prisma";
+import categories from "../data/categories.json";
+import menu from "../data/menu.json";
 
 const connectionString = process.env.DATABASE_URL;
 
@@ -10,100 +12,6 @@ if (!connectionString) {
 
 const adapter = new PrismaNeon({ connectionString });
 const prisma = new PrismaClient({ adapter });
-
-const menuSeed: Array<{
-  name: string;
-  description: string;
-  price: number;
-  category: MenuCategory;
-  tags: string[];
-  featured: boolean;
-  available: boolean;
-}> = [
-  {
-    name: "L'Arôme Espresso",
-    description:
-      "Özel ev karışımımız. Koyu kakao, kavrulmuş fındık ve siyah kiraz notaları.",
-    price: 95,
-    category: "coffee_tea",
-    tags: [],
-    featured: true,
-    available: true,
-  },
-  {
-    name: "Madagaskar Vanilyalı Latte",
-    description: "Madagaskar vanilyası, buharda süt ve çift shot ev espressosu.",
-    price: 145,
-    category: "coffee_tea",
-    tags: ["Vejetaryen"],
-    featured: false,
-    available: true,
-  },
-  {
-    name: "Earl Grey Reserve",
-    description: "Bergamot aromalı siyah çay; yanında ılık süt ile sunulur.",
-    price: 110,
-    category: "coffee_tea",
-    tags: ["Vegan"],
-    featured: false,
-    available: true,
-  },
-  {
-    name: "Trüflü Mantar Tartine",
-    description: "Yabani mantar, çırpılmış ricotta ve kekik; ekşi mayalı ekmek üzerinde.",
-    price: 320,
-    category: "starters",
-    tags: ["Vejetaryen"],
-    featured: true,
-    available: true,
-  },
-  {
-    name: "Trüflü Mantar Risotto",
-    description: "Arborio pirinci; siyah trüf, Parmesan ve taze otlarla yavaşça tamamlanır.",
-    price: 520,
-    category: "main_courses",
-    tags: ["Vejetaryen", "Glutensiz"],
-    featured: true,
-    available: true,
-  },
-  {
-    name: "Mühürlenmiş Ördek Göğsü",
-    description: "Çıtır derili ördek göğsü, kiraz gastrique ve fırınlanmış kök sebzeler.",
-    price: 680,
-    category: "main_courses",
-    tags: ["Glutensiz"],
-    featured: false,
-    available: true,
-  },
-  {
-    name: "Bistro Steak Frites",
-    description: "Izgara hanger steak, el kesimi patates kızartması, biberli tereyağı ve salata.",
-    price: 720,
-    category: "main_courses",
-    tags: [],
-    featured: false,
-    available: true,
-  },
-  {
-    name: "Yavaş Pişmiş Kuzu Omuz",
-    description:
-      "Düşük ateşte pişmiş kuzu omuz, kereviz püresi, elma-rezene salatası ve elma şarabı glaze.",
-    price: 490,
-    category: "main_courses",
-    tags: ["Glutensiz"],
-    featured: true,
-    available: true,
-  },
-  {
-    name: "Yanık Basque Cheesecake",
-    description: "Karamelize kabuk, kremamsı iç; mevsim meyve kompostosu ile.",
-    price: 240,
-    category: "desserts",
-    tags: ["Vejetaryen"],
-    featured: true,
-    available: true,
-  },
-];
 
 const reservationSeed: Array<{
   firstName: string;
@@ -155,12 +63,33 @@ const reservationSeed: Array<{
 ];
 
 async function main() {
-  console.log("L'Arôme Bistro veritabanı seed ediliyor...");
+  console.log("Berray's veritabanı seed ediliyor...");
 
   await prisma.reservation.deleteMany();
   await prisma.menuItem.deleteMany();
+  await prisma.category.deleteMany();
 
-  await prisma.menuItem.createMany({ data: menuSeed });
+  await prisma.category.createMany({
+    data: categories.map((c) => ({
+      id: c.id,
+      name: c.name,
+      description: c.description,
+      sortOrder: c.sortOrder,
+    })),
+  });
+
+  await prisma.menuItem.createMany({
+    data: menu.map((item) => ({
+      name: item.name,
+      description: item.description,
+      price: item.price,
+      categoryId: item.categoryId,
+      tags: item.tags ?? [],
+      featured: item.featured ?? false,
+      available: item.available ?? true,
+      image: "image" in item ? (item.image as string | null) : null,
+    })),
+  });
 
   for (const reservation of reservationSeed) {
     await prisma.reservation.create({
@@ -179,9 +108,12 @@ async function main() {
     });
   }
 
+  const categoryCount = await prisma.category.count();
   const menuCount = await prisma.menuItem.count();
   const reservationCount = await prisma.reservation.count();
-  console.log(`${menuCount} menü ürünü ve ${reservationCount} rezervasyon eklendi.`);
+  console.log(
+    `${categoryCount} kategori, ${menuCount} menü ürünü ve ${reservationCount} rezervasyon eklendi.`
+  );
 }
 
 main()

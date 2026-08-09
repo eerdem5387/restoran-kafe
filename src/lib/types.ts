@@ -1,11 +1,17 @@
-export type MenuCategory = "coffee-tea" | "main-courses" | "desserts" | "starters";
+export interface Category {
+  id: string;
+  name: string;
+  description: string;
+  sortOrder: number;
+}
 
 export interface MenuItem {
   id: string;
   name: string;
   description: string;
   price: number;
-  category: MenuCategory;
+  categoryId: string;
+  categoryName?: string;
   tags: string[];
   featured: boolean;
   available: boolean;
@@ -39,23 +45,22 @@ export interface CreateReservationInput {
   specialRequests?: string;
 }
 
+export interface CreateCategoryInput {
+  name: string;
+  description?: string;
+  sortOrder?: number;
+}
+
 export interface CreateMenuItemInput {
   name: string;
   description: string;
   price: number;
-  category: MenuCategory;
+  categoryId: string;
   tags?: string[];
   featured?: boolean;
   available?: boolean;
-  image?: string;
+  image?: string | null;
 }
-
-export const CATEGORY_LABELS: Record<MenuCategory, string> = {
-  "coffee-tea": "Kahve & Çay",
-  "main-courses": "Ana Yemekler",
-  desserts: "Tatlılar",
-  starters: "Başlangıçlar",
-};
 
 export const STATUS_LABELS: Record<ReservationStatus, string> = {
   pending: "Beklemede",

@@ -7,13 +7,6 @@ datasource db {
   provider = "postgresql"
 }
 
-enum MenuCategory {
-  coffee_tea
-  main_courses
-  desserts
-  starters
-}
-
 enum ReservationStatus {
   pending
   confirmed
@@ -21,20 +14,34 @@ enum ReservationStatus {
   completed
 }
 
+model Category {
+  id          String     @id @default(cuid())
+  name        String
+  description String     @default("")
+  sortOrder   Int        @default(0)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  items       MenuItem[]
+
+  @@index([sortOrder])
+  @@map("categories")
+}
+
 model MenuItem {
-  id          String       @id @default(cuid())
+  id          String   @id @default(cuid())
   name        String
   description String
-  price       Decimal      @db.Decimal(10, 2)
-  category    MenuCategory
-  tags        String[]     @default([])
-  featured    Boolean      @default(false)
-  available   Boolean      @default(true)
-  image       String?
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
+  price       Decimal  @db.Decimal(10, 2)
+  categoryId  String
+  category    Category @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  tags        String[] @default([])
+  featured    Boolean  @default(false)
+  available   Boolean  @default(true)
+  image       String?  @db.Text
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
-  @@index([category])
+  @@index([categoryId])
   @@index([featured, available])
   @@map("menu_items")
 }

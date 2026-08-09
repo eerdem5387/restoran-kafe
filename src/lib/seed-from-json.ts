@@ -1,22 +1,31 @@
 import { promises as fs } from "fs";
 import path from "path";
 import { getPrisma } from "@/lib/prisma";
-import type { MenuItem, Reservation } from "@/lib/types";
+import type { Category, MenuItem, Reservation } from "@/lib/types";
 
 const DATA_DIR = path.join(process.cwd(), "data");
 
 let seedingPromise: Promise<void> | null = null;
 
-function toDbCategory(category: string) {
-  return category.replace(/-/g, "_") as
-    | "coffee_tea"
-    | "main_courses"
-    | "desserts"
-    | "starters";
-}
-
 async function seedOnce(): Promise<void> {
   const prisma = getPrisma();
+
+  const categoryCount = await prisma.category.count();
+  if (categoryCount === 0) {
+    const raw = await fs.readFile(path.join(DATA_DIR, "categories.json"), "utf-8");
+    const categories = JSON.parse(raw) as Category[];
+    if (categories.length > 0) {
+      await prisma.category.createMany({
+        data: categories.map((c) => ({
+          id: c.id,
+          name: c.name,
+          description: c.description,
+          sortOrder: c.sortOrder,
+        })),
+      });
+    }
+  }
+
   const menuCount = await prisma.menuItem.count();
   if (menuCount === 0) {
     const raw = await fs.readFile(path.join(DATA_DIR, "menu.json"), "utf-8");
@@ -27,7 +36,7 @@ async function seedOnce(): Promise<void> {
           name: item.name,
           description: item.description,
           price: item.price,
-          category: toDbCategory(item.category),
+          categoryId: item.categoryId,
           tags: item.tags ?? [],
           featured: item.featured ?? false,
           available: item.available ?? true,
@@ -66,10 +75,6 @@ async function seedOnce(): Promise<void> {
   }
 }
 
-/**
- * If the remote DB has no menu rows yet, copy seed data from data/*.json once.
- * Safe to call on every request — no-ops when data already exists.
- */
 export async function ensureDatabaseSeeded(): Promise<void> {
   if (!seedingPromise) {
     seedingPromise = seedOnce().finally(() => {

@@ -6,6 +6,7 @@ import { Logo } from "@/components/Logo";
 
 const links = [
   { href: "/admin", label: "Panel", icon: "dashboard" },
+  { href: "/admin/categories", label: "Kategoriler", icon: "category" },
   { href: "/admin/menu", label: "Menü", icon: "restaurant_menu" },
   { href: "/admin/reservations", label: "Rezervasyonlar", icon: "event" },
 ];

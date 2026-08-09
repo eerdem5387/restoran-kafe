@@ -1,0 +1,26 @@
+[
+  {
+    "id": "cat_coffee_tea",
+    "name": "Kahve & Çay",
+    "description": "Özenle kavrulmuş, dikkatle demlenmiş.",
+    "sortOrder": 0
+  },
+  {
+    "id": "cat_starters",
+    "name": "Başlangıçlar",
+    "description": "Zarif lezzetlerle hafif başlangıçlar.",
+    "sortOrder": 1
+  },
+  {
+    "id": "cat_main_courses",
+    "name": "Ana Yemekler",
+    "description": "Duyuları rahatlatan doyurucu, incelikli yemekler.",
+    "sortOrder": 2
+  },
+  {
+    "id": "cat_desserts",
+    "name": "Tatlılar",
+    "description": "Akşamınıza tatlı bir final.",
+    "sortOrder": 3
+  }
+]

@@ -1,27 +1,54 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import type { MenuCategory, MenuItem } from "@/lib/types";
-import { CATEGORY_LABELS, formatPrice } from "@/lib/types";
+import { fileToOptimizedDataUrl } from "@/lib/image";
+import type { Category, MenuItem } from "@/lib/types";
+import { formatPrice } from "@/lib/types";
 
-const emptyForm = {
-  name: "",
-  description: "",
-  price: "",
-  category: "main-courses" as MenuCategory,
-  tags: "",
-  featured: false,
-  available: true,
+type FormState = {
+  name: string;
+  description: string;
+  price: string;
+  categoryId: string;
+  tags: string;
+  featured: boolean;
+  available: boolean;
+  image: string;
 };
 
-export function MenuManager({ initialItems }: { initialItems: MenuItem[] }) {
+export function MenuManager({
+  initialItems,
+  categories,
+}: {
+  initialItems: MenuItem[];
+  categories: Category[];
+}) {
   const router = useRouter();
+  const defaultCategoryId = categories[0]?.id ?? "";
+  const emptyForm = useMemo<FormState>(
+    () => ({
+      name: "",
+      description: "",
+      price: "",
+      categoryId: defaultCategoryId,
+      tags: "",
+      featured: false,
+      available: true,
+      image: "",
+    }),
+    [defaultCategoryId]
+  );
+
   const [items, setItems] = useState(initialItems);
-  const [form, setForm] = useState(emptyForm);
+  const [form, setForm] = useState<FormState>(emptyForm);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [uploading, setUploading] = useState(false);
   const [error, setError] = useState("");
+
+  const categoryName = (id: string) =>
+    categories.find((c) => c.id === id)?.name || "Kategori yok";
 
   function startEdit(item: MenuItem) {
     setEditingId(item.id);
@@ -29,11 +56,13 @@ export function MenuManager({ initialItems }: { initialItems: MenuItem[] }) {
       name: item.name,
       description: item.description,
       price: String(item.price),
-      category: item.category,
+      categoryId: item.categoryId,
       tags: item.tags.join(", "),
       featured: item.featured,
       available: item.available,
+      image: item.image ?? "",
     });
+    setError("");
   }
 
   function resetForm() {
@@ -42,8 +71,26 @@ export function MenuManager({ initialItems }: { initialItems: MenuItem[] }) {
     setError("");
   }
 
+  async function handleImageChange(file: File | null) {
+    if (!file) return;
+    setUploading(true);
+    setError("");
+    try {
+      const dataUrl = await fileToOptimizedDataUrl(file);
+      setForm((prev) => ({ ...prev, image: dataUrl }));
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Görsel yüklenemedi.");
+    } finally {
+      setUploading(false);
+    }
+  }
+
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
+    if (!form.categoryId) {
+      setError("Önce bir kategori oluşturun.");
+      return;
+    }
     setLoading(true);
     setError("");
 
@@ -51,13 +98,14 @@ export function MenuManager({ initialItems }: { initialItems: MenuItem[] }) {
       name: form.name,
       description: form.description,
       price: Number(form.price),
-      category: form.category,
+      categoryId: form.categoryId,
       tags: form.tags
         .split(",")
         .map((t) => t.trim())
         .filter(Boolean),
       featured: form.featured,
       available: form.available,
+      image: form.image || null,
     };
 
     try {
@@ -151,19 +199,52 @@ export function MenuManager({ initialItems }: { initialItems: MenuItem[] }) {
                 Kategori
               </label>
               <select
-                value={form.category}
-                onChange={(e) =>
-                  setForm({ ...form, category: e.target.value as MenuCategory })
-                }
+                required
+                value={form.categoryId}
+                onChange={(e) => setForm({ ...form, categoryId: e.target.value })}
                 className="form-input-ledger min-h-11 appearance-none text-base"
+                disabled={categories.length === 0}
               >
-                {(Object.keys(CATEGORY_LABELS) as MenuCategory[]).map((cat) => (
-                  <option key={cat} value={cat}>
-                    {CATEGORY_LABELS[cat]}
-                  </option>
-                ))}
+                {categories.length === 0 ? (
+                  <option value="">Kategori yok</option>
+                ) : (
+                  categories.map((cat) => (
+                    <option key={cat.id} value={cat.id}>
+                      {cat.name}
+                    </option>
+                  ))
+                )}
               </select>
             </div>
+          </div>
+          <div>
+            <label className="mb-1 block text-xs font-semibold uppercase tracking-wider text-on-surface-variant">
+              Ürün Görseli
+            </label>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e) => handleImageChange(e.target.files?.[0] ?? null)}
+              className="block w-full text-sm text-on-surface-variant file:mr-3 file:rounded file:border-0 file:bg-primary-container file:px-3 file:py-2 file:text-xs file:font-semibold file:uppercase file:tracking-wider file:text-on-primary"
+            />
+            {uploading && <p className="mt-2 text-xs text-on-surface-variant">Görsel hazırlanıyor…</p>}
+            {form.image && (
+              <div className="mt-3 flex items-start gap-3">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={form.image}
+                  alt="Ürün önizleme"
+                  className="h-20 w-20 rounded object-cover"
+                />
+                <button
+                  type="button"
+                  onClick={() => setForm({ ...form, image: "" })}
+                  className="text-xs font-semibold uppercase tracking-wider text-red-700"
+                >
+                  Görseli kaldır
+                </button>
+              </div>
+            )}
           </div>
           <div>
             <label className="mb-1 block text-xs font-semibold uppercase tracking-wider text-on-surface-variant">
@@ -198,7 +279,7 @@ export function MenuManager({ initialItems }: { initialItems: MenuItem[] }) {
           <div className="flex flex-col gap-3 pt-4 sm:flex-row">
             <button
               type="submit"
-              disabled={loading}
+              disabled={loading || uploading || categories.length === 0}
               className="min-h-11 rounded bg-primary-container px-6 py-3 text-xs font-semibold uppercase tracking-wider text-on-primary disabled:opacity-60"
             >
               {loading ? "Kaydediliyor..." : editingId ? "Güncelle" : "Ekle"}
@@ -228,24 +309,39 @@ export function MenuManager({ initialItems }: { initialItems: MenuItem[] }) {
               key={item.id}
               className="flex flex-col gap-3 px-4 py-4 sm:flex-row sm:items-start sm:justify-between sm:gap-4 sm:px-6"
             >
-              <div className="min-w-0">
-                <div className="flex flex-wrap items-center gap-2">
-                  <h3 className="font-display text-lg text-primary sm:text-xl">{item.name}</h3>
-                  {!item.available && (
-                    <span className="rounded bg-red-100 px-2 py-0.5 text-[10px] font-semibold uppercase text-red-800">
-                      Yok
-                    </span>
-                  )}
-                  {item.featured && (
-                    <span className="rounded bg-secondary-container/40 px-2 py-0.5 text-[10px] font-semibold uppercase text-primary">
-                      Öne çıkan
-                    </span>
-                  )}
+              <div className="flex min-w-0 gap-3">
+                {item.image ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={item.image}
+                    alt={item.name}
+                    className="h-16 w-16 shrink-0 rounded object-cover"
+                  />
+                ) : (
+                  <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded bg-surface-container-low text-[10px] uppercase tracking-wider text-on-surface-variant">
+                    Yok
+                  </div>
+                )}
+                <div className="min-w-0">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <h3 className="font-display text-lg text-primary sm:text-xl">{item.name}</h3>
+                    {!item.available && (
+                      <span className="rounded bg-red-100 px-2 py-0.5 text-[10px] font-semibold uppercase text-red-800">
+                        Yok
+                      </span>
+                    )}
+                    {item.featured && (
+                      <span className="rounded bg-secondary-container/40 px-2 py-0.5 text-[10px] font-semibold uppercase text-primary">
+                        Öne çıkan
+                      </span>
+                    )}
+                  </div>
+                  <p className="mt-1 text-sm text-on-surface-variant">{item.description}</p>
+                  <p className="mt-2 text-xs uppercase tracking-wider text-secondary">
+                    {item.categoryName || categoryName(item.categoryId)} ·{" "}
+                    {formatPrice(item.price)}
+                  </p>
                 </div>
-                <p className="mt-1 text-sm text-on-surface-variant">{item.description}</p>
-                <p className="mt-2 text-xs uppercase tracking-wider text-secondary">
-                  {CATEGORY_LABELS[item.category]} · {formatPrice(item.price)}
-                </p>
               </div>
               <div className="flex shrink-0 gap-2">
                 <button

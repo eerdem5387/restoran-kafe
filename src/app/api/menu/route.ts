@@ -27,7 +27,7 @@ export async function POST(request: Request) {
 
   try {
     const body = (await request.json()) as CreateMenuItemInput;
-    if (!body.name || !body.description || body.price == null || !body.category) {
+    if (!body.name || !body.description || body.price == null || !body.categoryId) {
       return NextResponse.json({ error: "Eksik alanlar var." }, { status: 400 });
     }
     const item = await createMenuItem(body);
