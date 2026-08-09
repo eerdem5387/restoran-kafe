@@ -12,12 +12,12 @@ export default async function MenuPage() {
   const [items, categories] = await Promise.all([getMenuItems(), getCategories()]);
   const available = items.filter((i) => i.available);
 
-  const byCategory = categories
+  const categoryCards = categories
     .map((category) => ({
       category,
-      items: available.filter((i) => i.categoryId === category.id),
+      itemCount: available.filter((i) => i.categoryId === category.id).length,
     }))
-    .filter((g) => g.items.length > 0);
+    .filter((c) => c.itemCount > 0);
 
-  return <MenuView byCategory={byCategory} />;
+  return <MenuView categories={categoryCards} />;
 }
