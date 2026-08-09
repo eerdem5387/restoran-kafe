@@ -10,44 +10,60 @@ let seedingPromise: Promise<void> | null = null;
 async function seedOnce(): Promise<void> {
   const prisma = getPrisma();
 
-  const categoryCount = await prisma.category.count();
-  if (categoryCount === 0) {
-    const raw = await fs.readFile(path.join(DATA_DIR, "categories.json"), "utf-8");
-    const categories = JSON.parse(raw) as Category[];
-    if (categories.length > 0) {
-      await prisma.category.createMany({
-        data: categories.map((c) => ({
-          id: c.id,
-          name: c.name,
-          description: c.description,
-          sortOrder: c.sortOrder,
-        })),
-      });
+  const [categoryCount, menuCount] = await Promise.all([
+    prisma.category.count(),
+    prisma.menuItem.count(),
+  ]);
+
+  // Fresh database only — never re-seed after the admin clears products.
+  const isFreshDatabase = categoryCount === 0 && menuCount === 0;
+  if (!isFreshDatabase) {
+    if (categoryCount === 0) {
+      const raw = await fs.readFile(path.join(DATA_DIR, "categories.json"), "utf-8");
+      const categories = JSON.parse(raw) as Category[];
+      if (categories.length > 0) {
+        await prisma.category.createMany({
+          data: categories.map((c) => ({
+            id: c.id,
+            name: c.name,
+            description: c.description,
+            sortOrder: c.sortOrder,
+          })),
+        });
+      }
     }
+    return;
   }
 
-  const menuCount = await prisma.menuItem.count();
-  if (menuCount === 0) {
-    const raw = await fs.readFile(path.join(DATA_DIR, "menu.json"), "utf-8");
-    const items = JSON.parse(raw) as MenuItem[];
-    if (items.length > 0) {
-      await prisma.menuItem.createMany({
-        data: items.map((item) => ({
-          name: item.name,
-          description: item.description,
-          price: item.price,
-          categoryId: item.categoryId,
-          tags: item.tags ?? [],
-          featured: item.featured ?? false,
-          available: item.available ?? true,
-          image: item.image ?? null,
-        })),
-      });
-    }
+  const categoryRaw = await fs.readFile(path.join(DATA_DIR, "categories.json"), "utf-8");
+  const categories = JSON.parse(categoryRaw) as Category[];
+  if (categories.length > 0) {
+    await prisma.category.createMany({
+      data: categories.map((c) => ({
+        id: c.id,
+        name: c.name,
+        description: c.description,
+        sortOrder: c.sortOrder,
+      })),
+    });
   }
 
-  const reservationCount = await prisma.reservation.count();
-  if (reservationCount > 0) return;
+  const menuRaw = await fs.readFile(path.join(DATA_DIR, "menu.json"), "utf-8");
+  const items = JSON.parse(menuRaw) as MenuItem[];
+  if (items.length > 0) {
+    await prisma.menuItem.createMany({
+      data: items.map((item) => ({
+        name: item.name,
+        description: item.description,
+        price: item.price,
+        categoryId: item.categoryId,
+        tags: item.tags ?? [],
+        featured: item.featured ?? false,
+        available: item.available ?? true,
+        image: item.image ?? null,
+      })),
+    });
+  }
 
   try {
     const reservationRaw = await fs.readFile(

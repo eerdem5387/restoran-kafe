@@ -217,12 +217,10 @@ export async function deleteMenuItem(id: string): Promise<boolean> {
   assertMutableStore();
   if (!hasDatabaseUrl()) return deleteMenuItemLocal(id);
 
-  try {
-    await getPrisma().menuItem.delete({ where: { id } });
-    return true;
-  } catch {
-    return false;
-  }
+  const existing = await getPrisma().menuItem.findUnique({ where: { id } });
+  if (!existing) return false;
+  await getPrisma().menuItem.delete({ where: { id } });
+  return true;
 }
 
 export async function getReservations(): Promise<Reservation[]> {

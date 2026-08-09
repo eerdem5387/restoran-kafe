@@ -3,6 +3,8 @@ import { AdminShell, requireAdmin } from "@/components/admin/AdminShell";
 import { MenuManager } from "@/components/admin/MenuManager";
 import { getCategories, getMenuItems } from "@/lib/data";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Menü Yönetimi",
 };
