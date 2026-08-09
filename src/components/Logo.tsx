@@ -32,7 +32,7 @@ export function Logo({ size = "md", href = "/", className = "" }: LogoProps) {
   return (
     <Link
       href={href}
-      className={`inline-flex shrink-0 items-center text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-on-primary-container/50 ${className}`}
+      className={`inline-flex shrink-0 items-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-on-primary-container/50 ${className || "text-primary"}`}
       aria-label="Berray's ana sayfa"
     >
       {mark}
