@@ -23,17 +23,19 @@ function ProductImage({
   );
 }
 
-export function MenuItemCard({ item }: { item: MenuItem }) {
-  return (
-    <motion.div
-      variants={fadeUp}
-      whileHover={{ y: -6, transition: { duration: 0.35, ease: [0.22, 1, 0.36, 1] } }}
-      className="soft-shadow group flex gap-3 overflow-hidden rounded bg-surface-container-lowest p-3 transition-shadow duration-500 hover:shadow-[0_12px_40px_rgba(75,54,33,0.1)] sm:gap-4 sm:p-4"
-    >
+export function MenuItemCard({
+  item,
+  onSelect,
+}: {
+  item: MenuItem;
+  onSelect?: (item: MenuItem) => void;
+}) {
+  const content = (
+    <>
       {item.image && (
         <ProductImage src={item.image} alt={item.name} className="w-24 sm:w-28 md:w-32" />
       )}
-      <div className="flex min-w-0 flex-1 flex-col justify-center">
+      <div className="flex min-w-0 flex-1 flex-col justify-center text-left">
         <div className="flex flex-wrap items-baseline gap-x-2.5 gap-y-0.5">
           <h3 className="font-display text-[22px] font-medium leading-tight text-primary transition-colors group-hover:text-primary-container sm:text-[26px] md:text-[30px]">
             {item.name}
@@ -44,19 +46,54 @@ export function MenuItemCard({ item }: { item: MenuItem }) {
         </div>
         <MenuTags tags={item.tags} className="mt-2" />
       </div>
-    </motion.div>
+    </>
   );
-}
 
-export function MenuItemRow({ item, light = false }: { item: MenuItem; light?: boolean }) {
-  const titleColor = light ? "text-inverse-on-surface" : "text-primary";
-  const priceColor = light ? "text-on-primary-container" : "text-primary";
+  if (onSelect) {
+    return (
+      <motion.button
+        type="button"
+        variants={fadeUp}
+        onClick={() => onSelect(item)}
+        whileHover={{ y: -4, transition: { duration: 0.35, ease: [0.22, 1, 0.36, 1] } }}
+        className="soft-shadow group flex w-full gap-3 overflow-hidden rounded bg-surface-container-lowest p-3 text-left transition-shadow duration-500 hover:shadow-[0_12px_40px_rgba(75,54,33,0.1)] sm:gap-4 sm:p-4"
+      >
+        {content}
+      </motion.button>
+    );
+  }
 
   return (
     <motion.div
       variants={fadeUp}
-      className="group flex items-start gap-3 sm:gap-4 md:gap-5"
+      whileHover={{ y: -6, transition: { duration: 0.35, ease: [0.22, 1, 0.36, 1] } }}
+      className="soft-shadow group flex gap-3 overflow-hidden rounded bg-surface-container-lowest p-3 transition-shadow duration-500 hover:shadow-[0_12px_40px_rgba(75,54,33,0.1)] sm:gap-4 sm:p-4"
+    >
+      {content}
+    </motion.div>
+  );
+}
+
+export function MenuItemRow({
+  item,
+  light = false,
+  onSelect,
+}: {
+  item: MenuItem;
+  light?: boolean;
+  onSelect?: (item: MenuItem) => void;
+}) {
+  const titleColor = light ? "text-inverse-on-surface" : "text-primary";
+  const priceColor = light ? "text-on-primary-container" : "text-primary";
+
+  return (
+    <motion.button
+      type="button"
+      variants={fadeUp}
+      onClick={() => onSelect?.(item)}
+      className="group flex w-full items-start gap-3 text-left sm:gap-4 md:gap-5"
       whileHover={{ x: 3, transition: { duration: 0.35, ease: [0.22, 1, 0.36, 1] } }}
+      whileTap={{ scale: 0.99 }}
     >
       {item.image && (
         <ProductImage src={item.image} alt={item.name} className="w-24 sm:w-28 md:w-32" />
@@ -76,6 +113,6 @@ export function MenuItemRow({ item, light = false }: { item: MenuItem; light?: b
         </div>
         <MenuTags tags={item.tags} light={light} className="mt-2" />
       </div>
-    </motion.div>
+    </motion.button>
   );
 }

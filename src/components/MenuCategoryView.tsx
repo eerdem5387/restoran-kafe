@@ -2,9 +2,11 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useCallback, useState } from "react";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { MenuItemRow } from "@/components/MenuItemCard";
+import { ProductDetailModal } from "@/components/ProductDetailModal";
 import { Reveal, Stagger } from "@/components/motion/Reveal";
 import type { Category, MenuItem } from "@/lib/types";
 import { fadeUp } from "@/lib/motion";
@@ -24,6 +26,8 @@ export function MenuCategoryView({
   siblings: CategoryLink[];
 }) {
   const router = useRouter();
+  const [selected, setSelected] = useState<MenuItem | null>(null);
+  const closeDetail = useCallback(() => setSelected(null), []);
 
   return (
     <>
@@ -84,13 +88,19 @@ export function MenuCategoryView({
           ) : (
             <Stagger className="space-y-5 sm:space-y-6" fast>
               {items.map((item) => (
-                <MenuItemRow key={item.id} item={item} light />
+                <MenuItemRow key={item.id} item={item} light onSelect={setSelected} />
               ))}
             </Stagger>
           )}
         </section>
       </main>
       <Footer />
+
+      <ProductDetailModal
+        item={selected}
+        categoryName={category.name}
+        onClose={closeDetail}
+      />
     </>
   );
 }
