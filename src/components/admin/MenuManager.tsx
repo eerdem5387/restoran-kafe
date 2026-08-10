@@ -6,7 +6,7 @@ import { Switch } from "@/components/admin/Switch";
 import { TagInput } from "@/components/admin/TagInput";
 import { fileToOptimizedJpeg } from "@/lib/image";
 import type { Category, MenuItem } from "@/lib/types";
-import { formatPrice } from "@/lib/types";
+import { Price } from "@/components/Price";
 
 type FormState = {
   name: string;
@@ -250,7 +250,7 @@ export function MenuManager({
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div>
               <label className="mb-1 block text-xs font-semibold uppercase tracking-wider text-on-surface-variant">
-                Fiyat (₺)
+                Fiyat (<span className="currency-try">₺</span>)
               </label>
               <input
                 required
@@ -431,7 +431,7 @@ export function MenuManager({
                   </div>
                   <p className="mt-2 text-xs uppercase tracking-wider text-secondary">
                     {item.categoryName || categoryName(item.categoryId)} ·{" "}
-                    {formatPrice(item.price)}
+                    <Price value={item.price} />
                   </p>
                 </div>
               </div>

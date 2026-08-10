@@ -2,8 +2,8 @@
 
 import { motion } from "motion/react";
 import { MenuTags } from "@/components/MenuTags";
+import { Price } from "@/components/Price";
 import type { MenuItem } from "@/lib/types";
-import { formatPrice } from "@/lib/types";
 import { fadeUp } from "@/lib/motion";
 
 function ProductThumb({
@@ -54,9 +54,10 @@ export function MenuItemCard({
           <h3 className="font-display text-[22px] font-medium leading-tight text-primary transition-colors group-hover:text-primary-container sm:text-[26px] md:text-[30px]">
             {item.name}
           </h3>
-          <span className="font-display text-[20px] font-medium tracking-wide text-primary sm:text-[24px] md:text-[26px]">
-            {formatPrice(item.price)}
-          </span>
+          <Price
+            value={item.price}
+            className="font-display text-[20px] font-medium tracking-wide text-primary sm:text-[24px] md:text-[26px]"
+          />
         </div>
         <MenuTags tags={item.tags} className="mt-2" />
       </div>
@@ -98,6 +99,9 @@ export function MenuItemRow({
   onSelect?: (item: MenuItem) => void;
 }) {
   const titleColor = light ? "text-inverse-on-surface" : "text-primary";
+  const titleHover = light
+    ? "group-hover:text-on-primary-container"
+    : "group-hover:text-primary-container";
   const priceColor = light ? "text-on-primary-container" : "text-primary";
 
   return (
@@ -113,15 +117,14 @@ export function MenuItemRow({
       <div className="min-w-0 flex-1 pt-0.5">
         <div className="flex flex-wrap items-baseline gap-x-2.5 gap-y-0.5">
           <h3
-            className={`font-display text-[22px] font-medium leading-tight transition-colors group-hover:text-primary-container sm:text-[26px] md:text-[30px] ${titleColor}`}
+            className={`font-display text-[22px] font-medium leading-tight transition-colors sm:text-[26px] md:text-[30px] ${titleColor} ${titleHover}`}
           >
             {item.name}
           </h3>
-          <span
+          <Price
+            value={item.price}
             className={`font-display text-[20px] font-medium tracking-wide sm:text-[24px] md:text-[26px] ${priceColor}`}
-          >
-            {formatPrice(item.price)}
-          </span>
+          />
         </div>
         <MenuTags tags={item.tags} light={light} className="mt-2" />
       </div>

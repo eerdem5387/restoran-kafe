@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { AdminShell, requireAdmin } from "@/components/admin/AdminShell";
 import { getCategories, getMenuItems, getReservations } from "@/lib/data";
-import { STATUS_LABELS, formatPrice } from "@/lib/types";
+import { STATUS_LABELS } from "@/lib/types";
+import { Price } from "@/components/Price";
 
 export const metadata: Metadata = {
   title: "Yönetim Paneli",
@@ -104,7 +105,7 @@ export default async function AdminDashboardPage() {
                   </p>
                 </div>
                 <span className="shrink-0 text-sm font-semibold text-primary">
-                  {formatPrice(m.price)}
+                  <Price value={m.price} />
                 </span>
               </li>
             ))}
