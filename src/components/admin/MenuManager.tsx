@@ -4,7 +4,6 @@ import { FormEvent, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Switch } from "@/components/admin/Switch";
 import { TagInput } from "@/components/admin/TagInput";
-import { MenuTags } from "@/components/MenuTags";
 import { fileToOptimizedJpeg } from "@/lib/image";
 import type { Category, MenuItem } from "@/lib/types";
 import { formatPrice } from "@/lib/types";
@@ -430,7 +429,6 @@ export function MenuManager({
                       {item.available ? "Aktif" : "Pasif"}
                     </span>
                   </div>
-                  <MenuTags tags={item.tags} className="mt-2" />
                   <p className="mt-2 text-xs uppercase tracking-wider text-secondary">
                     {item.categoryName || categoryName(item.categoryId)} ·{" "}
                     {formatPrice(item.price)}
