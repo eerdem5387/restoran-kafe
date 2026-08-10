@@ -16,6 +16,7 @@ import {
   getMenuItemsLocal,
   getReservationsLocal,
   reorderCategoriesLocal,
+  reorderMenuItemsLocal,
   updateCategoryLocal,
   updateMenuItemLocal,
   updateReservationStatusLocal,
@@ -56,6 +57,7 @@ function mapMenuItem(item: MenuItemWithCategory): MenuItem {
     featured: item.featured,
     available: item.available,
     image: item.image ?? undefined,
+    sortOrder: item.sortOrder,
   };
 }
 
@@ -168,7 +170,7 @@ export async function getMenuItems(): Promise<MenuItem[]> {
   await ensureDatabaseSeeded();
   const items = await getPrisma().menuItem.findMany({
     include: { category: true },
-    orderBy: [{ category: { sortOrder: "asc" } }, { name: "asc" }],
+    orderBy: [{ category: { sortOrder: "asc" } }, { sortOrder: "asc" }, { name: "asc" }],
   });
   return items.map(mapMenuItem);
 }
@@ -187,6 +189,10 @@ export async function createMenuItem(input: CreateMenuItemInput): Promise<MenuIt
   assertMutableStore();
   if (!hasDatabaseUrl()) return createMenuItemLocal(input);
 
+  const countInCategory = await getPrisma().menuItem.count({
+    where: { categoryId: input.categoryId },
+  });
+
   const item = await getPrisma().menuItem.create({
     data: {
       name: input.name,
@@ -197,6 +203,7 @@ export async function createMenuItem(input: CreateMenuItemInput): Promise<MenuIt
       featured: input.featured ?? false,
       available: input.available ?? true,
       image: input.image || null,
+      sortOrder: input.sortOrder ?? countInCategory,
     },
     include: { category: true },
   });
@@ -222,6 +229,7 @@ export async function updateMenuItem(
         ...(updates.featured !== undefined && { featured: updates.featured }),
         ...(updates.available !== undefined && { available: updates.available }),
         ...(updates.image !== undefined && { image: updates.image || null }),
+        ...(updates.sortOrder !== undefined && { sortOrder: updates.sortOrder }),
       },
       include: { category: true },
     });
@@ -239,6 +247,23 @@ export async function deleteMenuItem(id: string): Promise<boolean> {
   if (!existing) return false;
   await getPrisma().menuItem.delete({ where: { id } });
   return true;
+}
+
+export async function reorderMenuItems(orderedIds: string[]): Promise<MenuItem[]> {
+  assertMutableStore();
+  if (!orderedIds.length) return getMenuItems();
+  if (!hasDatabaseUrl()) return reorderMenuItemsLocal(orderedIds);
+
+  await getPrisma().$transaction(
+    orderedIds.map((id, index) =>
+      getPrisma().menuItem.update({
+        where: { id },
+        data: { sortOrder: index },
+      })
+    )
+  );
+
+  return getMenuItems();
 }
 
 export async function getReservations(): Promise<Reservation[]> {

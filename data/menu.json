@@ -7,7 +7,8 @@
     "tags": [],
     "featured": true,
     "available": true,
-    "categoryId": "cat_coffee_tea"
+    "categoryId": "cat_coffee_tea",
+    "sortOrder": 0
   },
   {
     "id": "m2",
@@ -19,7 +20,8 @@
     ],
     "featured": false,
     "available": true,
-    "categoryId": "cat_coffee_tea"
+    "categoryId": "cat_coffee_tea",
+    "sortOrder": 1
   },
   {
     "id": "m3",
@@ -31,7 +33,8 @@
     ],
     "featured": false,
     "available": true,
-    "categoryId": "cat_coffee_tea"
+    "categoryId": "cat_coffee_tea",
+    "sortOrder": 2
   },
   {
     "id": "m4",
@@ -43,7 +46,8 @@
     ],
     "featured": true,
     "available": true,
-    "categoryId": "cat_starters"
+    "categoryId": "cat_starters",
+    "sortOrder": 0
   },
   {
     "id": "m5",
@@ -56,7 +60,8 @@
     ],
     "featured": true,
     "available": true,
-    "categoryId": "cat_main_courses"
+    "categoryId": "cat_main_courses",
+    "sortOrder": 0
   },
   {
     "id": "m6",
@@ -68,7 +73,8 @@
     ],
     "featured": false,
     "available": true,
-    "categoryId": "cat_main_courses"
+    "categoryId": "cat_main_courses",
+    "sortOrder": 1
   },
   {
     "id": "m7",
@@ -78,7 +84,8 @@
     "tags": [],
     "featured": false,
     "available": true,
-    "categoryId": "cat_main_courses"
+    "categoryId": "cat_main_courses",
+    "sortOrder": 2
   },
   {
     "id": "m8",
@@ -90,7 +97,8 @@
     ],
     "featured": true,
     "available": true,
-    "categoryId": "cat_main_courses"
+    "categoryId": "cat_main_courses",
+    "sortOrder": 3
   },
   {
     "id": "m9",
@@ -102,6 +110,7 @@
     ],
     "featured": true,
     "available": true,
-    "categoryId": "cat_desserts"
+    "categoryId": "cat_desserts",
+    "sortOrder": 0
   }
 ]

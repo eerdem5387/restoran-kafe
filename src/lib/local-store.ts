@@ -103,10 +103,20 @@ export async function getMenuItemsLocal(): Promise<MenuItem[]> {
     getCategoriesLocal(),
   ]);
   const names = new Map(categories.map((c) => [c.id, c.name]));
-  return items.map((item) => ({
-    ...item,
-    categoryName: names.get(item.categoryId),
-  }));
+  const categoryOrder = new Map(categories.map((c) => [c.id, c.sortOrder]));
+
+  return items
+    .map((item) => ({
+      ...item,
+      sortOrder: item.sortOrder ?? 0,
+      categoryName: names.get(item.categoryId),
+    }))
+    .sort((a, b) => {
+      const catDiff =
+        (categoryOrder.get(a.categoryId) ?? 0) - (categoryOrder.get(b.categoryId) ?? 0);
+      if (catDiff !== 0) return catDiff;
+      return (a.sortOrder ?? 0) - (b.sortOrder ?? 0) || a.name.localeCompare(b.name);
+    });
 }
 
 export async function getMenuItemByIdLocal(id: string): Promise<MenuItem | undefined> {
@@ -120,6 +130,7 @@ export async function createMenuItemLocal(input: CreateMenuItemInput): Promise<M
   const category = categories.find((c) => c.id === input.categoryId);
   if (!category) throw new Error("Kategori bulunamadı.");
 
+  const countInCategory = items.filter((i) => i.categoryId === input.categoryId).length;
   const item: MenuItem = {
     id: crypto.randomUUID(),
     name: input.name,
@@ -131,6 +142,7 @@ export async function createMenuItemLocal(input: CreateMenuItemInput): Promise<M
     featured: input.featured ?? false,
     available: input.available ?? true,
     image: input.image ?? undefined,
+    sortOrder: input.sortOrder ?? countInCategory,
   };
   items.push(item);
   await writeJson(
@@ -174,6 +186,21 @@ export async function deleteMenuItemLocal(id: string): Promise<boolean> {
   if (filtered.length === items.length) return false;
   await writeJson(MENU_FILE, filtered);
   return true;
+}
+
+export async function reorderMenuItemsLocal(orderedIds: string[]): Promise<MenuItem[]> {
+  const items = await readJson<MenuItem[]>(MENU_FILE);
+  const byId = new Map(items.map((item) => [item.id, item]));
+
+  orderedIds.forEach((id, index) => {
+    const item = byId.get(id);
+    if (item) {
+      item.sortOrder = index;
+    }
+  });
+
+  await writeJson(MENU_FILE, items);
+  return getMenuItemsLocal();
 }
 
 export async function getReservationsLocal(): Promise<Reservation[]> {

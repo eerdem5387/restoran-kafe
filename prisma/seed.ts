@@ -88,6 +88,7 @@ async function main() {
       featured: item.featured ?? false,
       available: item.available ?? true,
       image: "image" in item ? (item.image as string | null) : null,
+      sortOrder: item.sortOrder ?? 0,
     })),
   });
 

@@ -48,6 +48,7 @@ export function MenuManager({
   const [filterCategoryId, setFilterCategoryId] = useState<string>(
     categories[0]?.id ?? "all"
   );
+  const [reordering, setReordering] = useState(false);
 
   const categoryName = (id: string) =>
     categories.find((c) => c.id === id)?.name || "Kategori yok";
@@ -55,7 +56,53 @@ export function MenuManager({
   const filteredItems =
     filterCategoryId === "all"
       ? items
-      : items.filter((item) => item.categoryId === filterCategoryId);
+      : items
+          .filter((item) => item.categoryId === filterCategoryId)
+          .sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0) || a.name.localeCompare(b.name));
+
+  const canReorder = filterCategoryId !== "all";
+
+  async function moveItem(id: string, direction: "up" | "down") {
+    if (!canReorder) return;
+    const list = [...filteredItems];
+    const index = list.findIndex((item) => item.id === id);
+    if (index < 0) return;
+    const target = direction === "up" ? index - 1 : index + 1;
+    if (target < 0 || target >= list.length) return;
+
+    const next = [...list];
+    const [item] = next.splice(index, 1);
+    next.splice(target, 0, item);
+    const orderedIds = next.map((i) => i.id);
+
+    setReordering(true);
+    setError("");
+    setItems((prev) =>
+      prev.map((existing) => {
+        const orderIndex = orderedIds.indexOf(existing.id);
+        return orderIndex === -1 ? existing : { ...existing, sortOrder: orderIndex };
+      })
+    );
+
+    try {
+      const res = await fetch("/api/menu/reorder", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ orderedIds }),
+      });
+      const data = (await res.json().catch(() => ({}))) as MenuItem[] & { error?: string };
+      if (!res.ok) {
+        setItems(items);
+        throw new Error((data as { error?: string }).error || "Sıralama kaydedilemedi.");
+      }
+      if (Array.isArray(data)) setItems(data);
+      router.refresh();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Sıralama kaydedilemedi.");
+    } finally {
+      setReordering(false);
+    }
+  }
 
   function startEdit(item: MenuItem) {
     setEditingId(item.id);
@@ -305,6 +352,16 @@ export function MenuManager({
             Menü Ürünleri ({filteredItems.length}
             {filterCategoryId !== "all" ? ` / ${items.length}` : ""})
           </h2>
+          {canReorder && (
+            <p className="mt-1 text-sm text-on-surface-variant">
+              Oklarla bu kategori içindeki ürün sırasını değiştirin.
+            </p>
+          )}
+          {!canReorder && (
+            <p className="mt-1 text-sm text-on-surface-variant">
+              Sıralama için bir kategori seçin.
+            </p>
+          )}
           <div className="-mx-1 mt-4 flex gap-2 overflow-x-auto px-1 pb-1">
             <button
               type="button"
@@ -337,7 +394,7 @@ export function MenuManager({
           </div>
         </div>
         <div className="divide-y divide-outline-variant/20">
-          {filteredItems.map((item) => (
+          {filteredItems.map((item, index) => (
             <div
               key={item.id}
               className="flex flex-col gap-3 px-4 py-4 sm:flex-row sm:items-start sm:justify-between sm:gap-4 sm:px-6"
@@ -351,12 +408,17 @@ export function MenuManager({
                     className="h-16 w-16 shrink-0 rounded object-cover"
                   />
                 ) : (
-                  <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded bg-surface-container-low text-[10px] uppercase tracking-wider text-on-surface-variant">
+                  <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded border border-outline-variant/40 bg-surface-container-low text-[10px] font-semibold uppercase tracking-wider text-on-surface-variant">
                     Yok
                   </div>
                 )}
                 <div className="min-w-0">
                   <div className="flex flex-wrap items-center gap-2">
+                    {canReorder && (
+                      <span className="font-body text-[10px] font-semibold uppercase tracking-[0.16em] text-on-primary-container">
+                        {String(index + 1).padStart(2, "0")}
+                      </span>
+                    )}
                     <h3 className="font-display text-lg text-primary sm:text-xl">{item.name}</h3>
                     <span
                       className={`rounded px-2 py-0.5 text-[10px] font-semibold uppercase ${
@@ -375,18 +437,40 @@ export function MenuManager({
                   </p>
                 </div>
               </div>
-              <div className="flex shrink-0 gap-2">
+              <div className="flex shrink-0 flex-wrap gap-2">
+                {canReorder && (
+                  <>
+                    <button
+                      type="button"
+                      disabled={reordering || index === 0}
+                      onClick={() => moveItem(item.id, "up")}
+                      className="inline-flex min-h-10 min-w-10 items-center justify-center rounded border border-outline-variant text-primary hover:bg-surface-container-low disabled:opacity-40"
+                      aria-label="Yukarı taşı"
+                    >
+                      <span className="material-symbols-outlined text-lg">arrow_upward</span>
+                    </button>
+                    <button
+                      type="button"
+                      disabled={reordering || index === filteredItems.length - 1}
+                      onClick={() => moveItem(item.id, "down")}
+                      className="inline-flex min-h-10 min-w-10 items-center justify-center rounded border border-outline-variant text-primary hover:bg-surface-container-low disabled:opacity-40"
+                      aria-label="Aşağı taşı"
+                    >
+                      <span className="material-symbols-outlined text-lg">arrow_downward</span>
+                    </button>
+                  </>
+                )}
                 <button
                   type="button"
                   onClick={() => startEdit(item)}
-                  className="min-h-10 flex-1 rounded border border-outline-variant px-3 py-2 text-xs font-semibold uppercase tracking-wider text-primary hover:bg-surface-container-low sm:flex-none"
+                  className="min-h-10 rounded border border-outline-variant px-3 py-2 text-xs font-semibold uppercase tracking-wider text-primary hover:bg-surface-container-low"
                 >
                   Düzenle
                 </button>
                 <button
                   type="button"
                   onClick={() => handleDelete(item.id)}
-                  className="min-h-10 flex-1 rounded border border-red-200 px-3 py-2 text-xs font-semibold uppercase tracking-wider text-red-700 hover:bg-red-50 sm:flex-none"
+                  className="min-h-10 rounded border border-red-200 px-3 py-2 text-xs font-semibold uppercase tracking-wider text-red-700 hover:bg-red-50"
                 >
                   Sil
                 </button>

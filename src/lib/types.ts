@@ -16,6 +16,7 @@ export interface MenuItem {
   featured: boolean;
   available: boolean;
   image?: string;
+  sortOrder: number;
 }
 
 export type ReservationStatus = "pending" | "confirmed" | "cancelled" | "completed";
@@ -60,6 +61,7 @@ export interface CreateMenuItemInput {
   featured?: boolean;
   available?: boolean;
   image?: string | null;
+  sortOrder?: number;
 }
 
 export const STATUS_LABELS: Record<ReservationStatus, string> = {

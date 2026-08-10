@@ -51,18 +51,19 @@ async function seedOnce(): Promise<void> {
   const menuRaw = await fs.readFile(path.join(DATA_DIR, "menu.json"), "utf-8");
   const items = JSON.parse(menuRaw) as MenuItem[];
   if (items.length > 0) {
-    await prisma.menuItem.createMany({
-      data: items.map((item) => ({
-        name: item.name,
-        description: item.description,
-        price: item.price,
-        categoryId: item.categoryId,
-        tags: item.tags ?? [],
-        featured: item.featured ?? false,
-        available: item.available ?? true,
-        image: item.image ?? null,
-      })),
-    });
+      await prisma.menuItem.createMany({
+        data: items.map((item, index) => ({
+          name: item.name,
+          description: item.description,
+          price: item.price,
+          categoryId: item.categoryId,
+          tags: item.tags ?? [],
+          featured: item.featured ?? false,
+          available: item.available ?? true,
+          image: item.image ?? null,
+          sortOrder: item.sortOrder ?? index,
+        })),
+      });
   }
 
   try {

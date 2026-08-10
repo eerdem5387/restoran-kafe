@@ -86,9 +86,11 @@ export function MenuCategoryView({
           {items.length === 0 ? (
             <p className="font-body text-surface-variant">Bu kategoride henüz ürün yok.</p>
           ) : (
-            <Stagger className="space-y-5 sm:space-y-6" fast>
+            <Stagger className="divide-y divide-white/10" fast>
               {items.map((item) => (
-                <MenuItemRow key={item.id} item={item} light onSelect={setSelected} />
+                <div key={item.id} className="py-5 first:pt-0 last:pb-0 sm:py-6">
+                  <MenuItemRow item={item} light onSelect={setSelected} />
+                </div>
               ))}
             </Stagger>
           )}

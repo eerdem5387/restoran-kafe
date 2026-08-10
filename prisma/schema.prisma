@@ -38,10 +38,12 @@ model MenuItem {
   featured    Boolean  @default(false)
   available   Boolean  @default(true)
   image       String?  @db.Text
+  sortOrder   Int      @default(0)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
   @@index([categoryId])
+  @@index([categoryId, sortOrder])
   @@index([featured, available])
   @@map("menu_items")
 }
