@@ -23,7 +23,6 @@ export function Footer() {
                 { href: "/menu", label: "Menü" },
                 { href: "/reservations", label: "Rezervasyon" },
                 { href: "/story", label: "Hikâyemiz" },
-                { href: "/admin", label: "Yönetim" },
               ].map((link) => (
                 <UnderlineLink
                   key={link.href}

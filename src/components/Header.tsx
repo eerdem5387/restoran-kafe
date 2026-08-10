@@ -81,7 +81,7 @@ export function Header() {
             href="/reservations"
             className="min-h-11 rounded bg-primary-container px-6 py-3 font-body text-xs font-semibold uppercase tracking-wider text-on-primary"
           >
-            Masa Ayırt
+            Rezervasyon
           </MagneticButton>
         </div>
 
@@ -134,7 +134,7 @@ export function Header() {
                 onClick={() => setOpen(false)}
                 className="mt-2 flex min-h-12 items-center justify-center rounded bg-primary-container px-6 py-3 text-center text-xs font-semibold uppercase tracking-wider text-on-primary"
               >
-                Masa Ayırt
+                Rezervasyon
               </Link>
             </nav>
           </motion.div>

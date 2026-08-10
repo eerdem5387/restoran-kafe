@@ -65,7 +65,7 @@ export function HomeView() {
                 href="/reservations"
                 className="flex min-h-12 w-full items-center justify-center rounded bg-primary-container px-8 py-4 font-body text-xs font-semibold uppercase tracking-wider text-on-primary shadow-md sm:w-auto"
               >
-                Masa Ayırt
+                Rezervasyon
               </MagneticButton>
               <MagneticButton
                 href="/menu"
