@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { Preloader } from "./Preloader";
 import { PageTransition } from "./PageTransition";
+import { InstagramFloat } from "@/components/InstagramFloat";
 
 export function MotionProvider({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -41,6 +42,7 @@ export function MotionProvider({ children }: { children: React.ReactNode }) {
     <>
       <Preloader />
       <PageTransition>{children}</PageTransition>
+      <InstagramFloat />
     </>
   );
 }

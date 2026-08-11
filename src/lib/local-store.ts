@@ -14,6 +14,11 @@ const DATA_DIR = path.join(process.cwd(), "data");
 const MENU_FILE = path.join(DATA_DIR, "menu.json");
 const CATEGORIES_FILE = path.join(DATA_DIR, "categories.json");
 const RESERVATIONS_FILE = path.join(DATA_DIR, "reservations.json");
+const SETTINGS_FILE = path.join(DATA_DIR, "settings.json");
+
+type LocalSettings = {
+  menuEnabled: boolean;
+};
 
 async function readJson<T>(filePath: string): Promise<T> {
   const raw = await fs.readFile(filePath, "utf-8");
@@ -243,4 +248,24 @@ export async function deleteReservationLocal(id: string): Promise<boolean> {
   if (filtered.length === reservations.length) return false;
   await writeJson(RESERVATIONS_FILE, filtered);
   return true;
+}
+
+async function readSettings(): Promise<LocalSettings> {
+  try {
+    return await readJson<LocalSettings>(SETTINGS_FILE);
+  } catch {
+    return { menuEnabled: true };
+  }
+}
+
+export async function getMenuEnabledLocal(): Promise<boolean> {
+  const settings = await readSettings();
+  return settings.menuEnabled !== false;
+}
+
+export async function setMenuEnabledLocal(menuEnabled: boolean): Promise<boolean> {
+  const settings = await readSettings();
+  settings.menuEnabled = menuEnabled;
+  await writeJson(SETTINGS_FILE, settings);
+  return menuEnabled;
 }

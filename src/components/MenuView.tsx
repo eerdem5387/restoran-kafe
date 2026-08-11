@@ -14,7 +14,13 @@ type CategoryCard = {
   itemCount: number;
 };
 
-export function MenuView({ categories }: { categories: CategoryCard[] }) {
+export function MenuView({
+  categories,
+  menuEnabled = true,
+}: {
+  categories: CategoryCard[];
+  menuEnabled?: boolean;
+}) {
   return (
     <>
       <Header />
@@ -27,7 +33,9 @@ export function MenuView({ categories }: { categories: CategoryCard[] }) {
             />
             <Reveal variants={fadeUp}>
               <p className="font-body text-base leading-relaxed text-surface-variant sm:text-lg">
-                Önce bir kategori seçin, ardından o bölüme ait lezzetleri inceleyin.
+                {menuEnabled
+                  ? "Önce bir kategori seçin, ardından o bölüme ait lezzetleri inceleyin."
+                  : "Menümüz şu an güncelleniyor. Kısa süre içinde yeniden yayında olacak."}
               </p>
             </Reveal>
           </div>
@@ -35,7 +43,20 @@ export function MenuView({ categories }: { categories: CategoryCard[] }) {
         </section>
 
         <section className="mx-auto max-w-[1200px] px-margin-mobile md:px-margin-desktop">
-          {categories.length === 0 ? (
+          {!menuEnabled ? (
+            <div className="mx-auto max-w-md text-center">
+              <p className="font-body text-sm leading-relaxed text-surface-variant sm:text-base">
+                Fiyat ve içerik düzenlemeleri nedeniyle menü geçici olarak kapalı. Rezervasyon için
+                bizimle iletişime geçebilirsiniz.
+              </p>
+              <Link
+                href="/reservations"
+                className="mt-6 inline-flex min-h-12 items-center justify-center rounded bg-on-primary-container px-6 text-xs font-semibold uppercase tracking-wider text-primary-container transition-opacity hover:opacity-90"
+              >
+                Rezervasyon
+              </Link>
+            </div>
+          ) : categories.length === 0 ? (
             <p className="text-center font-body text-surface-variant">
               Menü yakında güncellenecek.
             </p>

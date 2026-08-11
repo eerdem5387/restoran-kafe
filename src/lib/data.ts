@@ -17,6 +17,8 @@ import {
   getReservationsLocal,
   reorderCategoriesLocal,
   reorderMenuItemsLocal,
+  getMenuEnabledLocal,
+  setMenuEnabledLocal,
   updateCategoryLocal,
   updateMenuItemLocal,
   updateReservationStatusLocal,
@@ -326,4 +328,28 @@ export async function deleteReservation(id: string): Promise<boolean> {
   } catch {
     return false;
   }
+}
+
+export async function getMenuEnabled(): Promise<boolean> {
+  if (!hasDatabaseUrl()) return getMenuEnabledLocal();
+
+  await ensureDatabaseSeeded();
+  const config = await getPrisma().siteConfig.upsert({
+    where: { id: 1 },
+    create: { id: 1, menuEnabled: true },
+    update: {},
+  });
+  return config.menuEnabled;
+}
+
+export async function setMenuEnabled(menuEnabled: boolean): Promise<boolean> {
+  assertMutableStore();
+  if (!hasDatabaseUrl()) return setMenuEnabledLocal(menuEnabled);
+
+  const config = await getPrisma().siteConfig.upsert({
+    where: { id: 1 },
+    create: { id: 1, menuEnabled },
+    update: { menuEnabled },
+  });
+  return config.menuEnabled;
 }

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { AdminShell, requireAdmin } from "@/components/admin/AdminShell";
-import { getCategories, getMenuItems, getReservations } from "@/lib/data";
+import { getCategories, getMenuEnabled, getMenuItems, getReservations } from "@/lib/data";
 import { STATUS_LABELS } from "@/lib/types";
 import { Price } from "@/components/Price";
 
@@ -11,10 +11,11 @@ export const metadata: Metadata = {
 
 export default async function AdminDashboardPage() {
   await requireAdmin();
-  const [menu, reservations, categories] = await Promise.all([
+  const [menu, reservations, categories, menuEnabled] = await Promise.all([
     getMenuItems(),
     getReservations(),
     getCategories(),
+    getMenuEnabled(),
   ]);
 
   const pending = reservations.filter((r) => r.status === "pending").length;
@@ -29,6 +30,16 @@ export default async function AdminDashboardPage() {
           Berrays menü ve rezervasyon özeti.
         </p>
       </div>
+
+      {!menuEnabled && (
+        <div className="mb-6 rounded border border-secondary-container bg-secondary-container/40 px-4 py-3 text-sm text-on-secondary-container sm:mb-8">
+          Sitede menü şu an kapalı.{" "}
+          <Link href="/admin/menu" className="font-semibold underline underline-offset-2">
+            Menü yönetimine git
+          </Link>{" "}
+          ve tekrar aç.
+        </div>
+      )}
 
       <div className="mb-8 grid grid-cols-2 gap-3 sm:mb-10 sm:gap-4 lg:grid-cols-4">
         {[

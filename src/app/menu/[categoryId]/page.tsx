@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { redirect, notFound } from "next/navigation";
 import { MenuCategoryView } from "@/components/MenuCategoryView";
-import { getCategories, getMenuItems } from "@/lib/data";
+import { getCategories, getMenuEnabled, getMenuItems } from "@/lib/data";
 
 export const dynamic = "force-dynamic";
 
@@ -18,6 +18,9 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 
 export default async function MenuCategoryPage({ params }: Params) {
   const { categoryId } = await params;
+  const menuEnabled = await getMenuEnabled();
+  if (!menuEnabled) redirect("/menu");
+
   const [items, categories] = await Promise.all([getMenuItems(), getCategories()]);
   const available = items.filter((i) => i.available);
 

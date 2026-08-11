@@ -67,3 +67,11 @@ model Reservation {
   @@index([createdAt])
   @@map("reservations")
 }
+
+model SiteConfig {
+  id          Int      @id @default(1)
+  menuEnabled Boolean  @default(true)
+  updatedAt   DateTime @updatedAt
+
+  @@map("site_config")
+}
