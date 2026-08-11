@@ -34,9 +34,12 @@ export function Footer() {
               ))}
             </nav>
           </StaggerItem>
-          <StaggerItem className="flex flex-col justify-end md:items-end">
+          <StaggerItem className="flex flex-col justify-end gap-2 md:items-end">
             <p className="font-body text-sm text-on-tertiary-container sm:text-base">
               © 2026 Berrays. Sofistike sıcaklık için.
+            </p>
+            <p className="font-body text-[10px] tracking-wide text-on-tertiary-container/55 sm:text-[11px]">
+              Design and Development by Emre Erdem
             </p>
           </StaggerItem>
         </Stagger>
