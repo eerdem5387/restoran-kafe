@@ -20,6 +20,10 @@
   --outline-variant: #d2c4ba;
   --almond: #f5f2ed;
   --golden-crema: #c2a382;
+  --font-eb-garamond: "EB Garamond";
+  --font-hanken: "Hanken Grotesk";
+  --font-yellowtail: "Yellowtail";
+  --font-montserrat: "Montserrat";
 }
 
 @theme inline {
