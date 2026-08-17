@@ -86,7 +86,7 @@ export function ProductDetailModal({ item, categoryName, onClose }: ProductDetai
                   />
                 ) : (
                   <div className="flex h-full w-full items-center justify-center text-xs font-semibold uppercase tracking-wider text-on-surface-variant">
-                    Yok
+                    Görsel yok
                   </div>
                 )}
               </div>

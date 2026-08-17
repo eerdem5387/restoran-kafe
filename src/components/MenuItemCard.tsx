@@ -32,7 +32,7 @@ function ProductThumb({
             light ? "text-on-primary-container" : "text-on-surface-variant"
           }`}
         >
-          Yok
+          Görsel yok
         </div>
       )}
     </div>

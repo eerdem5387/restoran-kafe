@@ -2,25 +2,25 @@
   {
     "id": "cat_coffee_tea",
     "name": "Kahve & Çay",
-    "description": "Özenle kavrulmuş, dikkatle demlenmiş.",
+    "description": "Taze demlenen kahve ve çaylar.",
     "sortOrder": 0
   },
   {
     "id": "cat_starters",
     "name": "Başlangıçlar",
-    "description": "Zarif lezzetlerle hafif başlangıçlar.",
+    "description": "Sofrayı açan hafif tatlar.",
     "sortOrder": 1
   },
   {
     "id": "cat_main_courses",
     "name": "Ana Yemekler",
-    "description": "Duyuları rahatlatan doyurucu, incelikli yemekler.",
+    "description": "Doyurucu, özenli ana yemekler.",
     "sortOrder": 2
   },
   {
     "id": "cat_desserts",
     "name": "Tatlılar",
-    "description": "Akşamınıza tatlı bir final.",
+    "description": "Sofranın tatlı kapanışı.",
     "sortOrder": 3
   }
 ]

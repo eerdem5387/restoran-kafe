@@ -115,7 +115,7 @@ export function HomeView() {
                   href="/story"
                   className="font-body text-xs font-semibold uppercase tracking-wider text-primary"
                 >
-                  Hikâyemizi Keşfedin
+                  Hikâyemizi Okuyun
                 </UnderlineLink>
               </StaggerItem>
             </Stagger>
