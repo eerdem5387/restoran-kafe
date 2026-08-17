@@ -60,7 +60,7 @@ export function HomeView() {
               </MagneticButton>
               <MagneticButton
                 href="/menu"
-                className="flex min-h-12 w-full items-center justify-center rounded border border-on-primary-container bg-transparent px-8 py-4 font-body text-xs font-semibold uppercase tracking-wider text-primary sm:w-auto"
+                className="flex min-h-12 w-full items-center justify-center rounded border border-primary-container/40 bg-surface/90 px-8 py-4 font-body text-xs font-semibold uppercase tracking-wider text-primary shadow-sm backdrop-blur-sm sm:w-auto"
               >
                 Menüyü Gör
               </MagneticButton>
