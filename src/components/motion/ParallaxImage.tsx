@@ -47,18 +47,34 @@ export function ParallaxImage({
   );
 }
 
-export function KenBurnsBackground({ src, className }: { src: string; className?: string }) {
+export function KenBurnsBackground({
+  src,
+  className,
+  /** Tailwind object-position classes for responsive crop focus */
+  positionClass = "object-center",
+}: {
+  src: string;
+  className?: string;
+  positionClass?: string;
+}) {
   const reduce = useReducedMotion();
 
   return (
     <div className={`absolute inset-0 overflow-hidden ${className ?? ""}`}>
       <motion.div
-        className="absolute inset-[-8%] bg-cover bg-center"
-        style={{ backgroundImage: `url('${src}')` }}
-        initial={reduce ? false : { scale: 1.12, x: "-2%" }}
-        animate={reduce ? undefined : { scale: 1.02, x: "2%" }}
-        transition={{ duration: 18, ease: "linear", repeat: Infinity, repeatType: "reverse" }}
-      />
+        className="absolute inset-[-6%] h-[112%] w-[112%]"
+        initial={reduce ? false : { scale: 1.08 }}
+        animate={reduce ? undefined : { scale: 1.02 }}
+        transition={{ duration: 22, ease: "linear", repeat: Infinity, repeatType: "reverse" }}
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={src}
+          alt=""
+          aria-hidden
+          className={`h-full w-full object-cover ${positionClass}`}
+        />
+      </motion.div>
     </div>
   );
 }

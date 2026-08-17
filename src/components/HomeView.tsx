@@ -3,51 +3,39 @@
 import { motion } from "motion/react";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
+import { InteriorShowcase } from "@/components/InteriorShowcase";
 import { SignatureDivider } from "@/components/SignatureDivider";
 import { MagneticButton, UnderlineLink } from "@/components/motion/MagneticButton";
-import { KenBurnsBackground, ParallaxImage } from "@/components/motion/ParallaxImage";
-import { Reveal } from "@/components/motion/Reveal";
+import { KenBurnsBackground } from "@/components/motion/ParallaxImage";
+import { Reveal, Stagger, StaggerItem } from "@/components/motion/Reveal";
 import { TextReveal } from "@/components/motion/TextReveal";
-import { slideFromLeft, slideFromRight } from "@/lib/motion";
 
-const HERO_IMAGE =
-  "https://lh3.googleusercontent.com/aida-public/AB6AXuASKwP1QuUF9oFqxzezsZcOJNXtu-pQcjB8T9CCNrBotJFmgAuTQDBxfsRHVtjDtbfPR5BrOp6h7r2G6ejkcArG-jzkVBc2xi8WzxGqooVVEXcdKIBTgWeRzFYu1kJh1vG4DOoqT0LY5Z-R-pjj9P3TzXhlmNe9RVtD5JCtLtZyLvAK8EQq-q4aese9GnW9Oq78NUgC9PJG6VRA9byN1LkSnB77CFzAH7OIw9p-jBOcGMUxpZiBVExRU48xdz7na7C5aU_QzQE70A";
-
-const ABOUT_IMAGE =
-  "https://lh3.googleusercontent.com/aida-public/AB6AXuDvhHk6z7x00-s-BUPbi93kku5vCmU5JFrCzH7QWZAdY77_rlkHMcsSIWd3N1N9OxCSskK4E7aAKiXEXFq-0Z-yRzQ6nhjIoqavOxFhziHLhisVBQIPCRDVJcjYj36pS1Iu2nnD4UDyDBSVxMZp6DvqWow8-lC4Yfs78vAosQlsc2q1YBui794fn4cSziY1f6bA33tfc6NukpQyvQIFfbNaWCCjxnmoYdSVqOmRPAWPOIin4Ci-8ElxrjvxecWkYUF8SnsNs-ZBTw";
+const HERO_IMAGE = "/anasayfa-banner.jpg";
+const ABOUT_IMAGE_MAIN = "/3.jpg";
+const ABOUT_IMAGE_ACCENT = "/2.jpg";
 
 export function HomeView() {
   return (
     <>
       <Header />
       <main className="flex-1 pt-16 sm:pt-20">
-        <section className="relative flex min-h-[85svh] w-full items-center justify-center overflow-hidden md:min-h-[600px] md:h-[819px]">
-          <KenBurnsBackground src={HERO_IMAGE} />
-          <div className="absolute inset-0 bg-gradient-to-t from-surface via-surface/50 to-transparent" />
-          <div className="pointer-events-none absolute inset-0 hidden sm:block">
-            {[...Array(5)].map((_, i) => (
-              <motion.span
-                key={i}
-                className="absolute bottom-[18%] h-24 w-px bg-gradient-to-t from-on-primary-container/40 to-transparent"
-                style={{ left: `${18 + i * 16}%` }}
-                animate={{ y: [0, -28, 0], opacity: [0.15, 0.55, 0.15] }}
-                transition={{
-                  duration: 4 + i * 0.4,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                  delay: i * 0.35,
-                }}
-              />
-            ))}
-          </div>
-          <div className="relative z-10 mx-auto flex max-w-4xl flex-col items-center px-margin-mobile pb-16 text-center md:px-margin-desktop md:pb-0">
+        <section className="relative flex min-h-[78svh] w-full items-start justify-center overflow-hidden pt-6 sm:pt-10 md:min-h-[600px] md:h-[819px] md:pt-16">
+          <KenBurnsBackground
+            src={HERO_IMAGE}
+            positionClass="object-[50%_62%] sm:object-[50%_58%] md:object-[50%_60%]"
+          />
+          {/* Wash from the top: hides the skyline clutter, keeps the venue clear */}
+          <div className="absolute inset-0 bg-surface/10" />
+          <div className="absolute inset-0 bg-[linear-gradient(to_bottom,var(--surface)_0%,rgba(252,249,248,0.82)_26%,rgba(252,249,248,0)_58%)]" />
+          <div className="absolute inset-x-0 bottom-0 h-[12%] bg-gradient-to-t from-surface to-transparent" />
+          <div className="relative z-10 mx-auto flex max-w-4xl flex-col items-center px-margin-mobile text-center md:px-margin-desktop">
             <TextReveal
               text="Sofistike Sıcaklık İçin"
-              className="mb-4 font-display text-[36px] font-medium leading-[1.15] text-primary sm:mb-6 sm:text-[48px] md:text-[80px]"
+              className="mb-4 font-display text-[36px] font-medium leading-[1.15] text-primary [text-shadow:0_2px_20px_rgba(252,249,248,0.85)] sm:mb-6 sm:text-[48px] md:text-[80px]"
               delay={0.35}
             />
             <motion.p
-              className="mb-8 max-w-2xl font-body text-base leading-relaxed text-on-surface-variant sm:mb-10 sm:text-lg"
+              className="mb-8 max-w-2xl font-body text-base leading-relaxed text-on-surface-variant [text-shadow:0_1px_14px_rgba(252,249,248,0.9)] sm:mb-10 sm:text-lg"
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1.05, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
@@ -76,17 +64,17 @@ export function HomeView() {
             </motion.div>
           </div>
           <motion.div
-            className="absolute bottom-6 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 sm:flex"
+            className="absolute bottom-6 left-1/2 z-20 flex -translate-x-1/2 flex-col items-center gap-2"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1.8 }}
           >
-            <span className="font-body text-[10px] font-semibold uppercase tracking-[0.3em] text-on-surface-variant">
+            <span className="rounded-full bg-surface/85 px-3.5 py-1.5 font-body text-[11px] font-bold uppercase tracking-[0.28em] text-primary shadow-sm backdrop-blur-sm sm:text-xs">
               Kaydır
             </span>
             <motion.span
-              className="block h-10 w-px bg-primary/40"
-              animate={{ scaleY: [0.4, 1, 0.4], opacity: [0.3, 1, 0.3] }}
+              className="block h-10 w-px bg-primary/70"
+              animate={{ scaleY: [0.4, 1, 0.4], opacity: [0.45, 1, 0.45] }}
               transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
             />
           </motion.div>
@@ -95,53 +83,49 @@ export function HomeView() {
         <SignatureDivider />
 
         <section className="mx-auto max-w-[1200px] px-margin-mobile py-16 md:px-margin-desktop md:py-section-gap">
-          <div className="grid grid-cols-1 items-center gap-10 md:grid-cols-12 md:gap-gutter">
-            <Reveal
-              variants={slideFromLeft}
-              className="order-2 flex flex-col items-start md:order-1 md:col-span-5"
-            >
-              <span className="mb-3 font-body text-xs font-semibold uppercase tracking-widest text-on-primary-container sm:mb-4">
-                Mirasımız
-              </span>
-              <h2 className="mb-4 font-display text-[28px] font-medium leading-tight text-primary sm:mb-6 sm:text-[36px] md:text-[48px] md:leading-[56px]">
-                Sade Malzemelerin Senfonisi.
-              </h2>
-              <p className="mb-4 font-body text-sm leading-relaxed text-on-surface-variant sm:mb-6 sm:text-base">
-                Bir yemeğin kaçış olması gerektiğine inanarak kurulan L&apos;Arôme Bistro, gereksiz
-                olanı bir kenara bırakır; olağanüstü malzemeler, titiz hazırlık ve sizi durmaya
-                davet eden bir ortam.
-              </p>
-              <p className="mb-6 font-body text-sm leading-relaxed text-on-surface-variant sm:mb-8 sm:text-base">
-                Mekânımız, kendi oturma odanızın bir uzantısı gibi hissettirmek için tasarlandı —
-                eğer oturma odanız dünya standartlarında espresso ve el açması hamur işleri
-                sunsaydı.
-              </p>
-              <UnderlineLink
-                href="/story"
-                className="font-body text-xs font-semibold uppercase tracking-wider text-primary"
-              >
-                Hikâyemizi Keşfedin
-              </UnderlineLink>
-            </Reveal>
-            <Reveal
-              variants={slideFromRight}
-              className="relative order-1 mb-2 md:order-2 md:col-span-6 md:col-start-7 md:mb-0"
-            >
-              <div className="relative aspect-[4/5] w-full md:-mr-12">
-                <ParallaxImage
-                  src={ABOUT_IMAGE}
-                  alt="Şefin özenle sunduğu bir tabak"
-                  className="soft-shadow relative z-10 h-full w-full rounded"
-                />
-                <motion.div
-                  className="absolute -bottom-4 -left-4 z-0 hidden h-2/3 w-2/3 rounded bg-surface-container-low sm:block md:-bottom-6 md:-left-6"
-                  initial={{ opacity: 0, x: -20, y: 20 }}
-                  whileInView={{ opacity: 1, x: 0, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.35, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-                />
-              </div>
-            </Reveal>
+          <div className="grid grid-cols-1 gap-10 md:grid-cols-12 md:gap-gutter">
+            <Stagger className="flex flex-col items-start md:col-span-4 md:sticky md:top-28 md:self-start">
+              <StaggerItem>
+                <span className="mb-3 block font-body text-xs font-semibold uppercase tracking-widest text-on-primary-container sm:mb-4">
+                  Mirasımız
+                </span>
+              </StaggerItem>
+              <StaggerItem>
+                <h2 className="mb-4 font-display text-[28px] font-medium leading-tight text-primary sm:mb-6 sm:text-[36px] md:text-[48px] md:leading-[56px]">
+                  Sade Malzemelerin Senfonisi.
+                </h2>
+              </StaggerItem>
+              <StaggerItem>
+                <p className="mb-4 font-body text-sm leading-relaxed text-on-surface-variant sm:mb-6 sm:text-base">
+                  Bir yemeğin kaçış olması gerektiğine inanarak kurulan Berray&apos;s, gereksiz
+                  olanı bir kenara bırakır; olağanüstü malzemeler, titiz hazırlık ve sizi durmaya
+                  davet eden bir ortam.
+                </p>
+              </StaggerItem>
+              <StaggerItem>
+                <p className="mb-6 font-body text-sm leading-relaxed text-on-surface-variant sm:mb-8 sm:text-base">
+                  Ahşap tavanlar, taş duvarlar ve sıcak ışığın buluştuğu salonumuz; kendi oturma
+                  odanızın bir uzantısı gibi hissettirmek için tasarlandı.
+                </p>
+              </StaggerItem>
+              <StaggerItem>
+                <UnderlineLink
+                  href="/story"
+                  className="font-body text-xs font-semibold uppercase tracking-wider text-primary"
+                >
+                  Hikâyemizi Keşfedin
+                </UnderlineLink>
+              </StaggerItem>
+            </Stagger>
+
+            <InteriorShowcase
+              className="md:col-span-8"
+              tallSrc={ABOUT_IMAGE_MAIN}
+              tallAlt="Berray's Kitchen & Cafe salonu"
+              wideSrc={ABOUT_IMAGE_ACCENT}
+              wideAlt="Berray's şömineli oturma alanı"
+              caption="Salon & Şömine"
+            />
           </div>
         </section>
 

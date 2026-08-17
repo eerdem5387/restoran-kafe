@@ -10,8 +10,11 @@ import { TextReveal } from "@/components/motion/TextReveal";
 import { fadeUp } from "@/lib/motion";
 import { motion } from "motion/react";
 
-const MAP_IMAGE =
-  "https://lh3.googleusercontent.com/aida-public/AB6AXuDPaLJiRvJItee5vIY0G8FIpovE4wbEH5VkSJq3DltcZaZSd_A1zIanlnTMkevpFbU6vUBmYYrgjhSfrWm8cqZNX863bqCk3SThm2KVOtRuiZJOhbRGtLtm-CG3l9LhwWQJH36IalBb4Qw-ovWhju2fMbPg_DQhJKDzJ1ssrlmOpTq0pvGaq57lddTOI68CNLiCXIFN4Fu6mMfPvT-ikeeD88kLDXuXGzgpgVKOV6DsgUCss7Q5_ZAXllidL3pueWZLi9dOxevD6w";
+const MAP_EMBED_SRC =
+  "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3002.8247263447297!2d40.943179276331044!3d41.18198997132669!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x406645fd1ed47191%3A0x59b2ad7e5d6fba5f!2sBerray%E2%80%99s%20Kitchen%26%20Cafe!5e0!3m2!1str!2str!4v1786949333724!5m2!1str!2str";
+
+const MAP_LINK =
+  "https://www.google.com/maps/place/Berray%E2%80%99s+Kitchen%26+Cafe/@41.18198997132669,40.943179276331044,17z";
 
 export function ReservationsView() {
   return (
@@ -59,60 +62,41 @@ export function ReservationsView() {
                     <span className="material-symbols-outlined mt-0.5 text-secondary">location_on</span>
                     <div>
                       <Logo size="sm" href={null} className="mb-2 text-primary" />
-                      <p>Culinary Caddesi No: 124</p>
-                      <p>Gastronomy District, İstanbul</p>
+                      <p>Hamidiye / Pazar / Rize</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-3 sm:gap-4">
                     <span className="material-symbols-outlined text-secondary">call</span>
-                    <a href="tel:+905551234567" className="hover:text-primary">
-                      +90 (555) 123 45 67
+                    <a href="tel:+905418080053" className="hover:text-primary">
+                      0 (541) 808 00 53
                     </a>
                   </div>
-                  <div className="flex items-center gap-3 sm:gap-4">
-                    <span className="material-symbols-outlined text-secondary">mail</span>
-                    <a href="mailto:rezervasyon@laromebistro.com" className="break-all hover:text-primary">
-                      rezervasyon@laromebistro.com
-                    </a>
-                  </div>
-                </div>
-                <div className="mt-6 border-t border-outline-variant/30 pt-6 sm:mt-8 sm:pt-8">
-                  <h4 className="mb-4 font-body text-xs font-semibold uppercase tracking-wider text-on-surface-variant">
-                    Çalışma Saatleri
-                  </h4>
-                  <ul className="space-y-2 font-body text-sm text-on-surface-variant sm:text-base">
-                    <li className="flex justify-between gap-4">
-                      <span>Pzt - Per:</span>
-                      <span className="text-right">17:00 - 22:00</span>
-                    </li>
-                    <li className="flex justify-between gap-4 font-bold text-primary">
-                      <span>Cum - Cmt:</span>
-                      <span className="text-right">17:00 - 23:00</span>
-                    </li>
-                    <li className="flex justify-between gap-4">
-                      <span>Pazar:</span>
-                      <span className="text-right">16:00 - 21:00</span>
-                    </li>
-                  </ul>
                 </div>
               </motion.div>
             </StaggerItem>
 
             <StaggerItem>
               <motion.div
-                className="soft-shadow group relative h-52 overflow-hidden rounded-xl border border-outline-variant/30 sm:h-64"
+                className="soft-shadow relative h-52 overflow-hidden rounded-xl border border-outline-variant/30 sm:h-64"
                 whileHover={{ scale: 1.01 }}
                 transition={{ duration: 0.45 }}
               >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={MAP_IMAGE}
-                  alt="L'Arôme Bistro konum haritası"
-                  className="h-full w-full object-cover opacity-80 grayscale transition-all duration-700 group-hover:scale-105 group-hover:opacity-100 group-hover:grayscale-0"
+                <iframe
+                  title="Berray's Kitchen & Cafe konumu"
+                  src={MAP_EMBED_SRC}
+                  className="absolute inset-0 h-full w-full border-0"
+                  loading="lazy"
+                  referrerPolicy="strict-origin-when-cross-origin"
+                  allowFullScreen
                 />
-                <div className="absolute right-3 bottom-3 left-3 rounded-lg bg-surface/90 px-4 py-2.5 text-center font-body text-xs font-semibold uppercase tracking-wider text-primary shadow-sm backdrop-blur sm:right-4 sm:bottom-4 sm:left-4">
+                <a
+                  href={MAP_LINK}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="absolute right-3 bottom-3 left-3 z-10 rounded-lg bg-surface/90 px-4 py-2.5 text-center font-body text-xs font-semibold uppercase tracking-wider text-primary shadow-sm backdrop-blur transition-opacity hover:bg-surface sm:right-4 sm:bottom-4 sm:left-4"
+                >
                   Yol Tarifi Al
-                </div>
+                </a>
               </motion.div>
             </StaggerItem>
           </Stagger>
