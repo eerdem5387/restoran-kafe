@@ -34,8 +34,8 @@ export function MenuView({
             <Reveal variants={fadeUp}>
               <p className="font-body text-base leading-relaxed text-surface-variant sm:text-lg">
                 {menuEnabled
-                  ? "Önce bir kategori seçin, ardından o bölüme ait lezzetleri inceleyin."
-                  : "Menümüz şu an güncelleniyor. Kısa süre içinde yeniden yayında olacak."}
+                  ? "Berray's menüsünü keşfetmek için bir kategori seçin."
+                  : "Berray's menüsü şu an güncelleniyor. Çok yakında yeniden burada."}
               </p>
             </Reveal>
           </div>
@@ -46,8 +46,8 @@ export function MenuView({
           {!menuEnabled ? (
             <div className="mx-auto max-w-md text-center">
               <p className="font-body text-sm leading-relaxed text-surface-variant sm:text-base">
-                Fiyat ve içerik düzenlemeleri nedeniyle menü geçici olarak kapalı. Rezervasyon için
-                bizimle iletişime geçebilirsiniz.
+                Fiyatları ve ürünleri yeniliyoruz. Bu sırada rezervasyon için bizi arayabilir veya
+                formu doldurabilirsiniz.
               </p>
               <Link
                 href="/reservations"
@@ -58,7 +58,7 @@ export function MenuView({
             </div>
           ) : categories.length === 0 ? (
             <p className="text-center font-body text-surface-variant">
-              Menü yakında güncellenecek.
+              Berray&apos;s menüsü çok yakında burada.
             </p>
           ) : (
             <Stagger className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3 lg:gap-5">

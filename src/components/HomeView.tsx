@@ -33,7 +33,7 @@ export function HomeView() {
           <div className="absolute inset-x-0 bottom-0 h-[12%] bg-gradient-to-t from-surface to-transparent" />
           <div className="relative z-10 mx-auto flex max-w-4xl flex-col items-center px-margin-mobile text-center md:px-margin-desktop">
             <TextReveal
-              text="Sofistike Sıcaklık İçin"
+              text="Berray's'ta Güzel Bir Mola"
               className="mb-4 font-display text-[36px] font-medium leading-[1.15] text-primary [text-shadow:0_2px_20px_rgba(252,249,248,0.85)] sm:mb-6 sm:text-[48px] md:text-[80px]"
               delay={0.35}
             />
@@ -43,8 +43,8 @@ export function HomeView() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1.05, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
             >
-              El yapımı mutfak gelenekleri, modern bir sığınağın sakin konforuyla buluşuyor.
-              Uzun süre hatırlanacak lezzetleri deneyimleyin.
+              Kahvaltıdan akşam yemeğine, kahveden tatlıya… Sevdiğiniz lezzetler ve keyifli
+              sohbetler için Berray&apos;s&apos;ta buluşalım.
             </motion.p>
             <motion.div
               className="flex w-full max-w-md flex-col gap-3 sm:max-w-none sm:w-auto sm:flex-row sm:flex-wrap sm:justify-center sm:gap-4"
@@ -90,25 +90,24 @@ export function HomeView() {
             <Stagger className="flex flex-col items-start md:col-span-4 md:sticky md:top-28 md:self-start">
               <StaggerItem>
                 <span className="mb-3 block font-body text-xs font-semibold uppercase tracking-widest text-on-primary-container sm:mb-4">
-                  Mirasımız
+                  Berray&apos;s&apos;ı Tanıyın
                 </span>
               </StaggerItem>
               <StaggerItem>
                 <h2 className="mb-4 font-display text-[28px] font-medium leading-tight text-primary sm:mb-6 sm:text-[36px] md:text-[48px] md:leading-[56px]">
-                  Sade Malzemelerin Senfonisi.
+                  Sıcak Bir Ortam, Sevdiğiniz Lezzetler.
                 </h2>
               </StaggerItem>
               <StaggerItem>
                 <p className="mb-4 font-body text-sm leading-relaxed text-on-surface-variant sm:mb-6 sm:text-base">
-                  Bir yemeğin kaçış olması gerektiğine inanarak kurulan Berray&apos;s, gereksiz
-                  olanı bir kenara bırakır; olağanüstü malzemeler, titiz hazırlık ve sizi durmaya
-                  davet eden bir ortam.
+                  Berray&apos;s&apos;ta her tabağı özenle hazırlıyor, sevdiğiniz lezzetleri sıcak
+                  ve rahat bir ortamda sunuyoruz.
                 </p>
               </StaggerItem>
               <StaggerItem>
                 <p className="mb-6 font-body text-sm leading-relaxed text-on-surface-variant sm:mb-8 sm:text-base">
-                  Ahşap tavanlar, taş duvarlar ve sıcak ışığın buluştuğu salonumuz; kendi oturma
-                  odanızın bir uzantısı gibi hissettirmek için tasarlandı.
+                  Ahşap tavanlar, taş duvarlar ve sıcak ışıklarla hazırlanan salonumuzda ailenizle
+                  ve arkadaşlarınızla güzel vakit geçirebilirsiniz.
                 </p>
               </StaggerItem>
               <StaggerItem>
@@ -147,11 +146,11 @@ export function HomeView() {
               chair_alt
             </motion.span>
             <h2 className="mb-4 font-display text-[32px] font-medium text-on-tertiary sm:mb-6 sm:text-[48px] md:text-[56px]">
-              Masanızı Ayırtın
+              Berray&apos;s&apos;ta Yerinizi Ayırın
             </h2>
             <p className="mb-8 max-w-xl font-body text-base leading-relaxed text-on-tertiary-container sm:mb-12 sm:text-lg">
-              Sizi aramızda görmeyi çok isteriz. Kesintisiz bir deneyim için akşam servisinde
-              rezervasyon önerilir.
+              Ailenizle veya arkadaşlarınızla güzel bir masa için rezervasyonunuzu kolayca
+              oluşturun.
             </p>
             <MagneticButton
               href="/reservations"

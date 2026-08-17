@@ -39,7 +39,7 @@ export function ReservationForm() {
       }
 
       setStatus("success");
-      setMessage("Rezervasyon talebiniz alındı. Kısa süre içinde onaylayacağız.");
+      setMessage("Talebinizi aldık. En kısa sürede sizinle iletişime geçeceğiz.");
       form.reset();
     } catch {
       setStatus("error");
@@ -214,7 +214,7 @@ export function ReservationForm() {
               disabled={status === "loading"}
               className="flex min-h-12 w-full items-center justify-center rounded bg-primary-container px-10 py-4 font-body text-xs font-semibold uppercase tracking-wider text-on-primary disabled:opacity-60 md:w-auto"
             >
-              {status === "loading" ? "Gönderiliyor..." : "Rezervasyonu Onayla"}
+              {status === "loading" ? "Gönderiliyor..." : "Rezervasyon Talebi Gönder"}
             </MagneticButton>
           </div>
         </StaggerItem>

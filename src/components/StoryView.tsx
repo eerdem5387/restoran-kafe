@@ -30,8 +30,8 @@ export function StoryView() {
             />
             <Reveal variants={fadeUp}>
               <p className="font-body text-base leading-relaxed text-on-surface-variant sm:text-lg">
-                Berray&apos;s Cafe &amp; Restaurant; kahvaltıdan akşam sofrasına, sıcak bir
-                karşılama ve özenli mutfakla kurulan bir buluşma noktasıdır.
+                Berray&apos;s Kitchen &amp; Cafe, günün her saatinde iyi yemek ve güzel sohbet
+                için buluşabileceğiniz sıcak bir mekân.
               </p>
             </Reveal>
           </div>
@@ -43,23 +43,20 @@ export function StoryView() {
               variants={slideFromRight}
               className="md:col-span-4 md:sticky md:top-28 md:self-start">
               <h2 className="mb-4 font-display text-[28px] font-medium text-primary sm:mb-6 sm:text-[32px] md:text-[48px]">
-                Mutfak, sohbet ve sıcaklık.
+                Birlikte Güzel Vakit Geçirmek İçin.
               </h2>
               <p className="mb-4 font-body text-sm leading-relaxed text-on-surface-variant sm:mb-6 sm:text-base">
-                Berray&apos;s; sabahın ilk kahvesinden serpme kahvaltıya, burger ve pizza
-                klasiklerimizden ızgara ana yemeklere uzanan geniş bir mutfakla misafirlerini
-                ağırlar. Her tabakta taze malzeme, dengeli lezzet ve dikkatli sunum vardır.
+                Güne kahvaltıyla başlayabilir, kahvenizi yudumlayabilir veya akşam yemeğinde
+                sevdiklerinizle aynı sofrayı paylaşabilirsiniz. Menümüzde burger, pizza, makarna,
+                salata ve ana yemek seçenekleri bulunur.
               </p>
               <p className="mb-4 font-body text-sm leading-relaxed text-on-surface-variant sm:mb-6 sm:text-base">
-                Barımızda espresso bazlı sıcak içecekler, buzlu kahveler, taze sıkımlar ve imza
-                kokteyllerimizle günün temposuna uygun bir mola sunarız. Tatlılarımızsa sofranın
-                ardından yumuşak bir kapanış için hazırlanır.
+                Sıcak ve soğuk kahvelerimiz, taze içeceklerimiz ve tatlılarımızla günün her
+                saatinde keyifli bir mola verebilirsiniz.
               </p>
               <p className="mb-6 font-body text-sm leading-relaxed text-on-surface-variant sm:mb-8 sm:text-base">
-                Mekânımızı acele etmeden oturabileceğiniz, arkadaşlarınızla paylaşabileceğiniz ve
-                her gelişinizde tanıdık bir sıcaklık bulacağınız bir cafe &amp; restaurant olarak
-                tasarladık. Berray&apos;s Cafe &amp; Restaurant&apos;ta her ziyaret, iyi yemek ve
-                iyi sohbet için bir davettir.
+                Berray&apos;s Kitchen &amp; Cafe&apos;yi rahatça oturabileceğiniz, ailenizle ve
+                arkadaşlarınızla güzel anılar biriktirebileceğiniz bir yer olarak hazırladık.
               </p>
               <MagneticButton
                 href="/reservations"

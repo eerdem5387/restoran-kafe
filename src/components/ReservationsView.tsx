@@ -23,13 +23,13 @@ export function ReservationsView() {
       <main className="mx-auto w-full max-w-[1200px] flex-1 px-margin-mobile pb-16 pt-28 sm:pt-[120px] md:px-margin-desktop md:pb-section-gap">
         <section className="mb-10 text-center sm:mb-16 md:mb-24">
           <TextReveal
-            text="Masanızı Ayırtın"
+            text="Berray's'ta Rezervasyon"
             className="mb-3 font-display text-[32px] font-medium text-primary sm:mb-4 sm:text-[36px] md:text-[48px]"
           />
           <Reveal variants={fadeUp}>
             <p className="mx-auto max-w-2xl font-body text-base leading-relaxed text-on-surface-variant sm:text-lg">
-              Sofistike sıcaklık ve seçkin mutfak için bize katılın. Müsaitlik için önceden
-              rezervasyon önerilir.
+              Formu doldurun, masanızı sizin için ayıralım. Dilerseniz bizi telefonla da
+              arayabilirsiniz.
             </p>
           </Reveal>
         </section>
@@ -42,7 +42,7 @@ export function ReservationsView() {
               transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
             />
             <h2 className="mb-6 font-display text-[26px] font-medium text-primary sm:mb-8 sm:text-[32px]">
-              Rezervasyon Bilgileri
+              Rezervasyon Formu
             </h2>
             <ReservationForm />
           </Reveal>

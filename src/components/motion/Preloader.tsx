@@ -14,7 +14,7 @@ export function Preloader() {
     setMounted(true);
     if (typeof window === "undefined") return;
 
-    const seen = sessionStorage.getItem("larome-preloader");
+    const seen = sessionStorage.getItem("berrays-preloader");
     if (seen || reduce) {
       setVisible(false);
       return;
@@ -23,7 +23,7 @@ export function Preloader() {
     document.body.style.overflow = "hidden";
     const timer = window.setTimeout(() => {
       setVisible(false);
-      sessionStorage.setItem("larome-preloader", "1");
+      sessionStorage.setItem("berrays-preloader", "1");
       document.body.style.overflow = "";
     }, 2400);
 
@@ -64,7 +64,7 @@ export function Preloader() {
               animate={{ opacity: 1, letterSpacing: "0.35em" }}
               transition={{ delay: 0.55, duration: 0.8, ease: easeEditorial }}
             >
-              Sofistike Sıcaklık
+              İyi Yemek, Güzel Anlar
             </motion.p>
           </div>
         </motion.div>

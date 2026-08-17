@@ -8,7 +8,7 @@ export const metadata: Metadata = {
     template: "%s | Berray's",
   },
   description:
-    "El yapımı mutfak gelenekleri, modern bir sığınağın sakin konforuyla buluşuyor. Sofistike sıcaklık için Berray's.",
+    "Berray's Kitchen & Cafe'de kahvaltıdan akşam yemeğine, kahveden tatlıya sevdiğiniz lezzetleri keşfedin.",
 };
 
 export const viewport: Viewport = {
