@@ -49,13 +49,17 @@ export function ParallaxImage({
 
 export function KenBurnsBackground({
   src,
+  mobileSrc,
   className,
   /** Tailwind object-position classes for responsive crop focus */
   positionClass = "object-center",
+  mobilePositionClass,
 }: {
   src: string;
+  mobileSrc?: string;
   className?: string;
   positionClass?: string;
+  mobilePositionClass?: string;
 }) {
   const reduce = useReducedMotion();
 
@@ -67,13 +71,32 @@ export function KenBurnsBackground({
         animate={reduce ? undefined : { scale: 1.02 }}
         transition={{ duration: 22, ease: "linear", repeat: Infinity, repeatType: "reverse" }}
       >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={src}
-          alt=""
-          aria-hidden
-          className={`h-full w-full object-cover ${positionClass}`}
-        />
+        {mobileSrc ? (
+          <>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={mobileSrc}
+              alt=""
+              aria-hidden
+              className={`absolute inset-0 h-full w-full object-cover md:hidden ${mobilePositionClass ?? "object-center"}`}
+            />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={src}
+              alt=""
+              aria-hidden
+              className={`absolute inset-0 hidden h-full w-full object-cover md:block ${positionClass}`}
+            />
+          </>
+        ) : (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={src}
+            alt=""
+            aria-hidden
+            className={`h-full w-full object-cover ${positionClass}`}
+          />
+        )}
       </motion.div>
     </div>
   );

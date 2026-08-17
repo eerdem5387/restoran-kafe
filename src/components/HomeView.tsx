@@ -11,6 +11,7 @@ import { Reveal, Stagger, StaggerItem } from "@/components/motion/Reveal";
 import { TextReveal } from "@/components/motion/TextReveal";
 
 const HERO_IMAGE = "/anasayfa-banner.jpg";
+const HERO_IMAGE_MOBILE = "/mobil-1.jpg";
 const ABOUT_IMAGE_MAIN = "/3.jpg";
 const ABOUT_IMAGE_ACCENT = "/2.jpg";
 
@@ -22,7 +23,9 @@ export function HomeView() {
         <section className="relative flex min-h-[78svh] w-full items-start justify-center overflow-hidden pt-6 sm:pt-10 md:min-h-[600px] md:h-[819px] md:pt-16">
           <KenBurnsBackground
             src={HERO_IMAGE}
+            mobileSrc={HERO_IMAGE_MOBILE}
             positionClass="object-[50%_62%] sm:object-[50%_58%] md:object-[50%_60%]"
+            mobilePositionClass="object-center"
           />
           {/* Wash from the top: hides the skyline clutter, keeps the venue clear */}
           <div className="absolute inset-0 bg-surface/10" />
