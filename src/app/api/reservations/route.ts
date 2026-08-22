@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { isAuthenticated } from "@/lib/auth";
 import { createReservation, getReservations } from "@/lib/data";
+import { checkRateLimit, getClientIp, recordRateLimitHit } from "@/lib/rate-limit";
 import type { CreateReservationInput } from "@/lib/types";
 
 function errorMessage(error: unknown, fallback: string) {
@@ -24,7 +25,19 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
+  const ip = getClientIp(request);
+  const rateKey = `reservation:${ip}`;
+
   try {
+    const limit = await checkRateLimit(rateKey);
+    if (!limit.allowed) {
+      return NextResponse.json(
+        { error: "Çok fazla rezervasyon denemesi. Lütfen daha sonra tekrar deneyin." },
+        { status: 429 },
+      );
+    }
+    await recordRateLimitHit(rateKey);
+
     const body = (await request.json()) as CreateReservationInput;
     const required = ["firstName", "lastName", "email", "phone", "date", "time", "guests"] as const;
     for (const field of required) {

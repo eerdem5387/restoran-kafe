@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { LanguageProvider } from "@/lib/i18n/LanguageProvider";
 import { MotionProvider } from "@/components/motion/MotionProvider";
 import "./globals.css";
 
@@ -39,7 +40,9 @@ export default function RootLayout({
         />
       </head>
       <body className="flex min-h-full flex-col font-body text-base text-foreground">
-        <MotionProvider>{children}</MotionProvider>
+        <LanguageProvider>
+          <MotionProvider>{children}</MotionProvider>
+        </LanguageProvider>
       </body>
     </html>
   );

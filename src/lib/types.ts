@@ -1,18 +1,26 @@
 export interface Category {
   id: string;
   name: string;
+  nameEn?: string;
+  nameAr?: string;
   description: string;
+  descriptionEn?: string;
+  descriptionAr?: string;
   sortOrder: number;
 }
 
 export interface MenuItem {
   id: string;
   name: string;
+  nameEn?: string;
+  nameAr?: string;
   description: string;
   price: number;
   categoryId: string;
   categoryName?: string;
   tags: string[];
+  tagsEn?: string[];
+  tagsAr?: string[];
   featured: boolean;
   available: boolean;
   image?: string;
@@ -48,16 +56,24 @@ export interface CreateReservationInput {
 
 export interface CreateCategoryInput {
   name: string;
+  nameEn?: string;
+  nameAr?: string;
   description?: string;
+  descriptionEn?: string;
+  descriptionAr?: string;
   sortOrder?: number;
 }
 
 export interface CreateMenuItemInput {
   name: string;
+  nameEn?: string;
+  nameAr?: string;
   description?: string;
   price: number;
   categoryId: string;
   tags?: string[];
+  tagsEn?: string[];
+  tagsAr?: string[];
   featured?: boolean;
   available?: boolean;
   image?: string | null;

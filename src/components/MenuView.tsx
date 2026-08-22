@@ -3,9 +3,12 @@
 import Link from "next/link";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
+import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { SignatureDivider } from "@/components/SignatureDivider";
 import { Reveal, Stagger, StaggerItem } from "@/components/motion/Reveal";
 import { TextReveal } from "@/components/motion/TextReveal";
+import { useLanguage } from "@/lib/i18n/LanguageProvider";
+import { localizedCategory } from "@/lib/i18n/menu-locale";
 import type { Category } from "@/lib/types";
 import { fadeUp } from "@/lib/motion";
 
@@ -21,6 +24,8 @@ export function MenuView({
   categories: CategoryCard[];
   menuEnabled?: boolean;
 }) {
+  const { t, locale } = useLanguage();
+
   return (
     <>
       <Header />
@@ -28,15 +33,17 @@ export function MenuView({
         <section className="mx-auto mb-10 max-w-[1200px] px-margin-mobile md:mb-14 md:px-margin-desktop">
           <div className="mx-auto max-w-2xl space-y-4 text-center sm:space-y-5">
             <TextReveal
-              text="Menümüz"
+              key={`menu-title-${locale}`}
+              text={t.menu.title}
               className="font-display text-[40px] font-medium text-inverse-on-surface sm:text-[48px] md:text-[64px]"
             />
             <Reveal variants={fadeUp}>
               <p className="font-body text-base leading-relaxed text-surface-variant sm:text-lg">
-                {menuEnabled
-                  ? "Berray's menüsünü keşfetmek için bir kategori seçin."
-                  : "Berray's menüsü şu an güncelleniyor. Çok yakında yeniden burada."}
+                {menuEnabled ? t.menu.subtitle : t.menu.closedSubtitle}
               </p>
+            </Reveal>
+            <Reveal variants={fadeUp}>
+              <LanguageSwitcher variant="dark" className="pt-1" />
             </Reveal>
           </div>
           <SignatureDivider light />
@@ -46,23 +53,22 @@ export function MenuView({
           {!menuEnabled ? (
             <div className="mx-auto max-w-md text-center">
               <p className="font-body text-sm leading-relaxed text-surface-variant sm:text-base">
-                Fiyatları ve ürünleri yeniliyoruz. Bu sırada rezervasyon için bizi arayabilir veya
-                formu doldurabilirsiniz.
+                {t.menu.closedBody}
               </p>
               <Link
                 href="/reservations"
                 className="mt-6 inline-flex min-h-12 items-center justify-center rounded bg-on-primary-container px-6 text-xs font-semibold uppercase tracking-wider text-primary-container transition-opacity hover:opacity-90"
               >
-                Rezervasyon
+                {t.menu.reservation}
               </Link>
             </div>
           ) : categories.length === 0 ? (
-            <p className="text-center font-body text-surface-variant">
-              Berray&apos;s menüsü çok yakında burada.
-            </p>
+            <p className="text-center font-body text-surface-variant">{t.menu.empty}</p>
           ) : (
             <Stagger className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3 lg:gap-5">
-              {categories.map(({ category, itemCount }, index) => (
+              {categories.map(({ category, itemCount }, index) => {
+                const cat = localizedCategory(category, locale);
+                return (
                 <StaggerItem key={category.id}>
                   <Link
                     href={`/menu/${category.id}`}
@@ -73,25 +79,25 @@ export function MenuView({
                         <span className="font-body text-[10px] font-semibold uppercase tracking-[0.22em] text-on-primary-container">
                           {String(index + 1).padStart(2, "0")}
                         </span>
-                        <span className="material-symbols-outlined text-lg text-on-primary-container transition-transform duration-300 group-hover:translate-x-1">
+                        <span className="material-symbols-outlined text-lg text-on-primary-container transition-transform duration-300 group-hover:translate-x-1 rtl:rotate-180 rtl:group-hover:-translate-x-1">
                           arrow_forward
                         </span>
                       </div>
                       <h2 className="font-display text-[26px] font-medium leading-tight text-inverse-on-surface sm:text-[30px]">
-                        {category.name}
+                        {cat.name}
                       </h2>
-                      {category.description && (
+                      {cat.description && (
                         <p className="mt-2 line-clamp-2 font-body text-sm leading-relaxed text-surface-variant">
-                          {category.description}
+                          {cat.description}
                         </p>
                       )}
                     </div>
                     <p className="mt-5 font-body text-xs font-semibold uppercase tracking-wider text-on-primary-container">
-                      {itemCount} ürün
+                      {t.menu.productCount(itemCount)}
                     </p>
                   </Link>
                 </StaggerItem>
-              ))}
+              );})}
             </Stagger>
           )}
         </section>

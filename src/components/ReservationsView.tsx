@@ -7,6 +7,7 @@ import { ReservationForm } from "@/components/ReservationForm";
 import { SignatureDivider } from "@/components/SignatureDivider";
 import { Reveal, Stagger, StaggerItem } from "@/components/motion/Reveal";
 import { TextReveal } from "@/components/motion/TextReveal";
+import { useLanguage } from "@/lib/i18n/LanguageProvider";
 import { fadeUp } from "@/lib/motion";
 import { motion } from "motion/react";
 
@@ -17,19 +18,21 @@ const MAP_LINK =
   "https://www.google.com/maps/place/Berray%E2%80%99s+Kitchen%26+Cafe/@41.18198997132669,40.943179276331044,17z";
 
 export function ReservationsView() {
+  const { t, locale } = useLanguage();
+
   return (
     <>
       <Header />
       <main className="mx-auto w-full max-w-[1200px] flex-1 px-margin-mobile pb-16 pt-28 sm:pt-[120px] md:px-margin-desktop md:pb-section-gap">
         <section className="mb-10 text-center sm:mb-16 md:mb-24">
           <TextReveal
-            text="Berray's'ta Rezervasyon"
+            key={`reservations-title-${locale}`}
+            text={t.reservations.title}
             className="mb-3 font-display text-[32px] font-medium text-primary sm:mb-4 sm:text-[36px] md:text-[48px]"
           />
           <Reveal variants={fadeUp}>
             <p className="mx-auto max-w-2xl font-body text-base leading-relaxed text-on-surface-variant sm:text-lg">
-              Formu doldurun, masanızı sizin için ayıralım. Dilerseniz bizi telefonla da
-              arayabilirsiniz.
+              {t.reservations.subtitle}
             </p>
           </Reveal>
         </section>
@@ -42,12 +45,12 @@ export function ReservationsView() {
               transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
             />
             <h2 className="mb-6 font-display text-[26px] font-medium text-primary sm:mb-8 sm:text-[32px]">
-              Rezervasyon Formu
+              {t.reservations.formTitle}
             </h2>
             <ReservationForm />
           </Reveal>
 
-          <Stagger className="flex flex-col gap-6 sm:gap-8 lg:col-span-5 lg:pl-8">
+          <Stagger className="flex flex-col gap-6 sm:gap-8 lg:col-span-5 lg:pl-8 rtl:lg:pl-0 rtl:lg:pr-8">
             <StaggerItem>
               <motion.div
                 className="soft-shadow rounded-xl border border-outline-variant/30 bg-surface p-5 sm:p-8"
@@ -55,7 +58,7 @@ export function ReservationsView() {
                 transition={{ duration: 0.35 }}
               >
                 <h3 className="mb-5 font-display text-[26px] font-medium text-primary sm:mb-6 sm:text-[32px]">
-                  İletişim
+                  {t.reservations.contact}
                 </h3>
                 <div className="space-y-5 font-body text-sm text-on-surface-variant sm:space-y-6 sm:text-base">
                   <div className="flex items-start gap-3 sm:gap-4">
@@ -82,7 +85,7 @@ export function ReservationsView() {
                 transition={{ duration: 0.45 }}
               >
                 <iframe
-                  title="Berray's Kitchen & Cafe konumu"
+                  title={t.reservations.mapTitle}
                   src={MAP_EMBED_SRC}
                   className="absolute inset-0 h-full w-full border-0"
                   loading="lazy"
@@ -95,7 +98,7 @@ export function ReservationsView() {
                   rel="noopener noreferrer"
                   className="absolute right-3 bottom-3 left-3 z-10 rounded-lg bg-surface/90 px-4 py-2.5 text-center font-body text-xs font-semibold uppercase tracking-wider text-primary shadow-sm backdrop-blur transition-opacity hover:bg-surface sm:right-4 sm:bottom-4 sm:left-4"
                 >
-                  Yol Tarifi Al
+                  {t.reservations.directions}
                 </a>
               </motion.div>
             </StaggerItem>

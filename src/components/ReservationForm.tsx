@@ -4,9 +4,11 @@ import { AnimatePresence, motion } from "motion/react";
 import { FormEvent, useState } from "react";
 import { MagneticButton } from "@/components/motion/MagneticButton";
 import { Stagger, StaggerItem } from "@/components/motion/Reveal";
+import { useLanguage } from "@/lib/i18n/LanguageProvider";
 import { TIME_SLOTS } from "@/lib/types";
 
 export function ReservationForm() {
+  const { t } = useLanguage();
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [message, setMessage] = useState("");
 
@@ -39,11 +41,11 @@ export function ReservationForm() {
       }
 
       setStatus("success");
-      setMessage("Talebinizi aldık. En kısa sürede sizinle iletişime geçeceğiz.");
+      setMessage(t.form.success);
       form.reset();
     } catch {
       setStatus("error");
-      setMessage("Bir sorun oluştu. Lütfen tekrar deneyin veya bizi arayın.");
+      setMessage(t.form.error);
     }
   }
 
@@ -57,7 +59,7 @@ export function ReservationForm() {
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-8">
             <div className="flex flex-col">
               <label htmlFor="firstName" className={labelClass}>
-                Ad
+                {t.form.firstName}
               </label>
               <input
                 id="firstName"
@@ -70,7 +72,7 @@ export function ReservationForm() {
             </div>
             <div className="flex flex-col">
               <label htmlFor="lastName" className={labelClass}>
-                Soyad
+                {t.form.lastName}
               </label>
               <input
                 id="lastName"
@@ -88,7 +90,7 @@ export function ReservationForm() {
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-8">
             <div className="flex flex-col">
               <label htmlFor="email" className={labelClass}>
-                E-posta
+                {t.form.email}
               </label>
               <input
                 id="email"
@@ -102,7 +104,7 @@ export function ReservationForm() {
             </div>
             <div className="flex flex-col">
               <label htmlFor="phone" className={labelClass}>
-                Telefon
+                {t.form.phone}
               </label>
               <input
                 id="phone"
@@ -121,7 +123,7 @@ export function ReservationForm() {
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-3 sm:gap-8">
             <div className="flex flex-col">
               <label htmlFor="date" className={labelClass}>
-                Tarih
+                {t.form.date}
               </label>
               <input
                 id="date"
@@ -133,7 +135,7 @@ export function ReservationForm() {
             </div>
             <div className="flex flex-col">
               <label htmlFor="time" className={labelClass}>
-                Saat
+                {t.form.time}
               </label>
               <select
                 id="time"
@@ -143,7 +145,7 @@ export function ReservationForm() {
                 defaultValue=""
               >
                 <option disabled value="">
-                  Saat seçin
+                  {t.form.selectTime}
                 </option>
                 {TIME_SLOTS.map((slot) => (
                   <option key={slot} value={slot}>
@@ -154,7 +156,7 @@ export function ReservationForm() {
             </div>
             <div className="flex flex-col">
               <label htmlFor="guests" className={labelClass}>
-                Kişi
+                {t.form.guests}
               </label>
               <select
                 id="guests"
@@ -164,11 +166,11 @@ export function ReservationForm() {
                 defaultValue=""
               >
                 <option disabled value="">
-                  Kişi sayısı
+                  {t.form.selectGuests}
                 </option>
                 {[1, 2, 3, 4, 5, 6].map((n) => (
                   <option key={n} value={n}>
-                    {n} {n === 1 ? "Kişi" : "Kişi"}
+                    {n} {n === 1 ? t.form.guest : t.form.guestsLabel}
                   </option>
                 ))}
               </select>
@@ -179,13 +181,13 @@ export function ReservationForm() {
         <StaggerItem>
           <div className="flex flex-col">
             <label htmlFor="requests" className={labelClass}>
-              Özel İstekler (İsteğe bağlı)
+              {t.form.specialRequests}
             </label>
             <textarea
               id="requests"
               name="requests"
               rows={3}
-              placeholder="Diyet tercihleri, kutlama, oturma tercihi..."
+              placeholder={t.form.specialRequestsPlaceholder}
               className="form-input-ledger resize-none text-base placeholder:text-outline-variant"
             />
           </div>
@@ -214,7 +216,7 @@ export function ReservationForm() {
               disabled={status === "loading"}
               className="flex min-h-12 w-full items-center justify-center rounded bg-primary-container px-10 py-4 font-body text-xs font-semibold uppercase tracking-wider text-on-primary disabled:opacity-60 md:w-auto"
             >
-              {status === "loading" ? "Gönderiliyor..." : "Rezervasyon Talebi Gönder"}
+              {status === "loading" ? t.form.submitting : t.form.submit}
             </MagneticButton>
           </div>
         </StaggerItem>

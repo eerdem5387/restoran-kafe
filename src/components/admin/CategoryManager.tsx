@@ -8,7 +8,11 @@ export function CategoryManager({ initialCategories }: { initialCategories: Cate
   const router = useRouter();
   const [categories, setCategories] = useState(initialCategories);
   const [name, setName] = useState("");
+  const [nameEn, setNameEn] = useState("");
+  const [nameAr, setNameAr] = useState("");
   const [description, setDescription] = useState("");
+  const [descriptionEn, setDescriptionEn] = useState("");
+  const [descriptionAr, setDescriptionAr] = useState("");
   const [editingId, setEditingId] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [reordering, setReordering] = useState(false);
@@ -17,14 +21,22 @@ export function CategoryManager({ initialCategories }: { initialCategories: Cate
   function startEdit(category: Category) {
     setEditingId(category.id);
     setName(category.name);
+    setNameEn(category.nameEn ?? "");
+    setNameAr(category.nameAr ?? "");
     setDescription(category.description);
+    setDescriptionEn(category.descriptionEn ?? "");
+    setDescriptionAr(category.descriptionAr ?? "");
     setError("");
   }
 
   function resetForm() {
     setEditingId(null);
     setName("");
+    setNameEn("");
+    setNameAr("");
     setDescription("");
+    setDescriptionEn("");
+    setDescriptionAr("");
     setError("");
   }
 
@@ -37,7 +49,14 @@ export function CategoryManager({ initialCategories }: { initialCategories: Cate
       const res = await fetch(editingId ? `/api/categories/${editingId}` : "/api/categories", {
         method: editingId ? "PUT" : "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, description }),
+        body: JSON.stringify({
+          name,
+          nameEn,
+          nameAr,
+          description,
+          descriptionEn,
+          descriptionAr,
+        }),
       });
       const data = (await res.json().catch(() => ({}))) as Category & { error?: string };
       if (!res.ok) throw new Error(data.error || "Kategori kaydedilemedi.");
@@ -117,7 +136,7 @@ export function CategoryManager({ initialCategories }: { initialCategories: Cate
         <div className="space-y-4">
           <div>
             <label className="mb-1 block text-xs font-semibold uppercase tracking-wider text-on-surface-variant">
-              Ad
+              Ad (Türkçe)
             </label>
             <input
               required
@@ -127,9 +146,34 @@ export function CategoryManager({ initialCategories }: { initialCategories: Cate
               placeholder="Örn. Tatlılar"
             />
           </div>
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <div>
+              <label className="mb-1 block text-xs font-semibold uppercase tracking-wider text-on-surface-variant">
+                Ad (English)
+              </label>
+              <input
+                value={nameEn}
+                onChange={(e) => setNameEn(e.target.value)}
+                className="form-input-ledger min-h-11 text-base"
+                placeholder="e.g. Desserts"
+              />
+            </div>
+            <div>
+              <label className="mb-1 block text-xs font-semibold uppercase tracking-wider text-on-surface-variant">
+                Ad (العربية)
+              </label>
+              <input
+                dir="rtl"
+                value={nameAr}
+                onChange={(e) => setNameAr(e.target.value)}
+                className="form-input-ledger min-h-11 text-base"
+                placeholder="مثال: الحلويات"
+              />
+            </div>
+          </div>
           <div>
             <label className="mb-1 block text-xs font-semibold uppercase tracking-wider text-on-surface-variant">
-              Açıklama
+              Açıklama (Türkçe)
             </label>
             <textarea
               rows={3}
@@ -138,6 +182,31 @@ export function CategoryManager({ initialCategories }: { initialCategories: Cate
               className="form-input-ledger resize-none text-base"
               placeholder="Kısa kategori açıklaması"
             />
+          </div>
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <div>
+              <label className="mb-1 block text-xs font-semibold uppercase tracking-wider text-on-surface-variant">
+                Açıklama (English)
+              </label>
+              <textarea
+                rows={3}
+                value={descriptionEn}
+                onChange={(e) => setDescriptionEn(e.target.value)}
+                className="form-input-ledger resize-none text-base"
+              />
+            </div>
+            <div>
+              <label className="mb-1 block text-xs font-semibold uppercase tracking-wider text-on-surface-variant">
+                Açıklama (العربية)
+              </label>
+              <textarea
+                dir="rtl"
+                rows={3}
+                value={descriptionAr}
+                onChange={(e) => setDescriptionAr(e.target.value)}
+                className="form-input-ledger resize-none text-base"
+              />
+            </div>
           </div>
           {error && <p className="text-sm text-red-700">{error}</p>}
           <div className="flex flex-col gap-3 pt-2 sm:flex-row">

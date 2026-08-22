@@ -5,6 +5,8 @@ import { useEffect } from "react";
 import { MenuTags } from "@/components/MenuTags";
 import { Price } from "@/components/Price";
 import { easeEditorial } from "@/lib/motion";
+import { useLanguage } from "@/lib/i18n/LanguageProvider";
+import { localizedMenuItem } from "@/lib/i18n/menu-locale";
 import type { MenuItem } from "@/lib/types";
 
 type ProductDetailModalProps = {
@@ -15,6 +17,9 @@ type ProductDetailModalProps = {
 
 export function ProductDetailModal({ item, categoryName, onClose }: ProductDetailModalProps) {
   const reduce = useReducedMotion();
+  const { t, locale } = useLanguage();
+
+  const localized = item ? localizedMenuItem(item, locale) : null;
 
   useEffect(() => {
     if (!item) return;
@@ -45,7 +50,7 @@ export function ProductDetailModal({ item, categoryName, onClose }: ProductDetai
         >
           <button
             type="button"
-            aria-label="Kapat"
+            aria-label={t.product.close}
             className="absolute inset-0 bg-black/70"
             onClick={onClose}
           />
@@ -63,12 +68,12 @@ export function ProductDetailModal({ item, categoryName, onClose }: ProductDetai
           >
             <div className="sticky top-0 z-10 flex items-center justify-between border-b border-outline-variant/25 bg-surface/95 px-4 py-3 backdrop-blur">
               <p className="font-body text-[10px] font-semibold uppercase tracking-[0.2em] text-on-primary-container">
-                {categoryName || "Menü"}
+                {categoryName || t.product.menu}
               </p>
               <button
                 type="button"
                 onClick={onClose}
-                aria-label="Ürün detayını kapat"
+                aria-label={t.product.closeDetail}
                 className="flex h-10 w-10 items-center justify-center rounded-full text-primary transition-colors hover:bg-surface-container-low"
               >
                 <span className="material-symbols-outlined text-[22px]">close</span>
@@ -81,12 +86,12 @@ export function ProductDetailModal({ item, categoryName, onClose }: ProductDetai
                   // eslint-disable-next-line @next/next/no-img-element
                   <img
                     src={item.image}
-                    alt={item.name}
+                    alt={localized?.name ?? item.name}
                     className="absolute inset-0 h-full w-full object-cover"
                   />
                 ) : (
                   <div className="flex h-full w-full items-center justify-center text-xs font-semibold uppercase tracking-wider text-on-surface-variant">
-                    Görsel yok
+                    {t.menu.noImage}
                   </div>
                 )}
               </div>
@@ -96,7 +101,7 @@ export function ProductDetailModal({ item, categoryName, onClose }: ProductDetai
                   id="product-detail-title"
                   className="font-display text-[28px] font-medium leading-tight text-primary sm:text-[34px]"
                 >
-                  {item.name}
+                  {localized?.name ?? item.name}
                 </h2>
                 <Price
                   value={item.price}
@@ -106,13 +111,13 @@ export function ProductDetailModal({ item, categoryName, onClose }: ProductDetai
 
               <div className="mt-5 border-t border-outline-variant/25 pt-4">
                 <p className="mb-3 text-center font-body text-[10px] font-semibold uppercase tracking-[0.18em] text-on-surface-variant">
-                  İçerik / Notlar
+                  {t.product.contents}
                 </p>
-                {item.tags.length > 0 ? (
-                  <MenuTags tags={item.tags} className="mt-0 justify-center" />
+                {(localized?.tags.length ?? 0) > 0 ? (
+                  <MenuTags tags={localized!.tags} className="mt-0 justify-center" />
                 ) : (
                   <p className="text-center font-body text-sm leading-relaxed text-on-surface-variant">
-                    Bu ürün için henüz etiket eklenmemiş.
+                    {t.product.noTags}
                   </p>
                 )}
               </div>
@@ -122,7 +127,7 @@ export function ProductDetailModal({ item, categoryName, onClose }: ProductDetai
                 onClick={onClose}
                 className="mt-6 flex min-h-12 w-full items-center justify-center rounded bg-primary-container px-6 text-xs font-semibold uppercase tracking-wider text-on-primary"
               >
-                Kapat
+                {t.product.close}
               </button>
             </div>
           </motion.div>

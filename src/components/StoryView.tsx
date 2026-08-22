@@ -7,12 +7,15 @@ import { SignatureDivider } from "@/components/SignatureDivider";
 import { MagneticButton } from "@/components/motion/MagneticButton";
 import { Reveal } from "@/components/motion/Reveal";
 import { TextReveal } from "@/components/motion/TextReveal";
+import { useLanguage } from "@/lib/i18n/LanguageProvider";
 import { fadeUp, slideFromRight } from "@/lib/motion";
 
 const STORY_IMAGE_MAIN = "/3.jpg";
 const STORY_IMAGE_ACCENT = "/2.jpg";
 
 export function StoryView() {
+  const { t, locale } = useLanguage();
+
   return (
     <>
       <Header />
@@ -21,17 +24,17 @@ export function StoryView() {
           <div className="mx-auto mb-10 max-w-3xl text-center sm:mb-16">
             <Reveal>
               <span className="mb-3 block font-body text-xs font-semibold uppercase tracking-widest text-on-primary-container sm:mb-4">
-                Berray&apos;s
+                {t.story.label}
               </span>
             </Reveal>
             <TextReveal
-              text="Hikâyemiz"
+              key={`story-title-${locale}`}
+              text={t.story.title}
               className="mb-4 font-display text-[40px] font-medium text-primary sm:mb-6 sm:text-[48px] md:text-[64px]"
             />
             <Reveal variants={fadeUp}>
               <p className="font-body text-base leading-relaxed text-on-surface-variant sm:text-lg">
-                Berray&apos;s Kitchen &amp; Cafe, günün her saatinde iyi yemek ve güzel sohbet
-                için buluşabileceğiniz sıcak bir mekân.
+                {t.story.intro}
               </p>
             </Reveal>
           </div>
@@ -43,36 +46,32 @@ export function StoryView() {
               variants={slideFromRight}
               className="md:col-span-4 md:sticky md:top-28 md:self-start">
               <h2 className="mb-4 font-display text-[28px] font-medium text-primary sm:mb-6 sm:text-[32px] md:text-[48px]">
-                Birlikte Güzel Vakit Geçirmek İçin.
+                {t.story.sectionTitle}
               </h2>
               <p className="mb-4 font-body text-sm leading-relaxed text-on-surface-variant sm:mb-6 sm:text-base">
-                Güne kahvaltıyla başlayabilir, kahvenizi yudumlayabilir veya akşam yemeğinde
-                sevdiklerinizle aynı sofrayı paylaşabilirsiniz. Menümüzde burger, pizza, makarna,
-                salata ve ana yemek seçenekleri bulunur.
+                {t.story.p1}
               </p>
               <p className="mb-4 font-body text-sm leading-relaxed text-on-surface-variant sm:mb-6 sm:text-base">
-                Sıcak ve soğuk kahvelerimiz, taze içeceklerimiz ve tatlılarımızla günün her
-                saatinde keyifli bir mola verebilirsiniz.
+                {t.story.p2}
               </p>
               <p className="mb-6 font-body text-sm leading-relaxed text-on-surface-variant sm:mb-8 sm:text-base">
-                Berray&apos;s Kitchen &amp; Cafe&apos;yi rahatça oturabileceğiniz, ailenizle ve
-                arkadaşlarınızla güzel anılar biriktirebileceğiniz bir yer olarak hazırladık.
+                {t.story.p3}
               </p>
               <MagneticButton
                 href="/reservations"
                 className="flex min-h-12 w-full max-w-xs items-center justify-center rounded bg-primary-container px-8 py-4 font-body text-xs font-semibold uppercase tracking-wider text-on-primary sm:w-auto"
               >
-                Rezervasyon
+                {t.story.reservation}
               </MagneticButton>
             </Reveal>
 
             <InteriorShowcase
               className="md:col-span-8"
               tallSrc={STORY_IMAGE_MAIN}
-              tallAlt="Berray's Kitchen & Cafe salonu"
+              tallAlt={t.story.showcaseTallAlt}
               wideSrc={STORY_IMAGE_ACCENT}
-              wideAlt="Berray's şömineli oturma alanı"
-              caption="Salon & Şömine"
+              wideAlt={t.story.showcaseWideAlt}
+              caption={t.story.showcaseCaption}
             />
           </div>
         </section>

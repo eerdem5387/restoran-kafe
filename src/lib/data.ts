@@ -42,7 +42,11 @@ function mapCategory(category: PrismaCategory): Category {
   return {
     id: category.id,
     name: category.name,
+    nameEn: category.nameEn,
+    nameAr: category.nameAr,
     description: category.description,
+    descriptionEn: category.descriptionEn,
+    descriptionAr: category.descriptionAr,
     sortOrder: category.sortOrder,
   };
 }
@@ -51,11 +55,15 @@ function mapMenuItem(item: MenuItemWithCategory): MenuItem {
   return {
     id: item.id,
     name: item.name,
+    nameEn: item.nameEn,
+    nameAr: item.nameAr,
     description: item.description,
     price: Number(item.price),
     categoryId: item.categoryId,
     categoryName: item.category?.name,
     tags: item.tags,
+    tagsEn: item.tagsEn,
+    tagsAr: item.tagsAr,
     featured: item.featured,
     available: item.available,
     image: item.image ?? undefined,
@@ -101,7 +109,11 @@ export async function createCategory(input: CreateCategoryInput): Promise<Catego
   const category = await getPrisma().category.create({
     data: {
       name: input.name.trim(),
+      nameEn: (input.nameEn ?? "").trim(),
+      nameAr: (input.nameAr ?? "").trim(),
       description: (input.description ?? "").trim(),
+      descriptionEn: (input.descriptionEn ?? "").trim(),
+      descriptionAr: (input.descriptionAr ?? "").trim(),
       sortOrder: input.sortOrder ?? count,
     },
   });
@@ -120,8 +132,16 @@ export async function updateCategory(
       where: { id },
       data: {
         ...(updates.name !== undefined && { name: updates.name.trim() }),
+        ...(updates.nameEn !== undefined && { nameEn: updates.nameEn.trim() }),
+        ...(updates.nameAr !== undefined && { nameAr: updates.nameAr.trim() }),
         ...(updates.description !== undefined && {
           description: updates.description.trim(),
+        }),
+        ...(updates.descriptionEn !== undefined && {
+          descriptionEn: updates.descriptionEn.trim(),
+        }),
+        ...(updates.descriptionAr !== undefined && {
+          descriptionAr: updates.descriptionAr.trim(),
         }),
         ...(updates.sortOrder !== undefined && { sortOrder: updates.sortOrder }),
       },
@@ -198,10 +218,14 @@ export async function createMenuItem(input: CreateMenuItemInput): Promise<MenuIt
   const item = await getPrisma().menuItem.create({
     data: {
       name: input.name,
+      nameEn: input.nameEn ?? "",
+      nameAr: input.nameAr ?? "",
       description: input.description ?? "",
       price: input.price,
       categoryId: input.categoryId,
       tags: input.tags ?? [],
+      tagsEn: input.tagsEn ?? [],
+      tagsAr: input.tagsAr ?? [],
       featured: input.featured ?? false,
       available: input.available ?? true,
       image: input.image || null,
@@ -224,10 +248,14 @@ export async function updateMenuItem(
       where: { id },
       data: {
         ...(updates.name !== undefined && { name: updates.name }),
+        ...(updates.nameEn !== undefined && { nameEn: updates.nameEn }),
+        ...(updates.nameAr !== undefined && { nameAr: updates.nameAr }),
         ...(updates.description !== undefined && { description: updates.description }),
         ...(updates.price !== undefined && { price: updates.price }),
         ...(updates.categoryId !== undefined && { categoryId: updates.categoryId }),
         ...(updates.tags !== undefined && { tags: updates.tags }),
+        ...(updates.tagsEn !== undefined && { tagsEn: updates.tagsEn }),
+        ...(updates.tagsAr !== undefined && { tagsAr: updates.tagsAr }),
         ...(updates.featured !== undefined && { featured: updates.featured }),
         ...(updates.available !== undefined && { available: updates.available }),
         ...(updates.image !== undefined && { image: updates.image || null }),

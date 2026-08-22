@@ -5,9 +5,12 @@ import { useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
+import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { MenuItemRow } from "@/components/MenuItemCard";
 import { ProductDetailModal } from "@/components/ProductDetailModal";
 import { Reveal, Stagger } from "@/components/motion/Reveal";
+import { useLanguage } from "@/lib/i18n/LanguageProvider";
+import { localizedCategory, localizedMenuItem } from "@/lib/i18n/menu-locale";
 import type { Category, MenuItem } from "@/lib/types";
 import { fadeUp } from "@/lib/motion";
 
@@ -26,8 +29,10 @@ export function MenuCategoryView({
   siblings: CategoryLink[];
 }) {
   const router = useRouter();
+  const { t, locale } = useLanguage();
   const [selected, setSelected] = useState<MenuItem | null>(null);
   const closeDetail = useCallback(() => setSelected(null), []);
+  const categoryText = localizedCategory(category, locale);
 
   return (
     <>
@@ -40,21 +45,22 @@ export function MenuCategoryView({
               onClick={() => router.push("/menu")}
               className="mb-5 inline-flex min-h-11 items-center gap-2 font-body text-xs font-semibold uppercase tracking-wider text-on-primary-container transition-colors hover:text-inverse-on-surface"
             >
-              <span className="material-symbols-outlined text-base">arrow_back</span>
-              Tüm kategoriler
+              <span className="material-symbols-outlined text-base rtl:rotate-180">arrow_back</span>
+              {t.menu.allCategories}
             </button>
 
             <h1 className="font-display text-[36px] font-medium leading-tight text-inverse-on-surface sm:text-[48px] md:text-[56px]">
-              {category.name}
+              {categoryText.name}
             </h1>
-            {category.description && (
+            {categoryText.description && (
               <p className="mt-3 max-w-2xl font-body text-base leading-relaxed text-surface-variant sm:text-lg">
-                {category.description}
+                {categoryText.description}
               </p>
             )}
             <p className="mt-4 font-body text-xs font-semibold uppercase tracking-wider text-on-primary-container">
-              {items.length} ürün
+              {t.menu.productCount(items.length)}
             </p>
+            <LanguageSwitcher variant="dark" className="mt-5 justify-start" />
           </Reveal>
 
           {siblings.length > 1 && (
@@ -65,6 +71,7 @@ export function MenuCategoryView({
               <div className="flex w-max gap-2 md:flex-wrap md:w-auto">
                 {siblings.map(({ category: sibling }) => {
                   const active = sibling.id === category.id;
+                  const siblingText = localizedCategory(sibling, locale);
                   return (
                     <Link
                       key={sibling.id}
@@ -75,7 +82,7 @@ export function MenuCategoryView({
                           : "bg-white/5 text-surface-variant hover:bg-white/10 hover:text-inverse-on-surface"
                       }`}
                     >
-                      {sibling.name}
+                      {siblingText.name}
                     </Link>
                   );
                 })}
@@ -84,7 +91,7 @@ export function MenuCategoryView({
           )}
 
           {items.length === 0 ? (
-            <p className="font-body text-surface-variant">Bu kategoride henüz ürün yok.</p>
+            <p className="font-body text-surface-variant">{t.menu.noProductsInCategory}</p>
           ) : (
             <Stagger className="divide-y divide-white/10" fast>
               {items.map((item) => (
@@ -100,7 +107,7 @@ export function MenuCategoryView({
 
       <ProductDetailModal
         item={selected}
-        categoryName={category.name}
+        categoryName={categoryText.name}
         onClose={closeDetail}
       />
     </>

@@ -10,7 +10,11 @@ import { Price } from "@/components/Price";
 
 type FormState = {
   name: string;
+  nameEn: string;
+  nameAr: string;
   tags: string[];
+  tagsEn: string[];
+  tagsAr: string[];
   price: string;
   categoryId: string;
   available: boolean;
@@ -29,7 +33,11 @@ export function MenuManager({
   const emptyForm = useMemo<FormState>(
     () => ({
       name: "",
+      nameEn: "",
+      nameAr: "",
       tags: [],
+      tagsEn: [],
+      tagsAr: [],
       price: "",
       categoryId: defaultCategoryId,
       available: true,
@@ -107,7 +115,11 @@ export function MenuManager({
     setEditingId(item.id);
     setForm({
       name: item.name,
+      nameEn: item.nameEn ?? "",
+      nameAr: item.nameAr ?? "",
       tags: item.tags ?? [],
+      tagsEn: item.tagsEn ?? [],
+      tagsAr: item.tagsAr ?? [],
       price: String(item.price),
       categoryId: item.categoryId,
       available: item.available,
@@ -171,10 +183,14 @@ export function MenuManager({
 
     const payload = {
       name: form.name,
+      nameEn: form.nameEn,
+      nameAr: form.nameAr,
       description: "",
       price: Number(form.price),
       categoryId: form.categoryId,
       tags: form.tags,
+      tagsEn: form.tagsEn,
+      tagsAr: form.tagsAr,
       featured: false,
       available: form.available,
       image: form.image || null,
@@ -232,7 +248,7 @@ export function MenuManager({
         <div className="space-y-4">
           <div>
             <label className="mb-1 block text-xs font-semibold uppercase tracking-wider text-on-surface-variant">
-              Ad
+              Ad (Türkçe)
             </label>
             <input
               required
@@ -241,11 +257,48 @@ export function MenuManager({
               className="form-input-ledger min-h-11 text-base"
             />
           </div>
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <div>
+              <label className="mb-1 block text-xs font-semibold uppercase tracking-wider text-on-surface-variant">
+                Ad (English)
+              </label>
+              <input
+                value={form.nameEn}
+                onChange={(e) => setForm({ ...form, nameEn: e.target.value })}
+                className="form-input-ledger min-h-11 text-base"
+              />
+            </div>
+            <div>
+              <label className="mb-1 block text-xs font-semibold uppercase tracking-wider text-on-surface-variant">
+                Ad (العربية)
+              </label>
+              <input
+                dir="rtl"
+                value={form.nameAr}
+                onChange={(e) => setForm({ ...form, nameAr: e.target.value })}
+                className="form-input-ledger min-h-11 text-base"
+              />
+            </div>
+          </div>
           <div>
             <label className="mb-1 block text-xs font-semibold uppercase tracking-wider text-on-surface-variant">
-              Etiketler
+              Etiketler (Türkçe)
             </label>
             <TagInput tags={form.tags} onChange={(tags) => setForm({ ...form, tags })} />
+          </div>
+          <div>
+            <label className="mb-1 block text-xs font-semibold uppercase tracking-wider text-on-surface-variant">
+              Etiketler (English)
+            </label>
+            <TagInput tags={form.tagsEn} onChange={(tagsEn) => setForm({ ...form, tagsEn })} />
+          </div>
+          <div>
+            <label className="mb-1 block text-xs font-semibold uppercase tracking-wider text-on-surface-variant">
+              Etiketler (العربية)
+            </label>
+            <div dir="rtl">
+              <TagInput tags={form.tagsAr} onChange={(tagsAr) => setForm({ ...form, tagsAr })} />
+            </div>
           </div>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div>

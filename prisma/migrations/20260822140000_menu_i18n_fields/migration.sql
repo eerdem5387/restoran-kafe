@@ -1,0 +1,11 @@
+-- AlterTable
+ALTER TABLE "categories" ADD COLUMN "nameEn" TEXT NOT NULL DEFAULT '';
+ALTER TABLE "categories" ADD COLUMN "nameAr" TEXT NOT NULL DEFAULT '';
+ALTER TABLE "categories" ADD COLUMN "descriptionEn" TEXT NOT NULL DEFAULT '';
+ALTER TABLE "categories" ADD COLUMN "descriptionAr" TEXT NOT NULL DEFAULT '';
+
+-- AlterTable
+ALTER TABLE "menu_items" ADD COLUMN "nameEn" TEXT NOT NULL DEFAULT '';
+ALTER TABLE "menu_items" ADD COLUMN "nameAr" TEXT NOT NULL DEFAULT '';
+ALTER TABLE "menu_items" ADD COLUMN "tagsEn" TEXT[] DEFAULT ARRAY[]::TEXT[];
+ALTER TABLE "menu_items" ADD COLUMN "tagsAr" TEXT[] DEFAULT ARRAY[]::TEXT[];

@@ -16,7 +16,7 @@ export function Price({
   }
 
   return (
-    <span className={className}>
+    <span className={`inline-block ${className}`} dir="ltr">
       {parts[0]}
       <span className="currency-try">₺</span>
       {parts.slice(1).join("₺")}

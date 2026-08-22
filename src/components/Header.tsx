@@ -6,22 +6,24 @@ import { usePathname } from "next/navigation";
 import { useRef, useState } from "react";
 import { Logo } from "@/components/Logo";
 import { MagneticButton } from "@/components/motion/MagneticButton";
+import { useLanguage } from "@/lib/i18n/LanguageProvider";
 import { easeEditorial } from "@/lib/motion";
-
-const links = [
-  { href: "/", label: "Ana Sayfa" },
-  { href: "/menu", label: "Menü" },
-  { href: "/reservations", label: "Rezervasyon" },
-  { href: "/story", label: "Hikâyemiz" },
-];
 
 export function Header() {
   const pathname = usePathname();
+  const { t } = useLanguage();
   const [open, setOpen] = useState(false);
   const [hidden, setHidden] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const { scrollY } = useScroll();
   const lastY = useRef(0);
+
+  const links = [
+    { href: "/", label: t.nav.home },
+    { href: "/menu", label: t.nav.menu },
+    { href: "/reservations", label: t.nav.reservations },
+    { href: "/story", label: t.nav.story },
+  ];
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     setScrolled(latest > 24);
@@ -81,14 +83,14 @@ export function Header() {
             href="/reservations"
             className="min-h-11 rounded bg-primary-container px-6 py-3 font-body text-xs font-semibold uppercase tracking-wider text-on-primary"
           >
-            Rezervasyon
+            {t.nav.reservations}
           </MagneticButton>
         </div>
 
         <button
           type="button"
           className="flex min-h-11 min-w-11 items-center justify-center p-2 text-primary lg:hidden"
-          aria-label={open ? "Menüyü kapat" : "Menüyü aç"}
+          aria-label={open ? t.nav.closeMenu : t.nav.openMenu}
           onClick={() => setOpen((v) => !v)}
         >
           <motion.span
@@ -134,7 +136,7 @@ export function Header() {
                 onClick={() => setOpen(false)}
                 className="mt-2 flex min-h-12 items-center justify-center rounded bg-primary-container px-6 py-3 text-center text-xs font-semibold uppercase tracking-wider text-on-primary"
               >
-                Rezervasyon
+                {t.nav.reservations}
               </Link>
             </nav>
           </motion.div>

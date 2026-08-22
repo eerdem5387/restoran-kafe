@@ -21,6 +21,11 @@ export function LoginForm() {
         body: JSON.stringify({ password }),
       });
 
+      if (res.status === 429) {
+        setError("Çok fazla deneme. Lütfen bir süre bekleyip tekrar deneyin.");
+        return;
+      }
+
       if (!res.ok) {
         setError("Şifre hatalı.");
         return;

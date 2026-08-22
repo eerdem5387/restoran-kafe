@@ -4,8 +4,17 @@ import { motion } from "motion/react";
 import { Logo } from "@/components/Logo";
 import { Reveal, Stagger, StaggerItem } from "@/components/motion/Reveal";
 import { UnderlineLink } from "@/components/motion/MagneticButton";
+import { useLanguage } from "@/lib/i18n/LanguageProvider";
 
 export function Footer() {
+  const { t } = useLanguage();
+
+  const links = [
+    { href: "/menu", label: t.nav.menu },
+    { href: "/reservations", label: t.nav.reservations },
+    { href: "/story", label: t.nav.story },
+  ];
+
   return (
     <footer className="w-full overflow-hidden bg-tertiary pb-[max(2rem,env(safe-area-inset-bottom))] pt-16 text-on-tertiary md:pt-section-gap">
       <Reveal className="mx-auto max-w-[1200px] px-margin-mobile md:px-margin-desktop">
@@ -13,17 +22,12 @@ export function Footer() {
           <StaggerItem className="flex flex-col items-start gap-4">
             <Logo size="lg" className="text-almond" />
             <p className="mt-1 max-w-xs font-body text-sm leading-relaxed text-on-tertiary-container sm:text-base">
-              Kahvaltıdan akşam yemeğine, kahveden tatlıya… Berray&apos;s&apos;ta her zaman güzel
-              bir mola var.
+              {t.footer.tagline}
             </p>
           </StaggerItem>
           <StaggerItem className="flex flex-col gap-3 md:items-center">
             <nav className="flex flex-col gap-3 text-left md:text-center">
-              {[
-                { href: "/menu", label: "Menü" },
-                { href: "/reservations", label: "Rezervasyon" },
-                { href: "/story", label: "Hikâyemiz" },
-              ].map((link) => (
+              {links.map((link) => (
                 <UnderlineLink
                   key={link.href}
                   href={link.href}
@@ -36,7 +40,7 @@ export function Footer() {
           </StaggerItem>
           <StaggerItem className="flex flex-col justify-end gap-2 md:items-end">
             <p className="font-body text-sm text-on-tertiary-container sm:text-base">
-              © 2026 Berray&apos;s Kitchen &amp; Cafe.
+              {t.footer.copyright}
             </p>
             <p className="font-body text-[10px] tracking-wide text-on-tertiary-container/55 sm:text-[11px]">
               Design and Development by Emre Erdem

@@ -40,7 +40,11 @@ export async function createCategoryLocal(input: CreateCategoryInput): Promise<C
   const category: Category = {
     id: crypto.randomUUID(),
     name: input.name.trim(),
+    nameEn: (input.nameEn ?? "").trim(),
+    nameAr: (input.nameAr ?? "").trim(),
     description: (input.description ?? "").trim(),
+    descriptionEn: (input.descriptionEn ?? "").trim(),
+    descriptionAr: (input.descriptionAr ?? "").trim(),
     sortOrder: input.sortOrder ?? categories.length,
   };
   categories.push(category);
@@ -58,7 +62,11 @@ export async function updateCategoryLocal(
   categories[index] = {
     ...categories[index],
     ...(updates.name !== undefined && { name: updates.name.trim() }),
+    ...(updates.nameEn !== undefined && { nameEn: updates.nameEn.trim() }),
+    ...(updates.nameAr !== undefined && { nameAr: updates.nameAr.trim() }),
     ...(updates.description !== undefined && { description: updates.description.trim() }),
+    ...(updates.descriptionEn !== undefined && { descriptionEn: updates.descriptionEn.trim() }),
+    ...(updates.descriptionAr !== undefined && { descriptionAr: updates.descriptionAr.trim() }),
     ...(updates.sortOrder !== undefined && { sortOrder: updates.sortOrder }),
   };
   await writeJson(CATEGORIES_FILE, categories);
@@ -139,11 +147,15 @@ export async function createMenuItemLocal(input: CreateMenuItemInput): Promise<M
   const item: MenuItem = {
     id: crypto.randomUUID(),
     name: input.name,
+    nameEn: input.nameEn ?? "",
+    nameAr: input.nameAr ?? "",
     description: input.description ?? "",
     price: input.price,
     categoryId: input.categoryId,
     categoryName: category.name,
     tags: input.tags ?? [],
+    tagsEn: input.tagsEn ?? [],
+    tagsAr: input.tagsAr ?? [],
     featured: input.featured ?? false,
     available: input.available ?? true,
     image: input.image ?? undefined,
@@ -176,6 +188,8 @@ export async function updateMenuItemLocal(
     ...items[index],
     ...updates,
     tags: updates.tags ?? items[index].tags,
+    tagsEn: updates.tagsEn ?? items[index].tagsEn,
+    tagsAr: updates.tagsAr ?? items[index].tagsAr,
     image: updates.image === null ? undefined : (updates.image ?? items[index].image),
   };
   await writeJson(MENU_FILE, items);

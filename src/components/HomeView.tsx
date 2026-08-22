@@ -4,11 +4,13 @@ import { motion } from "motion/react";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { InteriorShowcase } from "@/components/InteriorShowcase";
+import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { SignatureDivider } from "@/components/SignatureDivider";
 import { MagneticButton, UnderlineLink } from "@/components/motion/MagneticButton";
 import { KenBurnsBackground } from "@/components/motion/ParallaxImage";
 import { Reveal, Stagger, StaggerItem } from "@/components/motion/Reveal";
 import { TextReveal } from "@/components/motion/TextReveal";
+import { useLanguage } from "@/lib/i18n/LanguageProvider";
 
 const HERO_IMAGE = "/anasayfa-banner.jpg";
 const HERO_IMAGE_MOBILE = "/mobil-1.jpg";
@@ -16,6 +18,8 @@ const ABOUT_IMAGE_MAIN = "/3.jpg";
 const ABOUT_IMAGE_ACCENT = "/2.jpg";
 
 export function HomeView() {
+  const { t, locale } = useLanguage();
+
   return (
     <>
       <Header />
@@ -27,24 +31,24 @@ export function HomeView() {
             positionClass="object-[50%_62%] sm:object-[50%_58%] md:object-[50%_60%]"
             mobilePositionClass="object-center"
           />
-          {/* Wash from the top: hides the skyline clutter, keeps the venue clear */}
           <div className="absolute inset-0 bg-surface/10" />
           <div className="absolute inset-0 bg-[linear-gradient(to_bottom,var(--surface)_0%,rgba(252,249,248,0.82)_26%,rgba(252,249,248,0)_58%)]" />
           <div className="absolute inset-x-0 bottom-0 h-[12%] bg-gradient-to-t from-surface to-transparent" />
           <div className="relative z-10 mx-auto flex max-w-4xl flex-col items-center px-margin-mobile text-center md:px-margin-desktop">
             <TextReveal
-              text="Berray's'ta Güzel Bir Mola"
+              key={`hero-title-${locale}`}
+              text={t.hero.title}
               className="mb-4 font-display text-[36px] font-medium leading-[1.15] text-primary [text-shadow:0_2px_20px_rgba(252,249,248,0.85)] sm:mb-6 sm:text-[48px] md:text-[80px]"
               delay={0.35}
             />
             <motion.p
+              key={`hero-subtitle-${locale}`}
               className="mb-8 max-w-2xl font-body text-base leading-relaxed text-on-surface-variant [text-shadow:0_1px_14px_rgba(252,249,248,0.9)] sm:mb-10 sm:text-lg"
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1.05, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
             >
-              Kahvaltıdan akşam yemeğine, kahveden tatlıya… Sevdiğiniz lezzetler ve keyifli
-              sohbetler için Berray&apos;s&apos;ta buluşalım.
+              {t.hero.subtitle}
             </motion.p>
             <motion.div
               className="flex w-full max-w-md flex-col gap-3 sm:max-w-none sm:w-auto sm:flex-row sm:flex-wrap sm:justify-center sm:gap-4"
@@ -56,30 +60,31 @@ export function HomeView() {
                 href="/reservations"
                 className="flex min-h-12 w-full items-center justify-center rounded bg-primary-container px-8 py-4 font-body text-xs font-semibold uppercase tracking-wider text-on-primary shadow-md sm:w-auto"
               >
-                Rezervasyon
+                {t.hero.reservation}
               </MagneticButton>
               <MagneticButton
                 href="/menu"
                 className="flex min-h-12 w-full items-center justify-center rounded border border-primary-container/40 bg-surface/90 px-8 py-4 font-body text-xs font-semibold uppercase tracking-wider text-primary shadow-sm backdrop-blur-sm sm:w-auto"
               >
-                Menüyü Gör
+                {t.hero.viewMenu}
               </MagneticButton>
             </motion.div>
           </div>
           <motion.div
-            className="absolute bottom-6 left-1/2 z-20 flex -translate-x-1/2 flex-col items-center gap-2"
+            className="absolute bottom-6 left-1/2 z-20 flex -translate-x-1/2 flex-col items-center gap-3"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1.8 }}
           >
             <span className="rounded-full bg-surface/85 px-3.5 py-1.5 font-body text-[11px] font-bold uppercase tracking-[0.28em] text-primary shadow-sm backdrop-blur-sm sm:text-xs">
-              Kaydır
+              {t.hero.scroll}
             </span>
             <motion.span
               className="block h-10 w-px bg-primary/70"
               animate={{ scaleY: [0.4, 1, 0.4], opacity: [0.45, 1, 0.45] }}
               transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
             />
+            <LanguageSwitcher variant="hero" />
           </motion.div>
         </section>
 
@@ -90,24 +95,22 @@ export function HomeView() {
             <Stagger className="flex flex-col items-start md:col-span-4 md:sticky md:top-28 md:self-start">
               <StaggerItem>
                 <span className="mb-3 block font-body text-xs font-semibold uppercase tracking-widest text-on-primary-container sm:mb-4">
-                  Berray&apos;s&apos;ı Tanıyın
+                  {t.home.aboutLabel}
                 </span>
               </StaggerItem>
               <StaggerItem>
                 <h2 className="mb-4 font-display text-[28px] font-medium leading-tight text-primary sm:mb-6 sm:text-[36px] md:text-[48px] md:leading-[56px]">
-                  Sıcak Bir Ortam, Sevdiğiniz Lezzetler.
+                  {t.home.aboutTitle}
                 </h2>
               </StaggerItem>
               <StaggerItem>
                 <p className="mb-4 font-body text-sm leading-relaxed text-on-surface-variant sm:mb-6 sm:text-base">
-                  Berray&apos;s&apos;ta her tabağı özenle hazırlıyor, sevdiğiniz lezzetleri sıcak
-                  ve rahat bir ortamda sunuyoruz.
+                  {t.home.aboutP1}
                 </p>
               </StaggerItem>
               <StaggerItem>
                 <p className="mb-6 font-body text-sm leading-relaxed text-on-surface-variant sm:mb-8 sm:text-base">
-                  Ahşap tavanlar, taş duvarlar ve sıcak ışıklarla hazırlanan salonumuzda ailenizle
-                  ve arkadaşlarınızla güzel vakit geçirebilirsiniz.
+                  {t.home.aboutP2}
                 </p>
               </StaggerItem>
               <StaggerItem>
@@ -115,7 +118,7 @@ export function HomeView() {
                   href="/story"
                   className="font-body text-xs font-semibold uppercase tracking-wider text-primary"
                 >
-                  Hikâyemizi Okuyun
+                  {t.home.readStory}
                 </UnderlineLink>
               </StaggerItem>
             </Stagger>
@@ -123,10 +126,10 @@ export function HomeView() {
             <InteriorShowcase
               className="md:col-span-8"
               tallSrc={ABOUT_IMAGE_MAIN}
-              tallAlt="Berray's Kitchen & Cafe salonu"
+              tallAlt={t.home.showcaseTallAlt}
               wideSrc={ABOUT_IMAGE_ACCENT}
-              wideAlt="Berray's şömineli oturma alanı"
-              caption="Salon & Şömine"
+              wideAlt={t.home.showcaseWideAlt}
+              caption={t.home.showcaseCaption}
             />
           </div>
         </section>
@@ -146,17 +149,16 @@ export function HomeView() {
               chair_alt
             </motion.span>
             <h2 className="mb-4 font-display text-[32px] font-medium text-on-tertiary sm:mb-6 sm:text-[48px] md:text-[56px]">
-              Berray&apos;s&apos;ta Yerinizi Ayırın
+              {t.home.ctaTitle}
             </h2>
             <p className="mb-8 max-w-xl font-body text-base leading-relaxed text-on-tertiary-container sm:mb-12 sm:text-lg">
-              Ailenizle veya arkadaşlarınızla güzel bir masa için rezervasyonunuzu kolayca
-              oluşturun.
+              {t.home.ctaBody}
             </p>
             <MagneticButton
               href="/reservations"
               className="flex min-h-12 w-full max-w-xs items-center justify-center rounded bg-primary-container px-10 py-4 font-body text-xs font-semibold uppercase tracking-wider text-on-primary sm:w-auto"
             >
-              Rezervasyon Yap
+              {t.home.ctaButton}
             </MagneticButton>
           </Reveal>
         </section>

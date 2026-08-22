@@ -26,7 +26,11 @@ async function seedOnce(): Promise<void> {
           data: categories.map((c) => ({
             id: c.id,
             name: c.name,
+            nameEn: c.nameEn ?? "",
+            nameAr: c.nameAr ?? "",
             description: c.description,
+            descriptionEn: c.descriptionEn ?? "",
+            descriptionAr: c.descriptionAr ?? "",
             sortOrder: c.sortOrder,
           })),
         });
@@ -42,7 +46,11 @@ async function seedOnce(): Promise<void> {
       data: categories.map((c) => ({
         id: c.id,
         name: c.name,
+        nameEn: c.nameEn ?? "",
+        nameAr: c.nameAr ?? "",
         description: c.description,
+        descriptionEn: c.descriptionEn ?? "",
+        descriptionAr: c.descriptionAr ?? "",
         sortOrder: c.sortOrder,
       })),
     });
@@ -54,10 +62,14 @@ async function seedOnce(): Promise<void> {
       await prisma.menuItem.createMany({
         data: items.map((item, index) => ({
           name: item.name,
+          nameEn: item.nameEn ?? "",
+          nameAr: item.nameAr ?? "",
           description: item.description,
           price: item.price,
           categoryId: item.categoryId,
           tags: item.tags ?? [],
+          tagsEn: item.tagsEn ?? [],
+          tagsAr: item.tagsAr ?? [],
           featured: item.featured ?? false,
           available: item.available ?? true,
           image: item.image ?? null,
