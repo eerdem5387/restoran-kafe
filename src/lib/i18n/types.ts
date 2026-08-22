@@ -7,4 +7,4 @@ export const LOCALES: { code: Locale; label: string; name: string }[] = [
 ];
 
 export const DEFAULT_LOCALE: Locale = "tr";
-export const LOCALE_STORAGE_KEY = "berrays-locale";
+export const LOCALE_STORAGE_KEY = "berrays-locale-v2";

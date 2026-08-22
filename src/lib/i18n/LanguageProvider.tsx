@@ -22,16 +22,6 @@ type LanguageContextValue = {
 
 const LanguageContext = createContext<LanguageContextValue | null>(null);
 
-function detectBrowserLocale(): Locale {
-  if (typeof navigator === "undefined") return DEFAULT_LOCALE;
-
-  const lang = navigator.language.toLowerCase();
-  if (lang.startsWith("tr")) return "tr";
-  if (lang.startsWith("ar")) return "ar";
-  if (lang.startsWith("en")) return "en";
-  return DEFAULT_LOCALE;
-}
-
 function readStoredLocale(): Locale | null {
   if (typeof window === "undefined") return null;
 
@@ -48,7 +38,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const stored = readStoredLocale();
-    setLocaleState(stored ?? detectBrowserLocale());
+    setLocaleState(stored ?? DEFAULT_LOCALE);
     setReady(true);
   }, []);
 
